@@ -12,11 +12,11 @@ import Battle from './pages/Battle';
 //CSS
 import './App.css';
 
-let state = store.getState()
-
 class App extends React.Component {
 
   render() {
+    let state = store.getState()
+
     return (
       <Switch>
         <Route
