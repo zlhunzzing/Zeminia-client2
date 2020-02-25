@@ -13,23 +13,44 @@ import Battle from './pages/Battle';
 import './App.css';
 
 class App extends React.Component {
+  state = {
+    isLogin: false,
+    user: null,
+    signup: false
+  }
 
+  login(info) {
+    this.setState({
+      isLogin: true,
+      user: info
+    })
+  }
+
+  signup() {
+    this.setState({
+      signup: true,
+      user: null,
+      isLogin: false
+    }, () => this.setState({signup:false}))
+  }
   render() {
     let state = store.getState()
 
     return (
+      <div>
       <Switch>
+      <Route path="/login" render={() =>
+            this.state.isLogin ? <Redirect to="/battle" />:
+            <Login login={this.login.bind(this)} isLogin={this.state.isLogin} />} />
+          <Route
+            exact
+            path="/signup"
+            render={() => this.state.signup?<Redirect to='/login' />:<Signup signup={this.signup.bind(this)} isLogin={this.state.isLogin} />}
+          />
         <Route
         path="/login"
         render={() => (
-          <Login></Login>
-        )}
-        />
-        <Route
-        exact
-        path="/signup"
-        render={() => (
-          <Signup></Signup>
+          <Login login={this.login.bind(this)}></Login>
         )}
         />
         <Route
@@ -49,13 +70,14 @@ class App extends React.Component {
         <Route
             path="/"
             render={() => {
-              if (state.isLogin) {
+              if (this.state.isLogin) {
                 return <Redirect to="/battle" />;
               }
               return <Redirect to="/login" />;
             }}
           />
       </Switch>
+      </div>
     );
 
   }
