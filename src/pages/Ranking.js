@@ -67,7 +67,7 @@ class Ranking extends React.Component {
                         </tr>                                      
                     })}
                 </table>
-                <Link to='/login'>뒤로가기</Link>
+                <Link to='/'>뒤로가기</Link>
             </div>
          );
     }
