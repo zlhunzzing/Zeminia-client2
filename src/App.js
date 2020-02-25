@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import store from './store'
 
 //Pages
 import Login from './pages/Login';
@@ -11,14 +12,11 @@ import Battle from './pages/Battle';
 //CSS
 import './App.css';
 
+let state = store.getState()
+
 class App extends React.Component {
-  state = {
-    isLogin: false
-  }
 
   render() {
-    const { isLogin } = this.state
-
     return (
       <Switch>
         <Route
@@ -51,7 +49,7 @@ class App extends React.Component {
         <Route
             path="/"
             render={() => {
-              if (isLogin) {
+              if (state.isLogin) {
                 return <Redirect to="/battle" />;
               }
               return <Redirect to="/login" />;
