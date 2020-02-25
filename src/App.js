@@ -13,6 +13,11 @@ import Battle from './pages/Battle';
 import './App.css';
 
 class App extends React.Component {
+  state = {
+    isLogin: false,
+    user: null,
+    signup: false
+  }
 
   login(info) {
     this.setState({
@@ -36,11 +41,11 @@ class App extends React.Component {
       <Switch>
       <Route path="/login" render={() =>
             this.state.isLogin ? <Redirect to="/battle" />:
-            <Login login={this.login.bind(this)} isLogin={isLogin} />} />
+            <Login login={this.login.bind(this)} isLogin={this.state.isLogin} />} />
           <Route
             exact
             path="/signup"
-            render={() => this.state.signup?<Redirect to='/login' />:<Signup signup={this.signup.bind(this)} isLogin={isLogin} />}
+            render={() => this.state.signup?<Redirect to='/login' />:<Signup signup={this.signup.bind(this)} isLogin={this.state.isLogin} />}
           />
         <Route
         path="/login"
