@@ -8,7 +8,11 @@ class Battle extends React.Component {
     render() { 
         return ( 
             <div>
-                전투
+                <div className="menu">
+                    <div>모험한다</div>
+                    <div>휴식한다</div>
+                    <div>그만한다</div>
+                </div>
             </div>
          );
     }
