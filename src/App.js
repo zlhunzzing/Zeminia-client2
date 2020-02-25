@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import store from './store'
 
 //Pages
 import Login from './pages/Login';
@@ -12,11 +13,6 @@ import Battle from './pages/Battle';
 import './App.css';
 
 class App extends React.Component {
-  state = {
-    isLogin: false,
-    user: null,
-    signup: false
-  }
 
   login(info) {
     this.setState({
@@ -33,13 +29,13 @@ class App extends React.Component {
     }, () => this.setState({signup:false}))
   }
   render() {
-    const { isLogin } = this.state
+    let state = store.getState()
 
     return (
       <div>
       <Switch>
       <Route path="/login" render={() =>
-            isLogin ? <Redirect to="/battle" />:
+            this.state.isLogin ? <Redirect to="/battle" />:
             <Login login={this.login.bind(this)} isLogin={isLogin} />} />
           <Route
             exact
@@ -69,7 +65,7 @@ class App extends React.Component {
         <Route
             path="/"
             render={() => {
-              if (isLogin) {
+              if (this.state.isLogin) {
                 return <Redirect to="/battle" />;
               }
               return <Redirect to="/login" />;
