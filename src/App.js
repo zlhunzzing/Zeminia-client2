@@ -13,25 +13,43 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    isLogin: false
+    isLogin: false,
+    user: null,
+    signup: false
   }
 
+  login(info) {
+    this.setState({
+      isLogin: true,
+      user: info
+    })
+  }
+
+  signup() {
+    this.setState({
+      signup: true,
+      user: null,
+      isLogin: false
+    }, () => this.setState({signup:false}))
+  }
   render() {
     const { isLogin } = this.state
 
     return (
+      <div>
       <Switch>
+      <Route path="/login" render={() =>
+            isLogin ? <Redirect to="/battle" />:
+            <Login login={this.login.bind(this)} isLogin={isLogin} />} />
+          <Route
+            exact
+            path="/signup"
+            render={() => this.state.signup?<Redirect to='/login' />:<Signup signup={this.signup.bind(this)} isLogin={isLogin} />}
+          />
         <Route
         path="/login"
         render={() => (
-          <Login></Login>
-        )}
-        />
-        <Route
-        exact
-        path="/signup"
-        render={() => (
-          <Signup></Signup>
+          <Login login={this.login.bind(this)}></Login>
         )}
         />
         <Route
@@ -58,6 +76,7 @@ class App extends React.Component {
             }}
           />
       </Switch>
+      </div>
     );
 
   }

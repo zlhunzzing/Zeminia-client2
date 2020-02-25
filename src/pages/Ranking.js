@@ -8,7 +8,30 @@ class Ranking extends React.Component {
     render() { 
         return ( 
             <div>
-                랭킹
+                <h2>캐릭터 랭킹</h2>
+                <table>
+                    <tr>
+                        <th>
+                        순위
+                        </th>
+                        <th>
+                        캐릭터
+                        </th>
+                        <th>
+                        레벨
+                        </th>
+                        <th>
+                        HP
+                        </th>
+                        <th>
+                        공격력
+                        </th>
+                        <th>
+                        점수
+                        </th>
+                    </tr>
+                </table>
+                <button>뒤로가기</button>
             </div>
          );
     }
