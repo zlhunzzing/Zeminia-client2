@@ -1,7 +1,7 @@
 import React from 'react';
-import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
-import axios from 'axios';
-import store from './store'
+import { Switch, Route, /*useHistory,*/ Redirect } from 'react-router-dom';
+// import axios from 'axios';
+// import store from './store'
 
 //Pages
 import Login from './pages/Login';
@@ -34,10 +34,10 @@ class App extends React.Component {
     }, () => this.setState({signup:false}))
   }
   render() {
-    let state = store.getState()
+    // let state = store.getState()
 
     return (
-      <div>
+      <div className="App">
       <Switch>
       <Route path="/login" render={() =>
             this.state.isLogin ? <Redirect to="/battle" />:

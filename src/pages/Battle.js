@@ -1,20 +1,19 @@
 import React from 'react';
 
+import Menu from '../components/Menu'
+
 class Battle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
-    render() { 
+    
+    render() {         
         return ( 
             <div>
-                <div className="menu">
-                    <div>모험한다</div>
-                    <div>휴식한다</div>
-                    <div>그만한다</div>
-                </div>
+                <Menu></Menu>
             </div>
-         );
+        );
     }
 }
  
