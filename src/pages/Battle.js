@@ -1,6 +1,8 @@
 import React from 'react';
 import CharacterStat from '../components/CharacterStat'
 
+import Menu from '../components/Menu'
+
 class Battle extends React.Component {
     constructor(props) {
         super(props);
@@ -32,10 +34,11 @@ class Battle extends React.Component {
     render() { 
         let {user, enemes} = this.state
         return ( 
-            <div> 
+            <div>
+              <Menu></Menu>
                 <CharacterStat user={this.props.user}></CharacterStat>
             </div>
-         );
+        );
     }
 }
  
