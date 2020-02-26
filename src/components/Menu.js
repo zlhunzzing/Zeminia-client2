@@ -17,7 +17,6 @@ class Menu extends React.Component {
         var turn = this.state.turn
         var monster = this.state.monster
         let state = store.getState()
-        console.log(state)
 
         return ( 
             <div>
@@ -26,19 +25,19 @@ class Menu extends React.Component {
                     onClick={()=>{
                         state.toggleMenu("monster")
                     }}
-                    >모험하기</div>
-                    <div>회복하기</div>
-                    <div>도망하기</div>
+                    >모험한다</div>
+                    <div>휴식한다</div>
+                    <div>그만한다</div>
                 </div>
-                
+
                 <div className="battleBar">
-                    <div>공격하기</div>
-                    <div>회복하기</div>
+                    <div>공격한다</div>
+                    <div>회복한다</div>
                     <div
                     onClick={()=>{
                         state.toggleMenu()
                     }}
-                    >도망하기</div>
+                    >도망친다</div>
                 </div>
             </div>     
         );
