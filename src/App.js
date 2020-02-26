@@ -38,7 +38,14 @@ class App extends React.Component {
   create(name) {
     if (window.confirm(name+"(으)로 하겠습니까?")) {
       this.setState({
-        character: true
+        character: {
+          name: name,
+          level: 1,
+          maxHp: 100,
+          hp: 100,
+          power: 5,
+          exp: 0
+        }
       })
     }
   }
@@ -73,7 +80,7 @@ class App extends React.Component {
         exact
         path="/battle"
         render={() => (
-          <Battle></Battle>
+          <Battle user={this.state.character}></Battle>
         )}
         />
         <Route
