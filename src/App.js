@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Ranking from './pages/Ranking'
 import Battle from './pages/Battle';
+import Character from './pages/Character';
 
 //CSS
 import './App.css';
@@ -16,7 +17,8 @@ class App extends React.Component {
   state = {
     isLogin: false,
     user: null,
-    signup: false
+    signup: false,
+    character: false
   }
 
   login(info) {
@@ -33,6 +35,20 @@ class App extends React.Component {
       isLogin: false
     }, () => this.setState({signup:false}))
   }
+  create(name) {
+    if (window.confirm(name+"(으)로 하겠습니까?")) {
+      this.setState({
+        character: {
+          name: name,
+          level: 1,
+          maxHp: 100,
+          hp: 100,
+          power: 5,
+          exp: 0
+        }
+      })
+    }
+  }
   render() {
     let state = store.getState()
 
@@ -40,7 +56,7 @@ class App extends React.Component {
       <div>
       <Switch>
       <Route path="/login" render={() =>
-            this.state.isLogin ? <Redirect to="/battle" />:
+            this.state.isLogin && this.state.character ? <Redirect to="/battle" />: this.state.isLogin && !this.state.character? <Character createCharacter={this.create.bind(this)} /> :
             <Login login={this.login.bind(this)} isLogin={this.state.isLogin} />} />
           <Route
             exact
@@ -64,13 +80,13 @@ class App extends React.Component {
         exact
         path="/battle"
         render={() => (
-          <Battle></Battle>
+          <Battle user={this.state.character}></Battle>
         )}
         />
         <Route
             path="/"
             render={() => {
-              if (this.state.isLogin) {
+              if (this.state.isLogin && this.state.character) {
                 return <Redirect to="/battle" />;
               }
               return <Redirect to="/login" />;
