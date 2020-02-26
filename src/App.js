@@ -49,6 +49,14 @@ class App extends React.Component {
       })
     }
   }
+  logout() {
+    this.setState({
+      isLogin: false,
+      user: null,
+      signup: false,
+      character: false
+    })
+  }
   render() {
     // let state = store.getState()
 
@@ -79,9 +87,9 @@ class App extends React.Component {
         <Route
         exact
         path="/battle"
-        render={() => (
-          <Battle user={this.state.character}></Battle>
-        )}
+        render={() => 
+          this.state.isLogin?<Battle logout={this.logout.bind(this)} user={this.state.character}></Battle>:<Redirect to='/login' />
+        }
         />
         <Route
             path="/"

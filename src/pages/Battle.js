@@ -35,7 +35,7 @@ class Battle extends React.Component {
         let {user, enemes} = this.state
         return ( 
             <div>
-              <Menu></Menu>
+              <Menu logout={this.props.logout} user={this.props.user}></Menu>
                 <CharacterStat user={this.props.user}></CharacterStat>
             </div>
         );

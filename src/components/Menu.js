@@ -12,6 +12,21 @@ class Menu extends React.Component {
             monster: false
         }
     }
+    quit() {
+        if (window.confirm('그만하게습니까?')) {
+            // fetch("http://localhost:5001/logout", {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         credentials: 'include',
+            //         body: JSON.stringify(this.props.user)
+            //     }
+            // })
+            this.props.logout();
+        } else {
+            
+        }
+    }
 
     render() { 
         var turn = this.state.turn
@@ -27,7 +42,7 @@ class Menu extends React.Component {
                     }}
                     >모험한다</div>
                     <div>휴식한다</div>
-                    <div>그만한다</div>
+                    <div onClick={()=>this.quit()}>그만한다</div>
                 </div>
 
                 <div className="battleBar">
