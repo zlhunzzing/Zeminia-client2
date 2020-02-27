@@ -120,24 +120,15 @@ class App extends React.Component {
   }
 
   async attackMonster() {
-    await this.setState(
-      prevState => ({
-        monster: {
-          name: prevState.monster.name,
-          level: prevState.monster.level,
-          hp: prevState.monster.hp - prevState.character.att,
-          att: prevState.monster.att,
-          exp: prevState.monster.exp
-        }
-      }),
-      function() {
-        // eslint-disable-next-line prefer-const
-        let monster = this.state;
-        if (monster.hp <= 0) {
-          this.clearMonster();
-        }
+    await this.setState(prevState => ({
+      monster: {
+        name: prevState.monster.name,
+        level: prevState.monster.level,
+        hp: prevState.monster.hp - prevState.character.att,
+        att: prevState.monster.att,
+        exp: prevState.monster.exp
       }
-    );
+    }));
   }
 
   async heal() {
