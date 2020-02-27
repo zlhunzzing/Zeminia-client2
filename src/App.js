@@ -117,6 +117,31 @@ class App extends React.Component {
     }));
   }
 
+  // showMessage(msg) {
+  //   const newMessage = document.createElement('div');
+  //   newMessage.innerHTML = msg;
+
+  //   const Messages = document.querySelector('.Messages');
+  //   message.prepend(newMessage);
+
+  //   newMessage.className = 'showMessage';
+
+  //   window.setTimeout(function() {
+  //     newMessage.className = 'hideMessage';
+
+  //     window.setTimeout(function() {
+  //       message.childNodes[message.childNodes.length - 1].remove();
+  //     }, 2500);
+  //   }, 10000);
+
+  //   if (message.childNodes.length > 10) {
+  //     message.childNodes[10] = 'hideMessage';
+  //     message.childNodes[10].style.display = 'none';
+  //   }
+
+  //   return this;
+  // }
+
   render() {
     // let state = store.getState()
     const { isLogin, signup, character, monster } = this.state;
