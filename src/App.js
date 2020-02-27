@@ -27,6 +27,7 @@ class App extends React.Component {
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
     this.checkLoginRoute = this.checkLoginRoute.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   login() {
