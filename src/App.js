@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, /* useHistory, */ Redirect } from 'react-router-dom';
 // import axios from 'axios';
-// import store from './store'
+import store from './store';
 
 // Pages
 import Login from './pages/Login';
@@ -21,13 +21,16 @@ class App extends React.Component {
       isLogin: false,
       // user: null,
       signup: false,
-      character: false
+      character: false,
+      monster: false
     };
     this.create = this.create.bind(this);
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
     this.checkLoginRoute = this.checkLoginRoute.bind(this);
     this.logout = this.logout.bind(this);
+    this.generateMonster = this.generateMonster.bind(this);
+    this.clearMonster = this.clearMonster.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
   }
 
@@ -57,7 +60,7 @@ class App extends React.Component {
           level: 1,
           maxHp: 100,
           hp: 100,
-          power: 5,
+          att: 5,
           exp: 0
         }
       });
@@ -84,16 +87,39 @@ class App extends React.Component {
     return <Login login={this.login} isLogin={isLogin} />;
   }
 
-  attackCharacter() {
-    console.log('3');
-    this.setState(prevState => ({
-      character: prevState.character.hp - 1
+  async generateMonster() {
+    const state = store.getState();
+    await this.setState({
+      monster: JSON.parse(
+        JSON.stringify(
+          state.dummyMob[Math.floor(Math.random() * state.dummyMob.length)]
+        )
+      )
+    });
+  }
+
+  async clearMonster() {
+    await this.setState({
+      monster: false
+    });
+  }
+
+  async attackCharacter() {
+    await this.setState(prevState => ({
+      character: {
+        name: prevState.character.name,
+        level: prevState.character.level,
+        maxHp: prevState.character.maxHp,
+        hp: prevState.character.hp - prevState.monster.att,
+        att: prevState.character.att,
+        exp: prevState.character.exp
+      }
     }));
   }
 
   render() {
     // let state = store.getState()
-    const { isLogin, signup, character } = this.state;
+    const { isLogin, signup, character, monster } = this.state;
     return (
       <div className="App">
         <Switch>
@@ -119,7 +145,10 @@ class App extends React.Component {
                 <Battle
                   logout={this.logout}
                   user={character}
+                  monster={monster}
                   attackCharacter={this.attackCharacter}
+                  generateMonster={this.generateMonster}
+                  clearMonster={this.clearMonster}
                 />
               ) : (
                 <Redirect to="/login" />
