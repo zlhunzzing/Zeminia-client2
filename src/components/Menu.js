@@ -26,7 +26,12 @@ class Menu extends React.Component {
   }
 
   nextTurn() {
-    const turn = !this.state.turn;
+    const { attackCharacter } = this.props;
+    const { monster, turn } = this.state;
+    // const turn = !turn;
+    this.setState({
+      turn: !turn
+    });
     if (!turn) {
       // toggleMenu();
 
@@ -34,7 +39,7 @@ class Menu extends React.Component {
       // showMessage(`${monster.name}의 턴입니다.`);
 
       window.setTimeout(function() {
-        this.props.attackCharacter(this.state.monster.att);
+        attackCharacter(monster.att);
         // if (user.hp > 0) {
         //   window.setTimeout(function() {
         //     // toggleMenu();
@@ -79,29 +84,33 @@ class Menu extends React.Component {
     return (
       <div>
         <div className="menuBar">
-          <div
+          <button
+            type="button"
             onClick={() => {
               state.toggleMenu('monster');
               this.generateMonster();
             }}
           >
             모험한다
-          </div>
+          </button>
           <div>휴식한다</div>
-          <div onClick={() => this.quit()}>그만한다</div>
+          <button type="button" onClick={() => this.quit()}>
+            그만한다
+          </button>
         </div>
 
         <div className="battleBar">
           <div>공격한다</div>
           <div>회복한다</div>
-          <div
+          <button
+            type="button"
             onClick={() => {
               state.toggleMenu();
               this.clearMonster();
             }}
           >
             도망친다
-          </div>
+          </button>
         </div>
       </div>
     );
@@ -109,7 +118,8 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-  logout: PropTypes.bool.isRequired
+  logout: PropTypes.func.isRequired,
+  attackCharacter: PropTypes.func.isRequired
 };
 
 export default Menu;

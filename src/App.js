@@ -85,6 +85,7 @@ class App extends React.Component {
   }
 
   attackCharacter() {
+    console.log('3');
     this.setState(prevState => ({
       character: prevState.character.hp - 1
     }));
