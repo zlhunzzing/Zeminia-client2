@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import CharacterStat from '../components/CharacterStat';
@@ -22,8 +23,9 @@ class Battle extends React.Component {
 }
 
 Battle.propTypes = {
-  logout: PropTypes.bool.isRequired,
-  user: PropTypes.objectOf(PropTypes.object).isRequired
+  logout: PropTypes.func.isRequired,
+  // user: PropTypes.objectOf(PropTypes.object).isRequired,
+  attackCharacter: PropTypes.func.isRequired
 };
 
 export default Battle;

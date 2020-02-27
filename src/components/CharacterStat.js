@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 class CharacterStat extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class CharacterStat extends React.Component {
 }
 
 CharacterStat.propTypes = {
-  user: PropTypes.objectOf(PropTypes.object).isRequired
+  // user: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 export default CharacterStat;

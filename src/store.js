@@ -41,6 +41,7 @@ function reducer(state /* ,action */) {
       }
     };
   }
+  return false;
 }
 
 const store = createStore(reducer);
