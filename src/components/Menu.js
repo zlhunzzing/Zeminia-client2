@@ -124,7 +124,9 @@ class Menu extends React.Component {
 
 Menu.propTypes = {
   logout: PropTypes.func.isRequired,
-  attackCharacter: PropTypes.func.isRequired
+  attackCharacter: PropTypes.func.isRequired,
+  generateMonster: PropTypes.func.isRequired,
+  clearMonster: PropTypes.func.isRequired
 };
 
 export default Menu;
