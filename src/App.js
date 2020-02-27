@@ -82,6 +82,12 @@ class App extends React.Component {
     return <Login login={this.login} isLogin={isLogin} />;
   }
 
+  // attackCharacter() {
+  //   this.setState({
+
+  //   })
+  // }
+
   render() {
     // let state = store.getState()
     const { isLogin, signup, character } = this.state;
