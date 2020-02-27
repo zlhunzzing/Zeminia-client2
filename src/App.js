@@ -32,6 +32,7 @@ class App extends React.Component {
     this.generateMonster = this.generateMonster.bind(this);
     this.clearMonster = this.clearMonster.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
+    this.attackMonster = this.attackMonster.bind(this);
   }
 
   login() {
@@ -117,6 +118,7 @@ class App extends React.Component {
     }));
   }
 
+<<<<<<< HEAD
   // showMessage(msg) {
   //   const newMessage = document.createElement('div');
   //   newMessage.innerHTML = msg;
@@ -141,6 +143,22 @@ class App extends React.Component {
 
   //   return this;
   // }
+=======
+  async attackMonster() {
+    await this.setState(
+      prevState => ({
+        monster: {
+          name: prevState.monster.name,
+          level: prevState.monster.level,
+          hp: prevState.monster.hp - 4,
+          att: prevState.monster.att,
+          exp: prevState.monster.exp
+        }
+      }),
+      () => console.log(this.state)
+    );
+  }
+>>>>>>> e64659d61eff1f2faf47af27e01448ea886c2616
 
   render() {
     // let state = store.getState()
@@ -174,6 +192,7 @@ class App extends React.Component {
                   attackCharacter={this.attackCharacter}
                   generateMonster={this.generateMonster}
                   clearMonster={this.clearMonster}
+                  attackMonster={this.attackMonster}
                 />
               ) : (
                 <Redirect to="/login" />

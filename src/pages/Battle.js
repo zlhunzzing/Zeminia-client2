@@ -20,7 +20,8 @@ class Battle extends React.Component {
       monster,
       attackCharacter,
       generateMonster,
-      clearMonster
+      clearMonster,
+      attackMonster
     } = this.props;
     return (
       <div>
@@ -30,6 +31,7 @@ class Battle extends React.Component {
           attackCharacter={attackCharacter}
           generateMonster={generateMonster}
           clearMonster={clearMonster}
+          attackMonster={attackMonster}
         />
         <MonsterStat monster={monster} />
         <CharacterStat user={user} />
@@ -42,7 +44,8 @@ class Battle extends React.Component {
 Battle.propTypes = {
   logout: PropTypes.func.isRequired,
   // user: PropTypes.objectOf(PropTypes.object).isRequired,
-  attackCharacter: PropTypes.func.isRequired
+  attackCharacter: PropTypes.func.isRequired,
+  attackMonster: PropTypes.func.isRequired
 };
 
 export default Battle;
