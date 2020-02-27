@@ -1,6 +1,6 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import CharacterStat from '../components/CharacterStat';
-
 import Menu from '../components/Menu';
 
 class Battle extends React.Component {
@@ -22,8 +22,8 @@ class Battle extends React.Component {
 }
 
 Battle.propTypes = {
-  logout: ReactPropTypes.bool.isRequired,
-  user: ReactPropTypes.objectOf(ReactPropTypes.object()).isRequired
+  logout: PropTypes.bool.isRequired,
+  user: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 export default Battle;

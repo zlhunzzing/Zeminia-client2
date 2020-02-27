@@ -1,5 +1,6 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -81,7 +82,7 @@ class Signup extends React.Component {
 }
 
 Signup.propTypes = {
-  signup: ReactPropTypes.func.isRequired
+  signup: PropTypes.func.isRequired
 };
 
 export default Signup;

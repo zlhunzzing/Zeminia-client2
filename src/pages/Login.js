@@ -1,5 +1,6 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
   constructor(props) {
@@ -96,7 +97,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  login: ReactPropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 };
 
 export default Login;

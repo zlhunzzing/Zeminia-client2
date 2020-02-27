@@ -1,5 +1,6 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Character extends React.Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class Character extends React.Component {
 }
 
 Character.propTypes = {
-  createCharacter: ReactPropTypes.func.isRequired
+  createCharacter: PropTypes.func.isRequired
 };
 
 export default Character;

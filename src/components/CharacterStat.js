@@ -1,4 +1,5 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class CharacterStat extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class CharacterStat extends React.Component {
 }
 
 CharacterStat.propTypes = {
-  user: ReactPropTypes.objectOf(ReactPropTypes.object()).isRequired
+  user: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 export default CharacterStat;

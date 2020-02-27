@@ -1,5 +1,6 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
 
+import PropTypes from 'prop-types';
 import store from '../store';
 
 import './Menu.css';
@@ -67,7 +68,7 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-  logout: ReactPropTypes.bool.isRequired
+  logout: PropTypes.bool.isRequired
 };
 
 export default Menu;
