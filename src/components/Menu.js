@@ -9,55 +9,38 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      turn: true,
-      monster: false
+      turn: true
+      // monster: false
     };
   }
 
-  async generateMonster() {
-    const state = store.getState();
-    await this.setState({
-      monster: JSON.parse(
-        JSON.stringify(
-          state.dummyMob[Math.floor(Math.random() * state.dummyMob.length)]
-        )
-      )
-    });
-  }
-
-  nextTurn() {
+  async nextTurn() {
     const { attackCharacter } = this.props;
-    const { monster, turn } = this.state;
+    // const { monster } = this.state;
+    let { turn } = this.state;
     // const turn = !turn;
-    this.setState({
-      turn: !turn
-    });
+    turn = !turn;
     if (!turn) {
       // toggleMenu();
 
-      // window.setTimeout(function() {
-      // showMessage(`${monster.name}의 턴입니다.`);
-
       window.setTimeout(function() {
-        attackCharacter(monster.att);
-        // if (user.hp > 0) {
-        //   window.setTimeout(function() {
-        //     // toggleMenu();
-        //     // showMessage('당신의 턴입니다.');
-        //   }, 1000);
-        // }
+        console.log('몬스터의 차례입니다.');
+        // showMessage(`${monster.name}의 턴입니다.`);
+
+        window.setTimeout(function() {
+          attackCharacter();
+          // if (user.hp > 0) {
+          //   window.setTimeout(function() {
+          //     // toggleMenu();
+          //     // showMessage('당신의 턴입니다.');
+          //   }, 1000);
+          // }
+        }, 1000);
       }, 1000);
-      // }, 1000);
-      this.setState({
+      await this.setState({
         turn: !turn
       });
     }
-  }
-
-  async clearMonster() {
-    await this.setState({
-      monster: false
-    });
   }
 
   quit() {
@@ -80,6 +63,7 @@ class Menu extends React.Component {
 
   render() {
     const state = store.getState();
+    const { generateMonster, clearMonster } = this.props;
 
     return (
       <div>
@@ -88,25 +72,46 @@ class Menu extends React.Component {
             type="button"
             onClick={() => {
               state.toggleMenu('monster');
-              this.generateMonster();
+              generateMonster();
             }}
           >
             모험한다
           </button>
-          <div>휴식한다</div>
+          <button
+            type="button"
+            onClick={() => {
+              // this.nextTurn();
+            }}
+          >
+            휴식한다
+          </button>
           <button type="button" onClick={() => this.quit()}>
             그만한다
           </button>
         </div>
 
         <div className="battleBar">
-          <div>공격한다</div>
-          <div>회복한다</div>
+          <button
+            type="button"
+            onClick={() => {
+              this.nextTurn();
+            }}
+          >
+            공격한다
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              this.nextTurn();
+            }}
+          >
+            회복한다
+          </button>
           <button
             type="button"
             onClick={() => {
               state.toggleMenu();
-              this.clearMonster();
+              clearMonster();
             }}
           >
             도망친다

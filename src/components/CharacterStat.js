@@ -18,7 +18,7 @@ class CharacterStat extends React.Component {
             <p>{user.name}</p>
             <p>레 벨 : {user.level}</p>
             <p>체 력 : {user.maxHp}</p>
-            <p>공격력 : {user.power}</p>
+            <p>공격력 : {user.att}</p>
             <p>경험치 : {user.exp}</p>
           </div>
         ) : null}

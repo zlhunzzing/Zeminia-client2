@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CharacterStat from '../components/CharacterStat';
 import Menu from '../components/Menu';
+import MonsterStat from '../components/MonsterStat';
 
 class Battle extends React.Component {
   constructor(props) {
@@ -12,10 +13,24 @@ class Battle extends React.Component {
 
   render() {
     // const { enemes } = this.state;
-    const { logout, user, attackCharacter } = this.props;
+    const {
+      logout,
+      user,
+      monster,
+      attackCharacter,
+      generateMonster,
+      clearMonster
+    } = this.props;
     return (
       <div>
-        <Menu logout={logout} user={user} attackCharacter={attackCharacter} />
+        <Menu
+          logout={logout}
+          user={user}
+          attackCharacter={attackCharacter}
+          generateMonster={generateMonster}
+          clearMonster={clearMonster}
+        />
+        <MonsterStat monster={monster} />
         <CharacterStat user={user} />
       </div>
     );
