@@ -11,10 +11,10 @@ class Battle extends React.Component {
 
   render() {
     // const { enemes } = this.state;
-    const { logout, user } = this.props;
+    const { logout, user, attackCharacter } = this.props;
     return (
       <div>
-        <Menu logout={logout} user={user} />
+        <Menu logout={logout} user={user} attackCharacter={attackCharacter} />
         <CharacterStat user={user} />
       </div>
     );

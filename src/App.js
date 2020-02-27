@@ -28,6 +28,7 @@ class App extends React.Component {
     this.signup = this.signup.bind(this);
     this.checkLoginRoute = this.checkLoginRoute.bind(this);
     this.logout = this.logout.bind(this);
+    this.attackCharacter = this.attackCharacter.bind(this);
   }
 
   login() {
@@ -83,11 +84,11 @@ class App extends React.Component {
     return <Login login={this.login} isLogin={isLogin} />;
   }
 
-  // attackCharacter() {
-  //   this.setState({
-
-  //   })
-  // }
+  attackCharacter() {
+    this.setState(prevState => ({
+      character: prevState.character.hp - 1
+    }));
+  }
 
   render() {
     // let state = store.getState()
@@ -114,7 +115,11 @@ class App extends React.Component {
             path="/battle"
             render={() =>
               isLogin ? (
-                <Battle logout={this.logout} user={character} />
+                <Battle
+                  logout={this.logout}
+                  user={character}
+                  attackCharacter={this.attackCharacter}
+                />
               ) : (
                 <Redirect to="/login" />
               )

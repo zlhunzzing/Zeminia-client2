@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 
-function reducer(state, action) {
+function reducer(state /* ,action */) {
   if (state === undefined) {
     return {
       islogin: false,
@@ -10,21 +10,21 @@ function reducer(state, action) {
           name: '쥐',
           level: 1,
           hp: 15,
-          power: 1,
+          att: 1,
           exp: 1
         },
         {
           name: '좀비',
           level: 3,
           hp: 50,
-          power: 2,
+          att: 2,
           exp: 3
         },
         {
           name: '늑대인간[보스]',
           level: 10,
           hp: 150,
-          power: 7,
+          att: 7,
           exp: 10
         }
       ],
