@@ -26,6 +26,31 @@ class Menu extends React.Component {
     console.log('몬스터', this.state.monster);
   }
 
+  // nextTurn() {
+  //   const turn = !this.state.turn;
+  //   if (!turn) {
+  //     // toggleMenu();
+
+  //     // window.setTimeout(function() {
+  //     // showMessage(`${monster.name}의 턴입니다.`);
+
+  //     window.setTimeout(function() {
+  //       // attackUser();
+
+  //       if (user.hp > 0) {
+  //         window.setTimeout(function() {
+  //           // toggleMenu();
+  //           // showMessage('당신의 턴입니다.');
+  //         }, 1000);
+  //       }
+  //     }, 1000);
+  //     // }, 1000);
+  //     this.setState({
+  //       turn: !turn
+  //     });
+  //   }
+  // }
+
   async clearMonster() {
     await this.setState({
       monster: false
