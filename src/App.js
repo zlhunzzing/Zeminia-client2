@@ -32,6 +32,7 @@ class App extends React.Component {
     this.generateMonster = this.generateMonster.bind(this);
     this.clearMonster = this.clearMonster.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
+    this.attackMonster = this.attackMonster.bind(this);
   }
 
   login() {
@@ -117,6 +118,21 @@ class App extends React.Component {
     }));
   }
 
+  async attackMonster() {
+    await this.setState(
+      prevState => ({
+        monster: {
+          name: prevState.monster.name,
+          level: prevState.monster.level,
+          hp: prevState.monster.hp - 4,
+          att: prevState.monster.att,
+          exp: prevState.monster.exp
+        }
+      }),
+      () => console.log(this.state)
+    );
+  }
+
   render() {
     // let state = store.getState()
     const { isLogin, signup, character, monster } = this.state;
@@ -149,6 +165,7 @@ class App extends React.Component {
                   attackCharacter={this.attackCharacter}
                   generateMonster={this.generateMonster}
                   clearMonster={this.clearMonster}
+                  attackMonster={this.attackMonster}
                 />
               ) : (
                 <Redirect to="/login" />

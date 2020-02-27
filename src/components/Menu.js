@@ -63,7 +63,7 @@ class Menu extends React.Component {
 
   render() {
     const state = store.getState();
-    const { generateMonster, clearMonster } = this.props;
+    const { generateMonster, clearMonster, attackMonster } = this.props;
 
     return (
       <div>
@@ -95,6 +95,7 @@ class Menu extends React.Component {
             type="button"
             onClick={() => {
               this.nextTurn();
+              attackMonster();
             }}
           >
             공격한다
@@ -126,7 +127,8 @@ Menu.propTypes = {
   logout: PropTypes.func.isRequired,
   attackCharacter: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
-  clearMonster: PropTypes.func.isRequired
+  clearMonster: PropTypes.func.isRequired,
+  attackMonster: PropTypes.func.isRequired
 };
 
 export default Menu;
