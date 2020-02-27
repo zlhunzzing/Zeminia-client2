@@ -14,6 +14,25 @@ class Menu extends React.Component {
     };
   }
 
+  async generateMonster() {
+    const state = store.getState();
+    await this.setState({
+      monster: JSON.parse(
+        JSON.stringify(
+          state.dummyMob[Math.floor(Math.random() * state.dummyMob.length)]
+        )
+      )
+    });
+    console.log('몬스터', this.state.monster);
+  }
+
+  async clearMonster() {
+    await this.setState({
+      monster: false
+    });
+    console.log('몬스터', this.state.monster);
+  }
+
   quit() {
     const { logout } = this.props;
     if (window.confirm('그만하게습니까?')) {
@@ -43,6 +62,7 @@ class Menu extends React.Component {
           <div
             onClick={() => {
               state.toggleMenu('monster');
+              this.generateMonster();
             }}
           >
             모험한다
@@ -57,6 +77,7 @@ class Menu extends React.Component {
           <div
             onClick={() => {
               state.toggleMenu();
+              this.clearMonster();
             }}
           >
             도망친다
