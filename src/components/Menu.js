@@ -92,7 +92,7 @@ class Menu extends React.Component {
             type="button"
             onClick={() => {
               heal();
-              this.nextTurn();
+              // this.nextTurn();
             }}
           >
             휴식한다
@@ -124,9 +124,9 @@ class Menu extends React.Component {
           <button
             type="button"
             onClick={() => {
+              clearMonster();
               state.toggleMenu();
               showMessage('도망쳤습니다');
-              clearMonster();
             }}
           >
             도망친다
