@@ -9,7 +9,8 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      turn: true
+      turn: true,
+      use: false
       // monster: false
     };
   }
@@ -22,12 +23,11 @@ class Menu extends React.Component {
     turn = !turn;
     if (!turn) {
       // toggleMenu();
-
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         console.log('몬스터의 차례입니다.');
         // showMessage(`${monster.name}의 턴입니다.`);
 
-        window.setTimeout(function() {
+        window.setTimeout(() => {
           attackCharacter();
           // if (user.hp > 0) {
           //   window.setTimeout(function() {
@@ -35,10 +35,14 @@ class Menu extends React.Component {
           //     // showMessage('당신의 턴입니다.');
           //   }, 1000);
           // }
+          this.setState({
+            use: false
+          });
         }, 1000);
       }, 1000);
       await this.setState({
-        turn: !turn
+        turn: !turn,
+        use: true
       });
     }
   }
@@ -61,8 +65,11 @@ class Menu extends React.Component {
     return null;
   }
 
+  // disable() {}
+
   render() {
     const state = store.getState();
+    const { use } = this.state;
     const { generateMonster, clearMonster, attackMonster, heal } = this.props;
 
     return (
@@ -94,6 +101,7 @@ class Menu extends React.Component {
         <div className="battleBar">
           <button
             type="button"
+            disabled={use}
             onClick={() => {
               this.nextTurn();
               attackMonster();
@@ -103,6 +111,7 @@ class Menu extends React.Component {
           </button>
           <button
             type="button"
+            disabled={use}
             onClick={() => {
               heal();
               this.nextTurn();
@@ -112,6 +121,7 @@ class Menu extends React.Component {
           </button>
           <button
             type="button"
+            disabled={use}
             onClick={() => {
               clearMonster();
               state.toggleMenu();
