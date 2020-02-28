@@ -33,6 +33,7 @@ class App extends React.Component {
     this.clearMonster = this.clearMonster.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
+    this.heal = this.heal.bind(this);
   }
 
   login() {
@@ -119,18 +120,28 @@ class App extends React.Component {
   }
 
   async attackMonster() {
-    await this.setState(
-      prevState => ({
-        monster: {
-          name: prevState.monster.name,
-          level: prevState.monster.level,
-          hp: prevState.monster.hp - 4,
-          att: prevState.monster.att,
-          exp: prevState.monster.exp
-        }
-      }),
-      () => console.log(this.state)
-    );
+    await this.setState(prevState => ({
+      monster: {
+        name: prevState.monster.name,
+        level: prevState.monster.level,
+        hp: prevState.monster.hp - prevState.character.att,
+        att: prevState.monster.att,
+        exp: prevState.monster.exp
+      }
+    }));
+  }
+
+  async heal() {
+    await this.setState(prevState => ({
+      character: {
+        name: prevState.character.name,
+        level: prevState.character.level,
+        maxHp: prevState.character.maxHp,
+        hp: prevState.character.maxHp,
+        att: prevState.character.att,
+        exp: prevState.character.exp
+      }
+    }));
   }
 
   render() {
@@ -166,6 +177,7 @@ class App extends React.Component {
                   generateMonster={this.generateMonster}
                   clearMonster={this.clearMonster}
                   attackMonster={this.attackMonster}
+                  heal={this.heal}
                 />
               ) : (
                 <Redirect to="/login" />
