@@ -107,7 +107,8 @@ class App extends React.Component {
   }
 
   async attackCharacter() {
-    const { monster } = this.state;
+    const { monster, character } = this.state;
+    this.showLog(`${monster.name}에게 ${monster.att}의 데미지를 입었습니다.`);
     if (monster.hp > 0) {
       await this.setState(
         prevState => ({
@@ -182,6 +183,8 @@ class App extends React.Component {
 
   async attackMonster() {
     const state = store.getState();
+    const { character, monster } = this.state;
+    this.showLog(`${monster.name}에게 ${character.att}의 데미지를 입혔습니다.`);
     this.setState(
       prevState => ({
         monster: {
@@ -223,31 +226,31 @@ class App extends React.Component {
         exp: prevState.character.exp
       }
     }));
-    this.showMessage('체력을 회복했습니다');
+    this.showLog('체력을 회복했습니다');
   }
 
-  showMessage(msg) {
-    const newMessage = document.createElement('div');
-    newMessage.innerHTML = msg;
+  showLog(msg) {
+    const newLog = document.createElement('div');
+    newLog.innerHTML = msg;
 
-    const Messages = document.querySelector('.Messages');
-    Messages.prepend(newMessage);
+    const log = document.querySelector('.Log');
+    log.prepend(newLog);
 
-    // newMessage.className = 'showMessage';
+    // effect
+    newLog.className = 'fadeIn';
 
     window.setTimeout(function() {
-      newMessage.className = 'hideMessage';
+      newLog.className = 'fadeOut';
 
       window.setTimeout(function() {
-        Messages.childNodes[Messages.childNodes.length - 1].remove();
-      }, 2500);
+        log.childNodes[log.childNodes.length - 1].remove();
+      }, 2000);
     }, 10000);
 
-    if (Messages.childNodes.length > 10) {
-      Messages.childNodes[10] = 'hideMessage';
-      Messages.childNodes[10].style.display = 'none';
+    if (log.childNodes.length > 10) {
+      log.childNodes[10].className = 'fadeOut';
+      log.childNodes[10].style.display = 'none';
     }
-
     return this;
   }
 
@@ -285,7 +288,7 @@ class App extends React.Component {
                   clearMonster={this.clearMonster}
                   attackMonster={this.attackMonster}
                   heal={this.heal}
-                  showMessage={this.showMessage}
+                  showLog={this.showLog}
                 />
               ) : (
                 <Redirect to="/login" />
