@@ -34,6 +34,7 @@ class App extends React.Component {
     this.attackCharacter = this.attackCharacter.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
     this.heal = this.heal.bind(this);
+    this.showLog = this.showLog.bind(this);
   }
 
   login() {
@@ -171,6 +172,7 @@ class App extends React.Component {
               }));
               return null;
             }
+            this.clearMonster();
             this.logout();
           }
           return null;
@@ -229,28 +231,32 @@ class App extends React.Component {
   }
 
   showLog(msg) {
-    const newLog = document.createElement('div');
-    newLog.innerHTML = msg;
+    const { isLogin } = this.state;
+    if (isLogin) {
+      const newLog = document.createElement('div');
+      newLog.innerHTML = msg;
 
-    const log = document.querySelector('.Log');
-    log.prepend(newLog);
+      const log = document.querySelector('.Log');
+      log.prepend(newLog);
 
-    // effect
-    newLog.className = 'fadeIn';
-
-    window.setTimeout(function() {
-      newLog.className = 'fadeOut';
+      // effect
+      newLog.className = 'fadeIn';
 
       window.setTimeout(function() {
-        log.childNodes[log.childNodes.length - 1].remove();
-      }, 2000);
-    }, 10000);
+        newLog.className = 'fadeOut';
 
-    if (log.childNodes.length > 10) {
-      log.childNodes[10].className = 'fadeOut';
-      log.childNodes[10].style.display = 'none';
+        window.setTimeout(function() {
+          log.childNodes[log.childNodes.length - 1].remove();
+        }, 2000);
+      }, 10000);
+
+      if (log.childNodes.length > 10) {
+        log.childNodes[10].className = 'fadeOut';
+        log.childNodes[10].style.display = 'none';
+      }
+      return this;
     }
-    return this;
+    return null;
   }
 
   render() {
