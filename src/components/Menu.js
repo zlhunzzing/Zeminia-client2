@@ -14,8 +14,13 @@ class Menu extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { showMessage } = this.props;
+    showMessage('서버에 접속하였습니다.');
+  }
+
   async nextTurn() {
-    const { attackCharacter } = this.props;
+    const { attackCharacter, showMessage } = this.props;
     // const { monster } = this.state;
     let { turn } = this.state;
     // const turn = !turn;
@@ -25,7 +30,7 @@ class Menu extends React.Component {
 
       window.setTimeout(function() {
         console.log('몬스터의 차례입니다.');
-        // showMessage(`${monster.name}의 턴입니다.`);
+        showMessage('메세지');
 
         window.setTimeout(function() {
           attackCharacter();
@@ -117,6 +122,11 @@ class Menu extends React.Component {
           >
             도망친다
           </button>
+          <div className="">
+            <div>공격한다</div>
+            <div>회복한다</div>
+            <div>도망한다</div>
+          </div>
         </div>
       </div>
     );

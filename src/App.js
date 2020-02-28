@@ -33,6 +33,7 @@ class App extends React.Component {
     this.clearMonster = this.clearMonster.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
+    this.showMessage = this.showMessage.bind(this);
   }
 
   login() {
@@ -118,32 +119,6 @@ class App extends React.Component {
     }));
   }
 
-<<<<<<< HEAD
-  // showMessage(msg) {
-  //   const newMessage = document.createElement('div');
-  //   newMessage.innerHTML = msg;
-
-  //   const Messages = document.querySelector('.Messages');
-  //   message.prepend(newMessage);
-
-  //   newMessage.className = 'showMessage';
-
-  //   window.setTimeout(function() {
-  //     newMessage.className = 'hideMessage';
-
-  //     window.setTimeout(function() {
-  //       message.childNodes[message.childNodes.length - 1].remove();
-  //     }, 2500);
-  //   }, 10000);
-
-  //   if (message.childNodes.length > 10) {
-  //     message.childNodes[10] = 'hideMessage';
-  //     message.childNodes[10].style.display = 'none';
-  //   }
-
-  //   return this;
-  // }
-=======
   async attackMonster() {
     await this.setState(
       prevState => ({
@@ -158,7 +133,31 @@ class App extends React.Component {
       () => console.log(this.state)
     );
   }
->>>>>>> e64659d61eff1f2faf47af27e01448ea886c2616
+
+  showMessage(msg) {
+    const newMessage = document.createElement('div');
+    newMessage.innerHTML = msg;
+
+    document.querySelector('.Messages').appendChild(newMessage);
+    // Messages.appendChild(newMessage);
+
+    // newMessage.className = 'showMessage';
+
+    // window.setTimeout(function() {
+    //   newMessage.className = 'hideMessage';
+
+    //   window.setTimeout(function() {
+    //     Messages.childNodes[Messages.childNodes.length - 1].remove();
+    //   }, 2500);
+    // }, 10000);
+
+    // if (Messages.childNodes.length > 10) {
+    //   Messages.childNodes[10] = 'hideMessage';
+    //   Messages.childNodes[10].style.display = 'none';
+    // }
+
+    return this;
+  }
 
   render() {
     // let state = store.getState()
@@ -193,6 +192,7 @@ class App extends React.Component {
                   generateMonster={this.generateMonster}
                   clearMonster={this.clearMonster}
                   attackMonster={this.attackMonster}
+                  showMessage={this.showMessage}
                 />
               ) : (
                 <Redirect to="/login" />
