@@ -16,12 +16,12 @@ class Menu extends React.Component {
   }
 
   // componentDidMount() {
-  //   const { showMessage } = this.props;
-  //   showMessage('서버에 접속하였습니다.');
+  //   const { showLog } = this.props;
+  //   showLog('서버에 접속하였습니다.');
   // }
 
   async nextTurn() {
-    const { attackCharacter, showMessage } = this.props;
+    const { attackCharacter, showLog } = this.props;
     // const { monster } = this.state;
     let { turn } = this.state;
     // const turn = !turn;
@@ -30,14 +30,14 @@ class Menu extends React.Component {
       // toggleMenu();
 
       window.setTimeout(() => {
-        showMessage('몬스터의 차례입니다');
+        showLog('몬스터의 차례입니다');
 
         window.setTimeout(() => {
           attackCharacter();
           // if (user.hp > 0) {
           window.setTimeout(() => {
             // toggleMenu();
-            showMessage('당신의 턴입니다.');
+            showLog('당신의 턴입니다.');
           }, 1000);
           // }
           this.setState({
@@ -79,7 +79,7 @@ class Menu extends React.Component {
       clearMonster,
       attackMonster,
       heal,
-      showMessage
+      showLog
     } = this.props;
     const { use } = this.state;
 
@@ -91,7 +91,7 @@ class Menu extends React.Component {
             onClick={() => {
               state.toggleMenu('monster');
               generateMonster();
-              showMessage('몬스터가 출현했습니다');
+              showLog('몬스터가 출현했습니다');
             }}
           >
             모험한다
@@ -137,7 +137,7 @@ class Menu extends React.Component {
             onClick={() => {
               clearMonster();
               state.toggleMenu();
-              showMessage('도망쳤습니다');
+              showLog('도망쳤습니다');
             }}
           >
             도망친다
@@ -160,7 +160,7 @@ Menu.propTypes = {
   clearMonster: PropTypes.func.isRequired,
   attackMonster: PropTypes.func.isRequired,
   heal: PropTypes.func.isRequired,
-  showMessage: PropTypes.func.isRequired
+  showLog: PropTypes.func.isRequired
 };
 
 export default Menu;
