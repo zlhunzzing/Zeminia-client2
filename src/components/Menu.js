@@ -14,10 +14,10 @@ class Menu extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { showMessage } = this.props;
-    showMessage('서버에 접속하였습니다.');
-  }
+  // componentDidMount() {
+  //   const { showMessage } = this.props;
+  //   showMessage('서버에 접속하였습니다.');
+  // }
 
   async nextTurn() {
     const { attackCharacter, showMessage } = this.props;
@@ -29,16 +29,15 @@ class Menu extends React.Component {
       // toggleMenu();
 
       window.setTimeout(function() {
-        console.log('몬스터의 차례입니다.');
-        showMessage('메세지');
+        showMessage('몬스터의 차례입니다');
 
         window.setTimeout(function() {
           attackCharacter();
           // if (user.hp > 0) {
-          //   window.setTimeout(function() {
-          //     // toggleMenu();
-          //     // showMessage('당신의 턴입니다.');
-          //   }, 1000);
+          window.setTimeout(function() {
+            // toggleMenu();
+            showMessage('당신의 턴입니다.');
+          }, 1000);
           // }
         }, 1000);
       }, 1000);
@@ -68,7 +67,13 @@ class Menu extends React.Component {
 
   render() {
     const state = store.getState();
-    const { generateMonster, clearMonster, attackMonster } = this.props;
+    const {
+      generateMonster,
+      clearMonster,
+      attackMonster,
+      heal,
+      showMessage
+    } = this.props;
 
     return (
       <div>
@@ -78,6 +83,7 @@ class Menu extends React.Component {
             onClick={() => {
               state.toggleMenu('monster');
               generateMonster();
+              showMessage('몬스터가 출현했습니다');
             }}
           >
             모험한다
@@ -85,7 +91,8 @@ class Menu extends React.Component {
           <button
             type="button"
             onClick={() => {
-              // this.nextTurn();
+              heal();
+              this.nextTurn();
             }}
           >
             휴식한다
@@ -108,6 +115,7 @@ class Menu extends React.Component {
           <button
             type="button"
             onClick={() => {
+              heal();
               this.nextTurn();
             }}
           >
@@ -117,6 +125,7 @@ class Menu extends React.Component {
             type="button"
             onClick={() => {
               state.toggleMenu();
+              showMessage('도망쳤습니다');
               clearMonster();
             }}
           >
@@ -138,7 +147,8 @@ Menu.propTypes = {
   attackCharacter: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
   clearMonster: PropTypes.func.isRequired,
-  attackMonster: PropTypes.func.isRequired
+  attackMonster: PropTypes.func.isRequired,
+  heal: PropTypes.func.isRequired
 };
 
 export default Menu;

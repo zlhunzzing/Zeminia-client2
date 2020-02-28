@@ -33,7 +33,7 @@ class App extends React.Component {
     this.clearMonster = this.clearMonster.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
-    this.showMessage = this.showMessage.bind(this);
+    this.heal = this.heal.bind(this);
   }
 
   login() {
@@ -120,41 +120,52 @@ class App extends React.Component {
   }
 
   async attackMonster() {
-    await this.setState(
-      prevState => ({
-        monster: {
-          name: prevState.monster.name,
-          level: prevState.monster.level,
-          hp: prevState.monster.hp - 4,
-          att: prevState.monster.att,
-          exp: prevState.monster.exp
-        }
-      }),
-      () => console.log(this.state)
-    );
+    await this.setState(prevState => ({
+      monster: {
+        name: prevState.monster.name,
+        level: prevState.monster.level,
+        hp: prevState.monster.hp - prevState.character.att,
+        att: prevState.monster.att,
+        exp: prevState.monster.exp
+      }
+    }));
+  }
+
+  async heal() {
+    await this.setState(prevState => ({
+      character: {
+        name: prevState.character.name,
+        level: prevState.character.level,
+        maxHp: prevState.character.maxHp,
+        hp: prevState.character.maxHp,
+        att: prevState.character.att,
+        exp: prevState.character.exp
+      }
+    }));
+    this.showMessage('체력을 회복했습니다');
   }
 
   showMessage(msg) {
     const newMessage = document.createElement('div');
     newMessage.innerHTML = msg;
 
-    document.querySelector('.Messages').appendChild(newMessage);
-    // Messages.appendChild(newMessage);
+    const Messages = document.querySelector('.Messages');
+    Messages.appendChild(newMessage);
 
     // newMessage.className = 'showMessage';
 
-    // window.setTimeout(function() {
-    //   newMessage.className = 'hideMessage';
+    window.setTimeout(function() {
+      newMessage.className = 'hideMessage';
 
-    //   window.setTimeout(function() {
-    //     Messages.childNodes[Messages.childNodes.length - 1].remove();
-    //   }, 2500);
-    // }, 10000);
+      window.setTimeout(function() {
+        Messages.childNodes[Messages.childNodes.length - 1].remove();
+      }, 2500);
+    }, 10000);
 
-    // if (Messages.childNodes.length > 10) {
-    //   Messages.childNodes[10] = 'hideMessage';
-    //   Messages.childNodes[10].style.display = 'none';
-    // }
+    if (Messages.childNodes.length > 10) {
+      Messages.childNodes[10] = 'hideMessage';
+      Messages.childNodes[10].style.display = 'none';
+    }
 
     return this;
   }
@@ -192,6 +203,7 @@ class App extends React.Component {
                   generateMonster={this.generateMonster}
                   clearMonster={this.clearMonster}
                   attackMonster={this.attackMonster}
+                  heal={this.heal}
                   showMessage={this.showMessage}
                 />
               ) : (
