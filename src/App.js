@@ -150,7 +150,7 @@ class App extends React.Component {
     newMessage.innerHTML = msg;
 
     const Messages = document.querySelector('.Messages');
-    Messages.appendChild(newMessage);
+    Messages.prepend(newMessage);
 
     // newMessage.className = 'showMessage';
 
