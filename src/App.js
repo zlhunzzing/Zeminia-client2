@@ -107,7 +107,7 @@ class App extends React.Component {
   }
 
   async attackCharacter() {
-    const { monster, character } = this.state;
+    const { monster } = this.state;
     this.showLog(`${monster.name}에게 ${monster.att}의 데미지를 입었습니다.`);
     if (monster.hp > 0) {
       await this.setState(
@@ -196,7 +196,6 @@ class App extends React.Component {
         }
       }),
       () => {
-        const { monster } = this.state;
         if (monster.hp <= 0) {
           this.setState(prevState => ({
             character: {
