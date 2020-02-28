@@ -34,6 +34,7 @@ class App extends React.Component {
     this.attackCharacter = this.attackCharacter.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
     this.heal = this.heal.bind(this);
+    this.showLog = this.showLog.bind(this);
   }
 
   login() {
@@ -61,7 +62,7 @@ class App extends React.Component {
           name,
           level: 1,
           maxHp: 100,
-          hp: 100,
+          hp: 1,
           att: 5,
           exp: 0
         }
@@ -107,19 +108,76 @@ class App extends React.Component {
   }
 
   async attackCharacter() {
-    const { monster, character } = this.state;
+    const { monster } = this.state;
     this.showLog(`${monster.name}에게 ${monster.att}의 데미지를 입었습니다.`);
     if (monster.hp > 0) {
-      await this.setState(prevState => ({
-        character: {
-          name: prevState.character.name,
-          level: prevState.character.level,
-          maxHp: prevState.character.maxHp,
-          hp: prevState.character.hp - prevState.monster.att,
-          att: prevState.character.att,
-          exp: prevState.character.exp
+      await this.setState(
+        prevState => ({
+          character: {
+            name: prevState.character.name,
+            level: prevState.character.level,
+            maxHp: prevState.character.maxHp,
+            hp: prevState.character.hp - prevState.monster.att,
+            att: prevState.character.att,
+            exp: prevState.character.exp
+          }
+        }),
+        () => {
+          const { character } = this.state;
+          if (character.hp <= 0) {
+            this.setState(prevState => ({
+              character: {
+                name: prevState.character.name,
+                level: prevState.character.level,
+                maxHp: prevState.character.maxHp,
+                hp: prevState.character.hp,
+                att: prevState.character.att,
+                exp: prevState.character.exp - prevState.monster.exp
+              }
+            }));
+            // fetch("http://localhost:5001/logout", {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         credentials: 'include',
+            //         body: JSON.stringify(character)
+            //     }
+            // })
+            if (window.confirm('계속하기')) {
+              // fetch("http://localhost:5001/user", {
+              //     method: 'GET',
+              //     headers: {
+              //         'Content-Type': 'application/json',
+              //         credentials: 'include',
+              //         body: JSON.stringify(character)
+              //     }
+              // })
+              // .then(user=>{
+              //   return user.json();
+              // })
+              // .then((data)=>{
+              //   this.setState({
+              //     character:
+              //   })
+              // })
+              this.setState(prevState => ({
+                character: {
+                  name: prevState.character.name,
+                  level: prevState.character.level,
+                  maxHp: prevState.character.maxHp,
+                  hp: prevState.character.maxHp,
+                  att: prevState.character.att,
+                  exp: prevState.character.exp
+                }
+              }));
+              return null;
+            }
+            this.clearMonster();
+            this.logout();
+          }
+          return null;
         }
-      }));
+      );
     } else if (monster.hp <= 0) {
       this.clearMonster();
     }
@@ -140,7 +198,6 @@ class App extends React.Component {
         }
       }),
       () => {
-        const { monster } = this.state;
         if (monster.hp <= 0) {
           this.setState(prevState => ({
             character: {
@@ -174,28 +231,32 @@ class App extends React.Component {
   }
 
   showLog(msg) {
-    const newLog = document.createElement('div');
-    newLog.innerHTML = msg;
+    const { isLogin } = this.state;
+    if (isLogin) {
+      const newLog = document.createElement('div');
+      newLog.innerHTML = msg;
 
-    const log = document.querySelector('.Log');
-    log.prepend(newLog);
+      const log = document.querySelector('.Log');
+      log.prepend(newLog);
 
-    // effect
-    newLog.className = 'fadeIn';
-
-    window.setTimeout(function() {
-      newLog.className = 'fadeOut';
+      // effect
+      newLog.className = 'fadeIn';
 
       window.setTimeout(function() {
-        log.childNodes[log.childNodes.length - 1].remove();
-      }, 2000);
-    }, 10000);
+        newLog.className = 'fadeOut';
 
-    if (log.childNodes.length > 10) {
-      log.childNodes[10].className = 'fadeOut';
-      log.childNodes[10].style.display = 'none';
+        window.setTimeout(function() {
+          log.childNodes[log.childNodes.length - 1].remove();
+        }, 2000);
+      }, 10000);
+
+      if (log.childNodes.length > 10) {
+        log.childNodes[10].className = 'fadeOut';
+        log.childNodes[10].style.display = 'none';
+      }
+      return this;
     }
-    return this;
+    return null;
   }
 
   render() {
