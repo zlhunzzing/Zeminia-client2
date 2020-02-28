@@ -62,7 +62,7 @@ class App extends React.Component {
           name,
           level: 1,
           maxHp: 100,
-          hp: 1,
+          hp: 100,
           att: 5,
           exp: 0
         }
@@ -187,7 +187,7 @@ class App extends React.Component {
     const state = store.getState();
     const { character, monster } = this.state;
     this.showLog(`${monster.name}에게 ${character.att}의 데미지를 입혔습니다.`);
-    this.setState(
+    await this.setState(
       prevState => ({
         monster: {
           name: prevState.monster.name,
@@ -198,7 +198,7 @@ class App extends React.Component {
         }
       }),
       () => {
-        if (monster.hp <= 0) {
+        if (monster.hp - character.att <= 0) {
           this.setState(prevState => ({
             character: {
               name: prevState.character.name,
@@ -231,8 +231,8 @@ class App extends React.Component {
   }
 
   showLog(msg) {
-    const { isLogin } = this.state;
-    if (isLogin) {
+    const { isLogin, monster } = this.state;
+    if (isLogin && monster) {
       const newLog = document.createElement('div');
       newLog.innerHTML = msg;
 
