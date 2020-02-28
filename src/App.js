@@ -61,7 +61,7 @@ class App extends React.Component {
           name,
           level: 1,
           maxHp: 100,
-          hp: 100,
+          hp: 1,
           att: 5,
           exp: 0
         }
@@ -109,16 +109,72 @@ class App extends React.Component {
   async attackCharacter() {
     const { monster } = this.state;
     if (monster.hp > 0) {
-      await this.setState(prevState => ({
-        character: {
-          name: prevState.character.name,
-          level: prevState.character.level,
-          maxHp: prevState.character.maxHp,
-          hp: prevState.character.hp - prevState.monster.att,
-          att: prevState.character.att,
-          exp: prevState.character.exp
+      await this.setState(
+        prevState => ({
+          character: {
+            name: prevState.character.name,
+            level: prevState.character.level,
+            maxHp: prevState.character.maxHp,
+            hp: prevState.character.hp - prevState.monster.att,
+            att: prevState.character.att,
+            exp: prevState.character.exp
+          }
+        }),
+        () => {
+          const { character } = this.state;
+          if (character.hp <= 0) {
+            this.setState(prevState => ({
+              character: {
+                name: prevState.character.name,
+                level: prevState.character.level,
+                maxHp: prevState.character.maxHp,
+                hp: prevState.character.hp,
+                att: prevState.character.att,
+                exp: prevState.character.exp - prevState.monster.exp
+              }
+            }));
+            // fetch("http://localhost:5001/logout", {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         credentials: 'include',
+            //         body: JSON.stringify(character)
+            //     }
+            // })
+            if (window.confirm('계속하기')) {
+              // fetch("http://localhost:5001/user", {
+              //     method: 'GET',
+              //     headers: {
+              //         'Content-Type': 'application/json',
+              //         credentials: 'include',
+              //         body: JSON.stringify(character)
+              //     }
+              // })
+              // .then(user=>{
+              //   return user.json();
+              // })
+              // .then((data)=>{
+              //   this.setState({
+              //     character:
+              //   })
+              // })
+              this.setState(prevState => ({
+                character: {
+                  name: prevState.character.name,
+                  level: prevState.character.level,
+                  maxHp: prevState.character.maxHp,
+                  hp: prevState.character.maxHp,
+                  att: prevState.character.att,
+                  exp: prevState.character.exp
+                }
+              }));
+              return null;
+            }
+            this.logout();
+          }
+          return null;
         }
-      }));
+      );
     } else if (monster.hp <= 0) {
       this.clearMonster();
     }
