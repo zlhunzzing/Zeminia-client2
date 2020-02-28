@@ -107,28 +107,53 @@ class App extends React.Component {
   }
 
   async attackCharacter() {
-    await this.setState(prevState => ({
-      character: {
-        name: prevState.character.name,
-        level: prevState.character.level,
-        maxHp: prevState.character.maxHp,
-        hp: prevState.character.hp - prevState.monster.att,
-        att: prevState.character.att,
-        exp: prevState.character.exp
-      }
-    }));
+    const { monster } = this.state;
+    if (monster.hp > 0) {
+      await this.setState(prevState => ({
+        character: {
+          name: prevState.character.name,
+          level: prevState.character.level,
+          maxHp: prevState.character.maxHp,
+          hp: prevState.character.hp - prevState.monster.att,
+          att: prevState.character.att,
+          exp: prevState.character.exp
+        }
+      }));
+    } else if (monster.hp <= 0) {
+      this.clearMonster();
+    }
   }
 
   async attackMonster() {
-    await this.setState(prevState => ({
-      monster: {
-        name: prevState.monster.name,
-        level: prevState.monster.level,
-        hp: prevState.monster.hp - prevState.character.att,
-        att: prevState.monster.att,
-        exp: prevState.monster.exp
+    const state = store.getState();
+    this.setState(
+      prevState => ({
+        monster: {
+          name: prevState.monster.name,
+          level: prevState.monster.level,
+          hp: prevState.monster.hp - prevState.character.att,
+          att: prevState.monster.att,
+          exp: prevState.monster.exp
+        }
+      }),
+      () => {
+        const { monster } = this.state;
+        if (monster.hp <= 0) {
+          this.setState(prevState => ({
+            character: {
+              name: prevState.character.name,
+              level: prevState.character.level,
+              maxHp: prevState.character.maxHp,
+              hp: prevState.character.hp,
+              att: prevState.character.att,
+              exp: prevState.character.exp + prevState.monster.exp
+            }
+          }));
+          this.clearMonster();
+          state.toggleMenu();
+        }
       }
-    }));
+    );
   }
 
   async heal() {
