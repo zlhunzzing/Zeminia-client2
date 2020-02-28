@@ -21,34 +21,37 @@ class Menu extends React.Component {
   // }
 
   async nextTurn() {
-    const { attackCharacter, showLog } = this.props;
-    // const { monster } = this.state;
+    const { attackCharacter, showLog, monster } = this.props;
     let { turn } = this.state;
     // const turn = !turn;
     turn = !turn;
     if (!turn) {
       // toggleMenu();
-
-      window.setTimeout(() => {
-        showLog('몬스터의 차례입니다');
-
+      if (monster) {
         window.setTimeout(() => {
-          attackCharacter();
-          // if (user.hp > 0) {
+          showLog('몬스터의 차례입니다');
+
           window.setTimeout(() => {
-            // toggleMenu();
-            showLog('당신의 턴입니다.');
+            attackCharacter();
+            // if (user.hp > 0) {
+            window.setTimeout(() => {
+              // toggleMenu();
+              showLog('당신의 턴입니다.');
+              this.setState({
+                use: false
+              });
+            }, 1000);
+            // }
+            // this.setState({
+            //   use: false
+            // });
           }, 1000);
-          // }
-          this.setState({
-            use: false
-          });
         }, 1000);
-      }, 1000);
-      await this.setState({
-        turn: !turn,
-        use: true
-      });
+        await this.setState({
+          turn: !turn,
+          use: true
+        });
+      }
     }
   }
 
@@ -100,7 +103,7 @@ class Menu extends React.Component {
             type="button"
             onClick={() => {
               heal();
-              // this.nextTurn();
+              this.nextTurn();
             }}
           >
             휴식한다
@@ -115,8 +118,9 @@ class Menu extends React.Component {
             type="button"
             disabled={use}
             onClick={() => {
-              this.nextTurn();
-              attackMonster();
+              attackMonster().then(() => {
+                this.nextTurn();
+              });
             }}
           >
             공격한다
@@ -142,11 +146,6 @@ class Menu extends React.Component {
           >
             도망친다
           </button>
-          <div className="">
-            <div>공격한다</div>
-            <div>회복한다</div>
-            <div>도망한다</div>
-          </div>
         </div>
       </div>
     );

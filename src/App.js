@@ -62,7 +62,7 @@ class App extends React.Component {
           level: 1,
           maxHp: 100,
           hp: 100,
-          att: 5,
+          att: 50,
           exp: 0
         }
       });
@@ -107,7 +107,7 @@ class App extends React.Component {
   }
 
   async attackCharacter() {
-    const { monster, character } = this.state;
+    const { monster } = this.state;
     this.showLog(`${monster.name}에게 ${monster.att}의 데미지를 입었습니다.`);
     if (monster.hp > 0) {
       await this.setState(prevState => ({
@@ -140,7 +140,6 @@ class App extends React.Component {
         }
       }),
       () => {
-        const { monster } = this.state;
         if (monster.hp <= 0) {
           this.setState(prevState => ({
             character: {
@@ -158,6 +157,35 @@ class App extends React.Component {
       }
     );
   }
+  // async attackMonster() {
+  //   const state = store.getState();
+  //   const { character, monster } = this.state;
+  //   this.showLog(`${monster.name}에게 ${character.att}의 데미지를 입혔습니다.`);
+  //   await this.setState(prevState => ({
+  //     monster: {
+  //       name: prevState.monster.name,
+  //       level: prevState.monster.level,
+  //       hp: prevState.monster.hp - prevState.character.att,
+  //       att: prevState.monster.att,
+  //       exp: prevState.monster.exp
+  //     }
+  //   }));
+  //   if (monster.hp <= 0) {
+  //     // this.clearMonster();
+  //     await this.setState(prevState => ({
+  //       character: {
+  //         name: prevState.character.name,
+  //         level: prevState.character.level,
+  //         maxHp: prevState.character.maxHp,
+  //         hp: prevState.character.hp,
+  //         att: prevState.character.att,
+  //         exp: prevState.character.exp + prevState.monster.exp
+  //       }
+  //     }));
+  //     this.clearMonster();
+  //     state.toggleMenu();
+  //   }
+  // }
 
   async heal() {
     await this.setState(prevState => ({
@@ -183,10 +211,10 @@ class App extends React.Component {
     // effect
     newLog.className = 'fadeIn';
 
-    window.setTimeout(function() {
+    window.setTimeout(() => {
       newLog.className = 'fadeOut';
 
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         log.childNodes[log.childNodes.length - 1].remove();
       }, 2000);
     }, 10000);
@@ -197,6 +225,10 @@ class App extends React.Component {
     }
     return this;
   }
+
+  // win() {
+  //   this.clearMonster()
+  // }
 
   render() {
     // let state = store.getState()

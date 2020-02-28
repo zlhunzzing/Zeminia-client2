@@ -36,6 +36,7 @@ class Battle extends React.Component {
           attackMonster={attackMonster}
           heal={heal}
           showLog={showLog}
+          monster={monster}
         />
         <MonsterStat monster={monster} />
         <CharacterStat user={user} />
