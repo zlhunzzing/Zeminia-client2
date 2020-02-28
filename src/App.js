@@ -63,7 +63,7 @@ class App extends React.Component {
           level: 1,
           maxHp: 100,
           hp: 100,
-          att: 5,
+          att: 50,
           exp: 0
         }
       });
@@ -132,7 +132,7 @@ class App extends React.Component {
                 maxHp: prevState.character.maxHp,
                 hp: prevState.character.hp,
                 att: prevState.character.att,
-                exp: prevState.character.exp - prevState.monster.exp
+                exp: prevState.character.exp
               }
             }));
             // fetch("http://localhost:5001/logout", {
@@ -197,9 +197,9 @@ class App extends React.Component {
           exp: prevState.monster.exp
         }
       }),
-      () => {
+      async () => {
         if (monster.hp - character.att <= 0) {
-          this.setState(prevState => ({
+          await this.setState(prevState => ({
             character: {
               name: prevState.character.name,
               level: prevState.character.level,
@@ -211,6 +211,16 @@ class App extends React.Component {
           }));
           this.clearMonster();
           state.toggleMenu();
+          this.showExp();
+          // 세이브요청
+          fetch('http://localhost:5001/저장', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              credentials: 'include',
+              body: JSON.stringify(character)
+            }
+          });
         }
       }
     );
@@ -251,13 +261,40 @@ class App extends React.Component {
       }, 10000);
 
       if (log.childNodes.length > 10) {
-        log.childNodes[10].className = 'fadeOut';
+        log.childNodes[9].className = 'fadeOut';
         log.childNodes[10].style.display = 'none';
       }
       return this;
     }
     return null;
   }
+
+  async showExp() {
+    const { character } = this.state;
+    console.log(character.exp);
+    // 레벨업을 한다면
+    if (character.exp >= character.level * 3) {
+      await this.setState(prevState => ({
+        character: {
+          name: prevState.character.name,
+          level: prevState.character.level + 1,
+          maxHp: prevState.character.maxHp + 5,
+          hp: prevState.character.maxHp + 5,
+          att: prevState.character.att + 1,
+          exp: prevState.character.exp - prevState.character.level * 3
+        }
+      }));
+      this.showLog('레벨업!');
+
+      if (character.exp >= character.level * 3) {
+        this.showExp();
+      }
+    }
+  }
+
+  // win() {
+  //   this.clearMonster()
+  // }
 
   render() {
     // let state = store.getState()

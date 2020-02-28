@@ -48,6 +48,17 @@ class Ranking extends React.Component {
     };
   }
 
+  componentDidMount() {
+    fetch('http://13.209.6.41:5001/characters/rank', {})
+      .then(user => {
+        return user.json();
+      })
+      .then(info => {
+        // this.props.login(info);
+        console.log(info);
+      });
+  }
+
   render() {
     const { data } = this.state;
     return (
