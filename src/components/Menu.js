@@ -14,8 +14,13 @@ class Menu extends React.Component {
     };
   }
 
+  // componentDidMount() {
+  //   const { showMessage } = this.props;
+  //   showMessage('서버에 접속하였습니다.');
+  // }
+
   async nextTurn() {
-    const { attackCharacter } = this.props;
+    const { attackCharacter, showMessage } = this.props;
     // const { monster } = this.state;
     let { turn } = this.state;
     // const turn = !turn;
@@ -24,16 +29,15 @@ class Menu extends React.Component {
       // toggleMenu();
 
       window.setTimeout(function() {
-        console.log('몬스터의 차례입니다.');
-        // showMessage(`${monster.name}의 턴입니다.`);
+        showMessage('몬스터의 차례입니다');
 
         window.setTimeout(function() {
           attackCharacter();
           // if (user.hp > 0) {
-          //   window.setTimeout(function() {
-          //     // toggleMenu();
-          //     // showMessage('당신의 턴입니다.');
-          //   }, 1000);
+          window.setTimeout(function() {
+            // toggleMenu();
+            showMessage('당신의 턴입니다.');
+          }, 1000);
           // }
         }, 1000);
       }, 1000);
@@ -63,7 +67,13 @@ class Menu extends React.Component {
 
   render() {
     const state = store.getState();
-    const { generateMonster, clearMonster, attackMonster, heal } = this.props;
+    const {
+      generateMonster,
+      clearMonster,
+      attackMonster,
+      heal,
+      showMessage
+    } = this.props;
 
     return (
       <div>
@@ -73,6 +83,7 @@ class Menu extends React.Component {
             onClick={() => {
               state.toggleMenu('monster');
               generateMonster();
+              showMessage('몬스터가 출현했습니다');
             }}
           >
             모험한다
@@ -115,10 +126,16 @@ class Menu extends React.Component {
             onClick={() => {
               clearMonster();
               state.toggleMenu();
+              showMessage('도망쳤습니다');
             }}
           >
             도망친다
           </button>
+          <div className="">
+            <div>공격한다</div>
+            <div>회복한다</div>
+            <div>도망한다</div>
+          </div>
         </div>
       </div>
     );

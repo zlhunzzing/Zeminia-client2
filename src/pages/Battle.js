@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import CharacterStat from '../components/CharacterStat';
 import Menu from '../components/Menu';
 import MonsterStat from '../components/MonsterStat';
+import Messages from '../components/Messages';
 
 class Battle extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class Battle extends React.Component {
       generateMonster,
       clearMonster,
       attackMonster,
-      heal
+      heal,
+      showMessage
     } = this.props;
     return (
       <div>
@@ -33,9 +35,11 @@ class Battle extends React.Component {
           clearMonster={clearMonster}
           attackMonster={attackMonster}
           heal={heal}
+          showMessage={showMessage}
         />
         <MonsterStat monster={monster} />
         <CharacterStat user={user} />
+        <Messages />
       </div>
     );
   }
