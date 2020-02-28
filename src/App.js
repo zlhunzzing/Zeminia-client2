@@ -167,6 +167,32 @@ class App extends React.Component {
         exp: prevState.character.exp
       }
     }));
+    this.showMessage('체력을 회복했습니다');
+  }
+
+  showMessage(msg) {
+    const newMessage = document.createElement('div');
+    newMessage.innerHTML = msg;
+
+    const Messages = document.querySelector('.Messages');
+    Messages.prepend(newMessage);
+
+    // newMessage.className = 'showMessage';
+
+    window.setTimeout(function() {
+      newMessage.className = 'hideMessage';
+
+      window.setTimeout(function() {
+        Messages.childNodes[Messages.childNodes.length - 1].remove();
+      }, 2500);
+    }, 10000);
+
+    if (Messages.childNodes.length > 10) {
+      Messages.childNodes[10] = 'hideMessage';
+      Messages.childNodes[10].style.display = 'none';
+    }
+
+    return this;
   }
 
   render() {
@@ -203,6 +229,7 @@ class App extends React.Component {
                   clearMonster={this.clearMonster}
                   attackMonster={this.attackMonster}
                   heal={this.heal}
+                  showMessage={this.showMessage}
                 />
               ) : (
                 <Redirect to="/login" />
