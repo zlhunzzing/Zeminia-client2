@@ -9,17 +9,17 @@ class CharacterStat extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { character } = this.props;
     return (
       <div>
         <p>Character Status</p>
-        {user ? (
+        {character ? (
           <div>
-            <p>{user.name}</p>
-            <p>레 벨 : {user.level}</p>
-            <p>체 력 : {user.hp}</p>
-            <p>공격력 : {user.att}</p>
-            <p>경험치 : {user.exp}</p>
+            <p>{character.name}</p>
+            <p>레 벨 : {character.level}</p>
+            <p>체 력 : {character.hp}</p>
+            <p>공격력 : {character.att}</p>
+            <p>경험치 : {character.exp}</p>
           </div>
         ) : null}
       </div>
@@ -27,8 +27,8 @@ class CharacterStat extends React.Component {
   }
 }
 
-CharacterStat.propTypes = {
-  // user: PropTypes.objectOf(PropTypes.object).isRequired
-};
+// CharacterStat.propTypes = {
+//   character: PropTypes.objectOf(PropTypes.object).isRequired
+// };
 
 export default CharacterStat;

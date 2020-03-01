@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
-import CharacterStat from '../components/CharacterStat';
+// import PropTypes from 'prop-types';
 import Menu from '../components/Menu';
+import CharacterStat from '../components/CharacterStat';
 import MonsterStat from '../components/MonsterStat';
 import Messages from '../components/Log';
 
@@ -13,45 +13,49 @@ class Battle extends React.Component {
   }
 
   render() {
-    // const { enemes } = this.state;
     const {
-      logout,
-      user,
+      character,
       monster,
-      attackCharacter,
+      use,
+      toggleMenu,
       generateMonster,
-      clearMonster,
-      attackMonster,
       heal,
+      quit,
+      attackMonster,
+      nextTurn,
+      attackCharacter,
+      clearMonster,
       showLog
     } = this.props;
     return (
       <div>
         <Menu
-          logout={logout}
-          user={user}
-          attackCharacter={attackCharacter}
-          generateMonster={generateMonster}
-          clearMonster={clearMonster}
-          attackMonster={attackMonster}
-          heal={heal}
-          showLog={showLog}
+          character={character}
           monster={monster}
+          use={use}
+          toggleMenu={toggleMenu}
+          generateMonster={generateMonster}
+          heal={heal}
+          quit={quit}
+          attackMonster={attackMonster}
+          nextTurn={nextTurn}
+          attackCharacter={attackCharacter}
+          clearMonster={clearMonster}
+          showLog={showLog}
         />
         <MonsterStat monster={monster} />
-        <CharacterStat user={user} />
+        <CharacterStat character={character} />
         <Messages />
       </div>
     );
   }
 }
 
-Battle.propTypes = {
-  logout: PropTypes.func.isRequired,
-  // user: PropTypes.objectOf(PropTypes.object).isRequired,
-  attackCharacter: PropTypes.func.isRequired,
-  attackMonster: PropTypes.func.isRequired,
-  heal: PropTypes.func.isRequired
-};
+// Battle.propTypes = {
+// quit: PropTypes.func.isRequired
+// attackCharacter: PropTypes.func.isRequired
+// attackMonster: PropTypes.func.isRequired
+// heal: PropTypes.func.isRequired
+// };
 
 export default Battle;
