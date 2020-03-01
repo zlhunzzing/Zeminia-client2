@@ -1,90 +1,26 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import store from '../store';
 
 import './Menu.css';
 
 class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      turn: true,
-      use: false
-      // monster: false
-    };
+    this.state = {};
   }
-
-  // componentDidMount() {
-  //   const { showLog } = this.props;
-  //   showLog('서버에 접속하였습니다.');
-  // }
-
-  async nextTurn() {
-    const { attackCharacter, showLog, monster } = this.props;
-    let { turn } = this.state;
-    // const turn = !turn;
-    turn = !turn;
-    if (!turn) {
-      // toggleMenu();
-      if (monster) {
-        window.setTimeout(() => {
-          showLog('몬스터의 차례입니다');
-
-          window.setTimeout(() => {
-            attackCharacter();
-            // if (user.hp > 0) {
-            window.setTimeout(() => {
-              // toggleMenu();
-              showLog('당신의 턴입니다.');
-              this.setState({
-                use: false
-              });
-            }, 1000);
-            // }
-            // this.setState({
-            //   use: false
-            // });
-          }, 1000);
-        }, 1000);
-        await this.setState({
-          turn: !turn,
-          use: true
-        });
-      }
-    }
-  }
-
-  quit() {
-    const { logout } = this.props;
-    if (window.confirm('그만하게습니까?')) {
-      // fetch("http://localhost:5001/logout", {
-      //     method: 'POST',
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //         credentials: 'include',
-      //         body: JSON.stringify(this.props.user)
-      //     }
-      // })
-      logout();
-    } else {
-      return null;
-    }
-    return null;
-  }
-
-  // disable() {}
 
   render() {
-    const state = store.getState();
     const {
+      use,
+      toggleMenu,
       generateMonster,
+      heal,
+      quit,
       clearMonster,
       attackMonster,
-      heal,
+      nextTurn,
       showLog
     } = this.props;
-    const { use } = this.state;
 
     return (
       <div>
@@ -92,7 +28,7 @@ class Menu extends React.Component {
           <button
             type="button"
             onClick={() => {
-              state.toggleMenu('monster');
+              toggleMenu('monster');
               generateMonster();
               showLog('몬스터가 출현했습니다');
             }}
@@ -103,12 +39,12 @@ class Menu extends React.Component {
             type="button"
             onClick={() => {
               heal();
-              this.nextTurn();
+              nextTurn();
             }}
           >
             휴식한다
           </button>
-          <button type="button" onClick={() => this.quit()}>
+          <button type="button" onClick={() => quit()}>
             그만한다
           </button>
         </div>
@@ -119,7 +55,7 @@ class Menu extends React.Component {
             disabled={use}
             onClick={() => {
               attackMonster().then(() => {
-                this.nextTurn();
+                nextTurn();
               });
             }}
           >
@@ -130,7 +66,7 @@ class Menu extends React.Component {
             disabled={use}
             onClick={() => {
               heal();
-              this.nextTurn();
+              nextTurn();
             }}
           >
             회복한다
@@ -140,7 +76,7 @@ class Menu extends React.Component {
             disabled={use}
             onClick={() => {
               clearMonster();
-              state.toggleMenu();
+              toggleMenu();
               showLog('도망쳤습니다');
             }}
           >
@@ -153,12 +89,14 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-  logout: PropTypes.func.isRequired,
-  attackCharacter: PropTypes.func.isRequired,
+  use: PropTypes.bool.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
-  clearMonster: PropTypes.func.isRequired,
-  attackMonster: PropTypes.func.isRequired,
   heal: PropTypes.func.isRequired,
+  quit: PropTypes.func.isRequired,
+  attackMonster: PropTypes.func.isRequired,
+  nextTurn: PropTypes.func.isRequired,
+  clearMonster: PropTypes.func.isRequired,
   showLog: PropTypes.func.isRequired
 };
 
