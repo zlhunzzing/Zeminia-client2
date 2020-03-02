@@ -4,7 +4,7 @@ import React from 'react';
 import Menu from '../components/Menu';
 import CharacterStat from '../components/CharacterStat';
 import MonsterStat from '../components/MonsterStat';
-import Messages from '../components/Log';
+import Log from '../components/Log';
 
 class Battle extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class Battle extends React.Component {
         />
         <MonsterStat monster={monster} />
         <CharacterStat character={character} />
-        <Messages />
+        <Log />
       </div>
     );
   }

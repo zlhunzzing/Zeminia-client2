@@ -39,10 +39,10 @@ class Signup extends React.Component {
               body: JSON.stringify(this.state)
             }).then(data => {
               if (data.statusText === 'Conflict') {
-                console.log('이미 사용중인 이메일입니다.');
+                window.confirm('이미 사용중인 이메일입니다.');
               }
               if (data.statusText === 'OK') {
-                console.log('회원가입에 성공했습니다.');
+                window.confirm('회원가입에 성공했습니다.');
                 signup();
               }
             });
@@ -75,7 +75,7 @@ class Signup extends React.Component {
               />
             </label>
 
-            <button type="submit">로그인</button>
+            <button type="submit">회원가입</button>
           </div>
         </form>
         <Link to="/login">로그인 하기?</Link>

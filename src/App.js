@@ -50,6 +50,7 @@ class App extends React.Component {
     };
     // 선택지 순서대로 정렬
     this.login = this.login.bind(this);
+    this.isCharacter = this.isCharacter.bind(this);
     this.signup = this.signup.bind(this);
     this.create = this.create.bind(this);
     this.checkLoginRoute = this.checkLoginRoute.bind(this);
@@ -63,16 +64,30 @@ class App extends React.Component {
   }
 
   login() {
-    this.setState({
-      isLogin: true
-    });
-    fetch('http://13.209.6.41:5001/characters/info')
+    fetch('http://13.209.6.41:5001/characters/info', {
+      credentials: 'include'
+    })
       .then(user => {
         return user.json();
       })
       .then(data => {
-        console.log(data);
+        if (data.noneCharacter) {
+          this.setState({
+            isLogin: true
+          });
+        } else {
+          this.setState({
+            isLogin: true,
+            character: data
+          });
+        }
       });
+  }
+
+  isCharacter(info) {
+    this.setState({
+      character: info
+    });
   }
 
   signup() {
@@ -106,7 +121,12 @@ class App extends React.Component {
       return <Redirect to="/battle" />;
     }
     if (isLogin && !character) {
-      return <Character createCharacter={this.create} />;
+      return (
+        <Character
+          createCharacter={this.create}
+          isCharacter={this.isCharacter}
+        />
+      );
     }
     return <Login login={this.login} isLogin={isLogin} />;
   }
@@ -187,32 +207,20 @@ class App extends React.Component {
           exp: prevState.monster.exp
         }
       }),
-      // 경험치를 받고 레벨업을 위해 async
-      async () => {
+      () => {
         if (monster.hp - character.att <= 0) {
-          await this.setState(prevState => ({
-            character: {
-              name: prevState.character.name,
-              level: prevState.character.level,
-              maxHp: prevState.character.maxHp,
-              hp: prevState.character.hp,
-              att: prevState.character.att,
-              exp: prevState.character.exp + prevState.monster.exp
-            }
-          }));
-          this.levelUp();
-          this.win();
+          window.setTimeout(this.win.bind(this), 500);
         }
       }
     );
   }
 
-  nextTurn() {
+  async nextTurn() {
     const { monster } = this.state;
     let { turn } = this.state;
     turn = !turn;
     if (!turn) {
-      if (monster) {
+      if (monster.hp > 0) {
         window.setTimeout(() => {
           this.showLog('몬스터의 차례입니다');
 
@@ -227,14 +235,11 @@ class App extends React.Component {
                 });
               }, 1000);
             }
-            this.setState({
-              use: false
-            });
           }, 1000);
         }, 1000);
-        this.setState({
-          turn: !turn
-          // use: true
+        await this.setState({
+          turn: !turn,
+          use: true
         });
       }
     }
@@ -312,7 +317,20 @@ class App extends React.Component {
     return this;
   }
 
-  win() {
+  // 경험치를 온전히 받기 위해 async
+  async win() {
+    const { monster } = this.state;
+    await this.setState(prevState => ({
+      character: {
+        name: prevState.character.name,
+        level: prevState.character.level,
+        maxHp: prevState.character.maxHp,
+        hp: prevState.character.hp,
+        att: prevState.character.att,
+        exp: prevState.character.exp + monster.exp
+      }
+    }));
+    this.levelUp();
     this.showLog('전투에서 승리하였습니다.');
     this.clearMonster();
     this.toggleMenu();
