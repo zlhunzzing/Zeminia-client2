@@ -31,24 +31,21 @@ class Signup extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            const { password } = this.state;
-            if (password.match(/[\W\S]/)) {
-              fetch('http://13.209.6.41:5001/users/signup', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state)
-              }).then(data => {
-                if (data.statusText === 'Conflict') {
-                  console.log('이미 사용중인 이메일입니다.');
-                }
-                if (data.statusText === 'OK') {
-                  console.log('회원가입에 성공했습니다.');
-                  signup();
-                }
-              });
-            }
+            fetch('http://13.209.6.41:5001/users/signup', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(this.state)
+            }).then(data => {
+              if (data.statusText === 'Conflict') {
+                window.confirm('이미 사용중인 이메일입니다.');
+              }
+              if (data.statusText === 'OK') {
+                window.confirm('회원가입에 성공했습니다.');
+                signup();
+              }
+            });
           }}
         >
           <p>회원가입을 해주세요</p>
