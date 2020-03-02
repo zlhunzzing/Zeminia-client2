@@ -11,15 +11,21 @@ class MonsterStat extends React.Component {
   render() {
     const { monster } = this.props;
     return (
-      <div>
+      <div
+        style={{
+          position: 'absolute',
+          left: '5%',
+          bottom: '30%'
+        }}
+      >
         <p>Monster Status</p>
         {monster ? (
           <div>
-            <p>{monster.name}</p>
-            <p>레 벨 : {monster.level}</p>
-            <p>체 력 : {monster.hp}</p>
-            <p>공격력 : {monster.att}</p>
-            <p>경험치 : {monster.exp}</p>
+            <div>{monster.name}</div>
+            <div>레 벨 : {monster.level}</div>
+            <div>체 력 : {monster.hp}</div>
+            <div>공격력 : {monster.att}</div>
+            {/* <div>경험치 : {monster.exdiv}</div> */}
           </div>
         ) : null}
       </div>

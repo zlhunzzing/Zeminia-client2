@@ -53,7 +53,9 @@ class Signup extends React.Component {
                 }
               });
             } else {
-              alert('비밀번호가 필요합니다');
+              alert(
+                '비밀번호 양식대로 작성해주세요. 8자 이상에 영어와 숫자 특수문자가 들어가야합니다.'
+              );
             }
           }}
         >
