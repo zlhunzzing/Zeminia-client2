@@ -31,21 +31,24 @@ class Signup extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            fetch('http://13.209.6.41:5001/users/signup', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(this.state)
-            }).then(data => {
-              if (data.statusText === 'Conflict') {
-                console.log('이미 사용중인 이메일입니다.');
-              }
-              if (data.statusText === 'OK') {
-                console.log('회원가입에 성공했습니다.');
-                signup();
-              }
-            });
+            const { password } = this.state;
+            if (password.match(/[\W\S]/)) {
+              fetch('http://13.209.6.41:5001/users/signup', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state)
+              }).then(data => {
+                if (data.statusText === 'Conflict') {
+                  console.log('이미 사용중인 이메일입니다.');
+                }
+                if (data.statusText === 'OK') {
+                  console.log('회원가입에 성공했습니다.');
+                  signup();
+                }
+              });
+            }
           }}
         >
           <p>회원가입을 해주세요</p>
@@ -79,6 +82,7 @@ class Signup extends React.Component {
           </div>
         </form>
         <Link to="/login">로그인 하기?</Link>
+        <Link to="/secession">회원탈퇴</Link>
         <Link to="/ranking">랭킹보기</Link>
         <h4>Team Zemix </h4>
       </div>

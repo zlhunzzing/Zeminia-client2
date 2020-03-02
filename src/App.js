@@ -9,6 +9,7 @@ import Character from './pages/Character';
 import Signup from './pages/Signup';
 import Ranking from './pages/Ranking';
 import Battle from './pages/Battle';
+import Secession from './pages/Secession';
 
 // CSS
 import './App.css';
@@ -396,6 +397,7 @@ class App extends React.Component {
             }
           />
           <Route path="/login" render={() => <Login login={this.login} />} />
+          <Route path="/secession" render={() => <Secession />} />
           <Route exact path="/ranking" render={() => <Ranking />} />
           <Route
             exact
