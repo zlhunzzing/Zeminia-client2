@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-class Signup extends React.Component {
+class Secession extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -16,7 +15,6 @@ class Signup extends React.Component {
   }
 
   render() {
-    const { signup } = this.props;
     return (
       <div
         style={{
@@ -28,36 +26,27 @@ class Signup extends React.Component {
         }}
       >
         <h2>Zeminia</h2>
+
         <form
           onSubmit={e => {
             e.preventDefault();
-            const { password } = this.state;
-            if (
-              password.match(
-                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-              )
-            ) {
-              fetch('http://13.209.6.41:5001/users/signup', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state)
-              }).then(data => {
-                if (data.statusText === 'Conflict') {
-                  window.confirm('이미 사용중인 이메일입니다.');
-                }
-                if (data.statusText === 'OK') {
-                  window.confirm('회원가입에 성공했습니다.');
-                  signup();
-                }
+            fetch('http://13.209.6.41:5001/users/secession', {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify(this.state)
+            })
+              .then(data => {
+                return data.json();
+              })
+              .then(info => {
+                console.log(info);
               });
-            } else {
-              alert('비밀번호가 필요합니다');
-            }
           }}
         >
-          <p>회원가입을 해주세요</p>
+          <p>회원탈퇴</p>
           <div
             style={{
               display: 'flex',
@@ -84,20 +73,25 @@ class Signup extends React.Component {
               />
             </label>
 
-            <button type="submit">회원가입</button>
+            <button type="submit">탈퇴</button>
           </div>
         </form>
-        <Link to="/login">로그인 하기?</Link>
-        <Link to="/secession">회원탈퇴</Link>
-        <Link to="/ranking">랭킹보기</Link>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            height: '70px'
+          }}
+        >
+          <Link to="/login">로그인 하기?</Link>
+          <Link to="/signup">아이디가 없으신가요?</Link>
+          <Link to="/ranking">랭킹보기</Link>
+        </div>
         <h4>Team Zemix </h4>
       </div>
     );
   }
 }
 
-Signup.propTypes = {
-  signup: PropTypes.func.isRequired
-};
-
-export default Signup;
+export default Secession;

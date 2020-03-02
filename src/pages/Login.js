@@ -93,6 +93,7 @@ class Login extends React.Component {
           }}
         >
           <Link to="/signup">아이디가 없으신가요?</Link>
+          <Link to="/secession">회원탈퇴</Link>
           <Link to="/ranking">랭킹보기</Link>
         </div>
         <h4>Team Zemix </h4>

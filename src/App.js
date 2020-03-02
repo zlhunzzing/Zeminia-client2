@@ -9,6 +9,7 @@ import Character from './pages/Character';
 import Signup from './pages/Signup';
 import Ranking from './pages/Ranking';
 import Battle from './pages/Battle';
+import Secession from './pages/Secession';
 
 // CSS
 import './App.css';
@@ -63,7 +64,7 @@ class App extends React.Component {
         {
           name: '늑대인간[보스]',
           level: 10,
-          hp: 150,
+          hp: 1,
           att: 7,
           exp: 10
         }
@@ -107,6 +108,7 @@ class App extends React.Component {
 
   isCharacter(info) {
     this.setState({
+      isLogin: true,
       character: info
     });
   }
@@ -129,7 +131,7 @@ class App extends React.Component {
           level: 1,
           maxHp: 100,
           hp: 100,
-          att: 50,
+          att: 5,
           exp: 0
         }
       });
@@ -227,20 +229,49 @@ class App extends React.Component {
           att: prevState.monster.att,
           exp: prevState.monster.exp
         }
+      })
+      // 경험치를 받고 레벨업을 위해 async
+      // async () => {
+      //   if (monster.hp - character.att <= 0) {
+      //     await this.setState(prevState => ({
+      //       character: {
+      //         name: prevState.character.name,
+      //         level: prevState.character.level,
+      //         maxHp: prevState.character.maxHp,
+      //         hp: prevState.character.hp,
+      //         att: prevState.character.att,
+      //         exp: prevState.character.exp + prevState.monster.exp
+      //       }
+      //     }));
+      //     this.levelUp();
+      //     this.win();
+      //   }
+      // }
+    );
+    this.setState(
+      prevState => ({
+        monster: {
+          name: prevState.monster.name,
+          level: prevState.monster.level,
+          hp: 0,
+          att: prevState.monster.att,
+          exp: prevState.monster.exp
+        }
       }),
-      () => {
+      async () => {
         if (monster.hp - character.att <= 0) {
-          this.setState(prevState => ({
-            monster: {
-              name: prevState.monster.name,
-              level: prevState.monster.level,
-              hp: 0,
-              att: prevState.monster.att,
-              exp: prevState.monster.exp
+          await this.setState(prevState => ({
+            character: {
+              name: prevState.character.name,
+              level: prevState.character.level,
+              maxHp: prevState.character.maxHp,
+              hp: prevState.character.hp,
+              att: prevState.character.att,
+              exp: prevState.character.exp + prevState.monster.exp
             }
           }));
-          this.showLog('전투에서 승리하였습니다.');
-          window.setTimeout(this.win.bind(this), 500);
+          // this.levelUp();
+          this.win();
         }
       }
     );
@@ -251,7 +282,7 @@ class App extends React.Component {
     let { turn } = this.state;
     turn = !turn;
     if (!turn) {
-      if (monster.hp > 0) {
+      if (monster) {
         window.setTimeout(() => {
           this.showLog('몬스터의 차례입니다');
 
@@ -348,22 +379,9 @@ class App extends React.Component {
     return this;
   }
 
-  // 경험치를 온전히 받기 위해 async
-  async win() {
-    console.log('??');
-    const { monster } = this.state;
-    await this.setState(prevState => ({
-      character: {
-        name: prevState.character.name,
-        level: prevState.character.level,
-        maxHp: prevState.character.maxHp,
-        hp: prevState.character.hp,
-        att: prevState.character.att,
-        exp: prevState.character.exp + monster.exp,
-        rankScore: prevState.character.rankScore + monster.exp
-      }
-    }));
+  win() {
     this.levelUp();
+    this.showLog('전투에서 승리하였습니다.');
     this.clearMonster();
     this.toggleMenu();
     this.save();
@@ -463,6 +481,7 @@ class App extends React.Component {
             }
           />
           <Route path="/login" render={() => <Login login={this.login} />} />
+          <Route path="/secession" render={() => <Secession />} />
           <Route exact path="/ranking" render={() => <Ranking />} />
           <Route
             exact
