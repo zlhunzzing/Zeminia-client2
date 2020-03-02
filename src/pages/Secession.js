@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 class Secession extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,7 @@ class Secession extends React.Component {
   }
 
   render() {
+    const { logout } = this.props;
     return (
       <div
         style={{
@@ -31,13 +34,20 @@ class Secession extends React.Component {
           onSubmit={e => {
             e.preventDefault();
             fetch('http://13.209.6.41:5001/users/secession', {
-              method: 'POST',
+              method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json'
               },
+              credentials: 'include',
               body: JSON.stringify(this.state)
-            });
-            console.log(';go');
+            })
+              .then(res => {
+                return res.json();
+              })
+              .then(data => {
+                console.log(data);
+                logout();
+              });
           }}
         >
           <p>회원탈퇴</p>
@@ -87,5 +97,9 @@ class Secession extends React.Component {
     );
   }
 }
+
+Secession.propTypes = {
+  logout: PropTypes.func.isRequired
+};
 
 export default Secession;
