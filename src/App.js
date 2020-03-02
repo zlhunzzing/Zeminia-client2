@@ -61,6 +61,7 @@ class App extends React.Component {
     this.nextTurn = this.nextTurn.bind(this);
     this.attackCharacter = this.attackCharacter.bind(this);
     this.clearMonster = this.clearMonster.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   login() {
@@ -397,7 +398,16 @@ class App extends React.Component {
             }
           />
           <Route path="/login" render={() => <Login login={this.login} />} />
-          <Route path="/secession" render={() => <Secession />} />
+          <Route
+            path="/secession"
+            render={() =>
+              isLogin ? (
+                <Secession logout={this.logout} />
+              ) : (
+                <Redirect to="login" />
+              )
+            }
+          />
           <Route exact path="/ranking" render={() => <Ranking />} />
           <Route
             exact
