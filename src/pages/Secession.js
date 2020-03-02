@@ -32,22 +32,27 @@ class Secession extends React.Component {
 
         <form
           onSubmit={e => {
-            e.preventDefault();
-            fetch('http://13.209.6.41:5001/users/secession', {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              credentials: 'include',
-              body: JSON.stringify(this.state)
-            })
-              .then(res => {
-                return res.json();
+            if (window.confirm('계정을 정말로 지우시겠습니까?')) {
+              e.preventDefault();
+              fetch('http://13.209.6.41:5001/users/secession', {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(this.state)
               })
-              .then(data => {
-                console.log(data);
-                logout();
-              });
+                .then(res => {
+                  return res.json();
+                })
+                .then(data => {
+                  console.log(data);
+                  if (data.secessionCheck === 'success') {
+                    window.confirm('삭제가 완료되었습니다.');
+                  }
+                  logout();
+                });
+            }
           }}
         >
           <p>회원탈퇴</p>
