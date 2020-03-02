@@ -9,6 +9,7 @@ import Character from './pages/Character';
 import Signup from './pages/Signup';
 import Ranking from './pages/Ranking';
 import Battle from './pages/Battle';
+import Chatting from './pages/Chatting';
 
 // CSS
 import './App.css';
@@ -423,6 +424,10 @@ class App extends React.Component {
                 <Redirect to="/login" />
               )
             }
+          />
+          <Route
+            path="/chatting"
+            render={() => <Chatting isLogin={isLogin} />}
           />
           <Route
             path="/"
