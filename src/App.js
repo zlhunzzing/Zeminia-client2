@@ -25,17 +25,38 @@ class App extends React.Component {
       turn: true,
       use: false,
       dummyMob: [
+        // {
+        //   name: '쥐',
+        //   level: 1,
+        //   hp: 1500,
+        //   att: 1000,
+        //   exp: 1
+        // },
+        // {
+        //   name: '좀비',
+        //   level: 3,
+        //   hp: 5000,
+        //   att: 2000,
+        //   exp: 3
+        // },
+        // {
+        //   name: '늑대인간[보스]',
+        //   level: 10,
+        //   hp: 1500,
+        //   att: 7000,
+        //   exp: 10
+        // }
         {
           name: '쥐',
           level: 1,
-          hp: 15,
+          hp: 1,
           att: 1,
           exp: 1
         },
         {
           name: '좀비',
           level: 3,
-          hp: 50,
+          hp: 5,
           att: 2,
           exp: 3
         },
@@ -209,6 +230,16 @@ class App extends React.Component {
       }),
       () => {
         if (monster.hp - character.att <= 0) {
+          this.setState(prevState => ({
+            monster: {
+              name: prevState.monster.name,
+              level: prevState.monster.level,
+              hp: 0,
+              att: prevState.monster.att,
+              exp: prevState.monster.exp
+            }
+          }));
+          this.showLog('전투에서 승리하였습니다.');
           window.setTimeout(this.win.bind(this), 500);
         }
       }
@@ -264,17 +295,17 @@ class App extends React.Component {
         () => {
           const { character } = this.state;
           if (character.hp <= 0) {
-            this.setState(prevState => ({
-              character: {
-                name: prevState.character.name,
-                level: prevState.character.level,
-                maxHp: prevState.character.maxHp,
-                hp: prevState.character.hp,
-                att: prevState.character.att,
-                exp: prevState.character.exp
-              }
-            }));
-            this.lose();
+            // this.setState(prevState => ({
+            //   character: {
+            //     name: prevState.character.name,
+            //     level: prevState.character.level,
+            //     maxHp: prevState.character.maxHp,
+            //     hp: prevState.character.hp,
+            //     att: prevState.character.att,
+            //     exp: prevState.character.exp
+            //   }
+            // }));
+            this.lose.bind(this);
           }
         }
       );
@@ -319,6 +350,7 @@ class App extends React.Component {
 
   // 경험치를 온전히 받기 위해 async
   async win() {
+    console.log('??');
     const { monster } = this.state;
     await this.setState(prevState => ({
       character: {
@@ -327,17 +359,27 @@ class App extends React.Component {
         maxHp: prevState.character.maxHp,
         hp: prevState.character.hp,
         att: prevState.character.att,
-        exp: prevState.character.exp + monster.exp
+        exp: prevState.character.exp + monster.exp,
+        rankScore: prevState.character.rankScore + monster.exp
       }
     }));
     this.levelUp();
-    this.showLog('전투에서 승리하였습니다.');
     this.clearMonster();
     this.toggleMenu();
     this.save();
   }
 
   lose() {
+    this.setState(prevState => ({
+      character: {
+        name: prevState.character.name,
+        level: prevState.character.level,
+        maxHp: prevState.character.maxHp,
+        hp: prevState.character.hp,
+        att: prevState.character.att,
+        exp: prevState.character.exp
+      }
+    }));
     if (window.confirm('패배하였습니다. 계속하시겠습니까?')) {
       // fetch("http://localhost:5001/user", {
       //     method: 'GET',
