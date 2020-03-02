@@ -17,7 +17,7 @@ class Character extends React.Component {
 
   render() {
     const { name } = this.state;
-    const { isCharacter } = this.props;
+    const { isCharacter, quit } = this.props;
     // const { createCharacter } = this.props;
     return (
       <div
@@ -74,6 +74,17 @@ class Character extends React.Component {
           <Link to="/signup">아이디가 없으신가요?</Link>
           <Link to="/ranking">랭킹보기</Link>
         </div>
+        <button
+          type="button"
+          style={{
+            border: '1px solid black'
+          }}
+          onClick={() => {
+            quit();
+          }}
+        >
+          로그아웃하기
+        </button>
         <h4>Team Zemix </h4>
       </div>
     );
@@ -82,7 +93,8 @@ class Character extends React.Component {
 
 Character.propTypes = {
   // createCharacter: PropTypes.func.isRequired
-  isCharacter: PropTypes.func.isRequired
+  isCharacter: PropTypes.func.isRequired,
+  quit: PropTypes.func.isRequired
 };
 
 export default Character;

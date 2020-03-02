@@ -149,6 +149,7 @@ class App extends React.Component {
         <Character
           createCharacter={this.create}
           isCharacter={this.isCharacter}
+          quit={this.quit}
         />
       );
     }
@@ -333,7 +334,6 @@ class App extends React.Component {
         // }
       );
       const { character } = this.state;
-      console.log(character);
       if (character.hp < 0) {
         this.setState(prevState => ({
           character: {
@@ -347,34 +347,6 @@ class App extends React.Component {
         }));
         window.setTimeout(this.lose.bind(this), 1000);
       }
-      // if (reMonster.monster.hp < 0) {
-      //   this.setState(
-      //     prevState => ({
-      //       monster: {
-      //         name: prevState.monster.name,
-      //         level: prevState.monster.level,
-      //         maxHp: prevState.character.maxHp,
-      //         hp: 0,
-      //         att: prevState.monster.att,
-      //         exp: prevState.monster.exp
-      //       }
-      //     }),
-      //     async () => {
-      //       await this.setState(prevState => ({
-      //         character: {
-      //           name: prevState.character.name,
-      //           level: prevState.character.level,
-      //           maxHp: prevState.character.maxHp,
-      //           hp: prevState.character.hp,
-      //           att: prevState.character.att,
-      //           exp: prevState.character.exp + prevState.monster.exp,
-      //           rankScore: prevState.character.rankScore + prevState.monster.exp
-      //         }
-      //       }));
-      //       window.setTimeout(this.win.bind(this), 1000);
-      //     }
-      //   );
-      // }
     }
   }
 
@@ -460,15 +432,14 @@ class App extends React.Component {
           exp: prevState.character.exp
         }
       }));
-      this.save();
       this.showLog('게임을 재시작합니다.');
       this.toggleMenu();
     } else {
-      this.clearMonster();
       this.logout();
     }
     this.clearMonster();
     this.resetButton();
+    this.save();
   }
 
   showLog(msg) {
