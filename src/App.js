@@ -66,9 +66,9 @@ class App extends React.Component {
     this.setState({
       isLogin: true
     });
-    fetch('http://13.209.6.41:5001/users/info').then(data => {
-      console.log(data);
-    });
+    // fetch('http://13.209.6.41:5001/users/info').then(data => {
+    //   console.log(data);
+    // });
   }
 
   signup() {
@@ -89,7 +89,7 @@ class App extends React.Component {
           level: 1,
           maxHp: 100,
           hp: 100,
-          att: 50,
+          att: 5,
           exp: 0
         }
       });
@@ -203,7 +203,7 @@ class App extends React.Component {
     );
   }
 
-  nextTurn() {
+  async nextTurn() {
     const { monster } = this.state;
     let { turn } = this.state;
     turn = !turn;
@@ -223,14 +223,11 @@ class App extends React.Component {
                 });
               }, 1000);
             }
-            this.setState({
-              use: false
-            });
           }, 1000);
         }, 1000);
-        this.setState({
-          turn: !turn
-          // use: true
+        await this.setState({
+          turn: !turn,
+          use: true
         });
       }
     }

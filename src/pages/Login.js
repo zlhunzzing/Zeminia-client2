@@ -32,24 +32,24 @@ class Login extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            fetch('http://13.209.6.41:5001/users/signin', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              credentials: 'include',
-              body: JSON.stringify(this.state)
-            })
-              .then(user => {
-                return user.json();
-              })
-              .then(data => {
-                if (data.signinCheck === 'success') {
-                  console.log('로그인에 성공하였습니다.');
-                }
-                // this.props.login(info);
-              });
-            // login();
+            // fetch('http://13.209.6.41:5001/users/signin', {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //   },
+            //   credentials: 'include',
+            //   body: JSON.stringify(this.state)
+            // })
+            //   .then(user => {
+            //     return user.json();
+            //   })
+            //   .then(data => {
+            //     if (data.signinCheck === 'success') {
+            //       console.log('로그인에 성공하였습니다.');
+            //     }
+            //     login();
+            //   });
+            login();
           }}
         >
           <p>로그인을 해주세요</p>

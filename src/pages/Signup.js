@@ -75,7 +75,7 @@ class Signup extends React.Component {
               />
             </label>
 
-            <button type="submit">로그인</button>
+            <button type="submit">회원가입</button>
           </div>
         </form>
         <Link to="/login">로그인 하기?</Link>
