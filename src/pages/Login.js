@@ -46,10 +46,9 @@ class Login extends React.Component {
               .then(data => {
                 if (data.signinCheck === 'success') {
                   console.log('로그인에 성공하였습니다.');
+                  login();
                 }
-                // this.props.login(info);
               });
-            // login();
           }}
         >
           <p>로그인을 해주세요</p>

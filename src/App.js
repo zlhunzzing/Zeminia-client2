@@ -66,9 +66,13 @@ class App extends React.Component {
     this.setState({
       isLogin: true
     });
-    fetch('http://13.209.6.41:5001/users/info').then(data => {
-      console.log(data);
-    });
+    fetch('http://13.209.6.41:5001/characters/info')
+      .then(user => {
+        return user.json();
+      })
+      .then(data => {
+        console.log(data);
+      });
   }
 
   signup() {
