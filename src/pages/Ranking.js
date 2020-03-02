@@ -15,8 +15,6 @@ class Ranking extends React.Component {
         return user.json();
       })
       .then(info => {
-        // this.props.login(info);
-        console.log(info);
         this.setState({
           data: info
         });

@@ -47,8 +47,6 @@ class Character extends React.Component {
                 })
                 .then(info => {
                   isCharacter(info);
-                  console.log(info);
-                  // battle 화면으로
                 });
             }
             // createCharacter(name);
