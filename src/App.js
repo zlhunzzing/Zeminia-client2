@@ -29,21 +29,21 @@ class App extends React.Component {
           name: '쥐',
           level: 1,
           hp: 15,
-          att: 100,
+          att: 1,
           exp: 1
         },
         {
           name: '좀비',
           level: 3,
           hp: 50,
-          att: 200,
+          att: 2,
           exp: 3
         },
         {
           name: '늑대인간[보스]',
           level: 10,
           hp: 150,
-          att: 700,
+          att: 7,
           exp: 10
         }
       ]
@@ -65,7 +65,9 @@ class App extends React.Component {
   login() {
     this.setState({
       isLogin: true
-      // user: info,
+    });
+    fetch('http://13.209.6.41:5001/users/info').then(data => {
+      console.log(data);
     });
   }
 
@@ -376,7 +378,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLogin, signup, character, monster, use } = this.state;
+    const { isLogin, signup, logout, character, monster, use } = this.state;
     return (
       <div className="App">
         <Switch>
@@ -388,7 +390,11 @@ class App extends React.Component {
               signup ? (
                 <Redirect to="/login" />
               ) : (
-                <Signup signup={this.signup} isLogin={isLogin} />
+                <Signup
+                  signup={this.signup}
+                  isLogin={isLogin}
+                  logout={logout}
+                />
               )
             }
           />
