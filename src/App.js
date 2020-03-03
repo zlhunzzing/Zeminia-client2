@@ -505,6 +505,12 @@ class App extends React.Component {
     return this;
   }
 
+  changeBattleView() {
+    const AppCss = document.querySelector('.App').style;
+    AppCss.width = '1050px';
+    return this;
+  }
+
   render() {
     const {
       redirect,
@@ -564,6 +570,7 @@ class App extends React.Component {
                   attackCharacter={this.attackCharacter}
                   clearMonster={this.clearMonster}
                   showLog={this.showLog}
+                  changeBattleView={this.changeBattleView()}
                 />
               ) : (
                 <Redirect to="/login" />
