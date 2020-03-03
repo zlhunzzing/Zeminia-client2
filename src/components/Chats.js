@@ -21,21 +21,22 @@ class Chats extends React.Component {
       uinqRoomsData: [],
 
       // 선택한 option 방 이름에 해당하는 데이터들
-      selectedRoomData: [
-        { id: 1, name: 'zemix', text: 'hi~' },
-        { id: 2, name: 'lala', text: 'hello~' }
-      ]
+      selectedRoomData: []
     };
 
     this.onChangeMessage = this.onChangeMessage.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.onChangeSelectOption = this.onChangeSelectOption.bind(this);
     this.onChangeRoomName = this.onChangeRoomName.bind(this);
+    this.emitChatsDataFilterRoom = this.emitChatsDataFilterRoom.bind(this);
+
+    // 테스트를 위해 만들어 놓은 메서드 (추후에 지워야 함)
     this.testSession = this.testSession.bind(this);
   }
 
   componentDidMount() {
     // socket = io.connect(hostDev, { path: '/socket.io' });
+    // (!this.props.isLogin) ===> this.props.isLogin 으로 바꾸어야 함
     if (!this.props.isLogin) {
       socket = io.connect(hostDev, { path: '/socket.io' });
 
@@ -43,6 +44,10 @@ class Chats extends React.Component {
 
       socket.on('uniqRoomInit', data => {
         this.setState({ uinqRoomsData: data });
+      });
+
+      socket.on('filterRoom', data => {
+        this.setState({ selectedRoomData: data });
       });
 
       socket.on('messageSuccess', data => {
@@ -73,6 +78,13 @@ class Chats extends React.Component {
 
   onChangeRoomName(e) {
     this.setState({ elInputRoomName: e.target.value });
+  }
+
+  emitChatsDataFilterRoom(e) {
+    if (socket !== null) {
+      const roomname = e.target.value;
+      socket.emit('filterRoom', roomname);
+    }
   }
 
   sendMessage(selectedValue, roomnameValue, messageValue) {
@@ -110,6 +122,7 @@ class Chats extends React.Component {
     return (
       <div>
         <h2>Chats~</h2>
+        <button onClick={this.testSession}>테스트를 위한 세션 연결</button>
         <hr />
         <form
           onSubmit={e => {
@@ -129,6 +142,7 @@ class Chats extends React.Component {
                 value={this.state.elSelectValue}
                 onChange={e => {
                   this.onChangeSelectOption(e);
+                  this.emitChatsDataFilterRoom(e);
                 }}
               >
                 <option value="info">---room을 선택하세요---</option>
