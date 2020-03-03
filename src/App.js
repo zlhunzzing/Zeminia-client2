@@ -401,8 +401,6 @@ class App extends React.Component {
       },
       credentials: 'include',
       body: JSON.stringify(character)
-    }).then(resp => {
-      console.log(resp);
     });
   }
 
