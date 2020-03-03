@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 
-class Login extends React.Component {
+class Secession extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -16,7 +17,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { login } = this.props;
+    const { gotoLogin } = this.props;
     return (
       <div
         style={{
@@ -31,30 +32,30 @@ class Login extends React.Component {
 
         <form
           onSubmit={e => {
-            e.preventDefault();
-            fetch('http://13.209.6.41:5001/users/signin', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              credentials: 'include',
-              body: JSON.stringify(this.state)
-            })
-              .then(user => {
-                return user.json();
+            if (window.confirm('계정을 정말로 지우시겠습니까?')) {
+              e.preventDefault();
+              fetch('http://13.209.6.41:5001/users/secession', {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(this.state)
               })
-              .then(data => {
-                if (data.signinCheck === 'success') {
-                  window.confirm('로그인에 성공하였습니다.');
-                  login();
-                } else {
-                  window.confirm(`${data.signinInfo}`);
-                }
-              });
-            // login();
+                .then(res => {
+                  return res.json();
+                })
+                .then(data => {
+                  console.log(data);
+                  if (data.secessionCheck === 'success') {
+                    window.confirm('탈퇴가 완료되었습니다.');
+                  }
+                  gotoLogin();
+                });
+            }
           }}
         >
-          <p>로그인을 해주세요</p>
+          <p>회원탈퇴</p>
           <div
             style={{
               display: 'flex',
@@ -81,7 +82,7 @@ class Login extends React.Component {
               />
             </label>
 
-            <button type="submit">로그인</button>
+            <button type="submit">탈퇴</button>
           </div>
         </form>
         <div
@@ -92,8 +93,8 @@ class Login extends React.Component {
             height: '70px'
           }}
         >
+          <Link to="/login">로그인 하기?</Link>
           <Link to="/signup">아이디가 없으신가요?</Link>
-          <Link to="/secession">회원탈퇴</Link>
           <Link to="/ranking">랭킹보기</Link>
         </div>
         <h4>Team Zemix </h4>
@@ -102,8 +103,8 @@ class Login extends React.Component {
   }
 }
 
-Login.propTypes = {
-  login: PropTypes.func.isRequired
+Secession.propTypes = {
+  gotoLogin: PropTypes.func.isRequired
 };
 
-export default Login;
+export default Secession;
