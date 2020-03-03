@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -17,6 +18,7 @@ class Login extends React.Component {
 
   render() {
     const { login } = this.props;
+    const intro = require('../images/character.gif');
     return (
       <div
         style={{
@@ -54,6 +56,16 @@ class Login extends React.Component {
             // login();
           }}
         >
+          <div
+            style={{
+              position: 'absolute',
+              right: '15%',
+              top: '40%'
+            }}
+          >
+            {/* <img className="intro" src="character.gif" alt="" /> */}
+            <img src={intro} alt="" />
+          </div>
           <p>로그인을 해주세요</p>
           <div
             style={{
