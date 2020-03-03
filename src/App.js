@@ -30,22 +30,22 @@ class App extends React.Component {
         {
           name: '쥐',
           level: 1,
-          hp: 1500,
-          att: 1000,
+          hp: 1,
+          att: 1,
           exp: 1
         },
         {
           name: '좀비',
           level: 3,
-          hp: 5000,
-          att: 2000,
+          hp: 1,
+          att: 2,
           exp: 3
         },
         {
           name: '늑대인간[보스]',
           level: 10,
-          hp: 1500,
-          att: 7000,
+          hp: 1,
+          att: 7,
           exp: 10
         }
         // {
@@ -253,7 +253,7 @@ class App extends React.Component {
       }
     }));
     const reMonster = this.state;
-    if (reMonster.monster.hp < 0) {
+    if (reMonster.monster.hp <= 0) {
       this.setState(
         prevState => ({
           monster: {
@@ -263,7 +263,8 @@ class App extends React.Component {
             hp: 0,
             att: prevState.monster.att,
             exp: prevState.monster.exp
-          }
+          },
+          use: true
         }),
         async () => {
           await this.setState(prevState => ({
@@ -407,6 +408,9 @@ class App extends React.Component {
     this.clearMonster();
     this.toggleMenu();
     this.save();
+    this.setState({
+      use: false
+    });
   }
 
   lose() {
