@@ -34,6 +34,7 @@ class CharacterStat extends React.Component {
             <div>체 력 : {character.hp}</div>
             <div>공격력 : {character.att}</div>
             <div>경험치 : {character.exp}</div>
+            <div>골 드 : {character.gold}</div>
             <div>점 수 : {character.rankScore}</div>
           </div>
         ) : null}
