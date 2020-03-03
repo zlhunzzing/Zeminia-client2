@@ -15,7 +15,7 @@ class MonsterStat extends React.Component {
         style={{
           position: 'absolute',
           left: '5%',
-          bottom: '30%'
+          bottom: '5%'
         }}
       >
         <p>Monster Status</p>

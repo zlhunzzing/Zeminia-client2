@@ -26,48 +26,48 @@ class App extends React.Component {
       turn: true,
       use: false,
       dummyMob: [
-        {
-          name: '쥐',
-          level: 1,
-          hp: 1500,
-          att: 1000,
-          exp: 1
-        },
-        {
-          name: '좀비',
-          level: 3,
-          hp: 5000,
-          att: 2000,
-          exp: 3
-        },
-        {
-          name: '늑대인간[보스]',
-          level: 10,
-          hp: 1500,
-          att: 7000,
-          exp: 10
-        }
         // {
         //   name: '쥐',
         //   level: 1,
-        //   hp: 1,
-        //   att: 1,
+        //   hp: 1500,
+        //   att: 1000,
         //   exp: 1
         // },
         // {
         //   name: '좀비',
         //   level: 3,
-        //   hp: 5,
-        //   att: 2,
+        //   hp: 5000,
+        //   att: 2000,
         //   exp: 3
         // },
         // {
         //   name: '늑대인간[보스]',
         //   level: 10,
-        //   hp: 1,
-        //   att: 7,
+        //   hp: 1500,
+        //   att: 7000,
         //   exp: 10
         // }
+        {
+          name: '쥐',
+          level: 1,
+          hp: 1,
+          att: 1,
+          exp: 1
+        },
+        {
+          name: '좀비',
+          level: 3,
+          hp: 5,
+          att: 2,
+          exp: 3
+        },
+        {
+          name: '늑대인간[보스]',
+          level: 10,
+          hp: 1,
+          att: 7,
+          exp: 10
+        }
       ]
     };
     // 선택지 순서대로 정렬
@@ -230,7 +230,7 @@ class App extends React.Component {
     this.showLog(`${monster.name}에게 ${character.att}의 데미지를 입혔습니다.`);
     await this.setState(prevState => ({
       monster: {
-        name: prevState.monster.name,
+        character_name: prevState.monster.character_name,
         level: prevState.monster.level,
         hp: prevState.monster.hp - prevState.character.att,
         att: prevState.monster.att,
@@ -238,7 +238,7 @@ class App extends React.Component {
       }
     }));
     const reMonster = this.state;
-    if (reMonster.monster.hp < 0) {
+    if (reMonster.monster.hp <= 0) {
       this.setState(
         prevState => ({
           monster: {
@@ -253,7 +253,7 @@ class App extends React.Component {
         async () => {
           await this.setState(prevState => ({
             character: {
-              name: prevState.character.name,
+              character_name: prevState.character.character_name,
               level: prevState.character.level,
               maxHp: prevState.character.maxHp,
               hp: prevState.character.hp,
@@ -262,6 +262,7 @@ class App extends React.Component {
               rankScore: prevState.character.rankScore + prevState.monster.exp
             }
           }));
+          console.log('이름', character);
           window.setTimeout(this.win.bind(this), 1000);
         }
       );
@@ -303,36 +304,17 @@ class App extends React.Component {
     const { monster } = this.state;
     this.showLog(`${monster.name}에게 ${monster.att}의 데미지를 입었습니다.`);
     if (monster.hp > 0) {
-      await this.setState(
-        prevState => ({
-          character: {
-            name: prevState.character.name,
-            level: prevState.character.level,
-            maxHp: prevState.character.maxHp,
-            hp: prevState.character.hp - prevState.monster.att,
-            att: prevState.character.att,
-            exp: prevState.character.exp,
-            rankScore: prevState.character.rankScore
-          }
-        })
-        // () => {
-        //   const { character } = this.state;
-        //   if (character.hp <= 0) {
-        //     // this.setState(prevState => ({
-        //     //   character: {
-        //     //     name: prevState.character.name,
-        //     //     level: prevState.character.level,
-        //     //     maxHp: prevState.character.maxHp,
-        //     //     hp: prevState.character.hp,
-        //     //     att: prevState.character.att,
-        //     //     exp: prevState.character.exp
-        //     //   }
-        //     // }));
-        //     // this.lose.bind(this);
-        //     this.lose();
-        //   }
-        // }
-      );
+      await this.setState(prevState => ({
+        character: {
+          name: prevState.character.name,
+          level: prevState.character.level,
+          maxHp: prevState.character.maxHp,
+          hp: prevState.character.hp - prevState.monster.att,
+          att: prevState.character.att,
+          exp: prevState.character.exp,
+          rankScore: prevState.character.rankScore + prevState.monster.exp
+        }
+      }));
       const { character } = this.state;
       if (character.hp < 0) {
         this.setState(prevState => ({
@@ -356,12 +338,13 @@ class App extends React.Component {
       this.showLog('레벨업!');
       this.setState(prevState => ({
         character: {
-          name: prevState.character.name,
+          character_name: prevState.character.character_name,
           level: prevState.character.level + 1,
           maxHp: prevState.character.maxHp + 5,
           hp: prevState.character.maxHp + 5,
           att: prevState.character.att + 1,
-          exp: prevState.character.exp - prevState.character.level * 3
+          exp: prevState.character.exp - prevState.character.level * 3,
+          rankScore: prevState.character.rankScore
         }
       }));
 
@@ -372,18 +355,30 @@ class App extends React.Component {
   }
 
   save() {
-    // const state = store.getState();
-    // state.toggleMenu
-    // 세이브요청
-    // fetch('http://localhost:5001/저장', {
+    const { character } = this.state;
+    console.log('캐릭터', character);
+    // fetch('http://13.209.6.41:5001/characters/save', {
     //   method: 'POST',
     //   headers: {
     //     'Content-Type': 'application/json',
     //     credentials: 'include',
     //     body: JSON.stringify(character)
     //   }
-    // });
-    return this;
+    // })
+    fetch('http://13.209.6.41:5001/chatacters/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(character)
+    })
+      .then(resp => {
+        return resp.json();
+      })
+      .then(data => {
+        console.log(data);
+      });
   }
 
   win() {
