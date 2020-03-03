@@ -25,6 +25,7 @@ class App extends React.Component {
       monster: false,
       turn: true,
       use: false,
+      redirect: false,
       dummyMob: [
         // {
         //   name: '쥐',
@@ -84,6 +85,7 @@ class App extends React.Component {
     this.attackCharacter = this.attackCharacter.bind(this);
     this.clearMonster = this.clearMonster.bind(this);
     this.logout = this.logout.bind(this);
+    this.gotoLogin = this.gotoLogin.bind(this);
   }
 
   login() {
@@ -216,6 +218,19 @@ class App extends React.Component {
       signup: false,
       character: false
     });
+  }
+
+  gotoLogin() {
+    this.setState(
+      {
+        redirect: true
+      },
+      () => {
+        this.setState({
+          redirect: false
+        });
+      }
+    );
   }
 
   clearMonster() {
@@ -463,7 +478,15 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLogin, signup, logout, character, monster, use } = this.state;
+    const {
+      redirect,
+      isLogin,
+      signup,
+      logout,
+      character,
+      monster,
+      use
+    } = this.state;
     return (
       <div className="App">
         <Switch>
@@ -487,10 +510,10 @@ class App extends React.Component {
           <Route
             path="/secession"
             render={() =>
-              isLogin ? (
-                <Secession logout={this.logout} />
+              redirect ? (
+                <Redirect to="/login" />
               ) : (
-                <Redirect to="login" />
+                <Secession gotoLogin={this.gotoLogin} />
               )
             }
           />
