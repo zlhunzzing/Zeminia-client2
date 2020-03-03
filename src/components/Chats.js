@@ -39,6 +39,12 @@ class Chats extends React.Component {
     if (!this.props.isLogin) {
       socket = io.connect(hostDev, { path: '/socket.io' });
 
+      socket.emit('uniqRoomInit');
+
+      socket.on('uniqRoomInit', data => {
+        this.setState({ uinqRoomsData: data });
+      });
+
       socket.on('messageSuccess', data => {
         console.log(data);
       });
@@ -103,14 +109,8 @@ class Chats extends React.Component {
   render() {
     return (
       <div>
-        <h2>Chats Component</h2>
-        <button
-          onClick={() => {
-            this.testSession();
-          }}
-        >
-          테스트를 위한 Session 연결 버튼(로그인)
-        </button>
+        <h2>Chats~</h2>
+        <hr />
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -132,7 +132,17 @@ class Chats extends React.Component {
                 }}
               >
                 <option value="info">---room을 선택하세요---</option>
-                <option value="default">Default</option>
+                <option value="default">default</option>
+                {this.state.uinqRoomsData.map((room, idx) => {
+                  if (room !== 'default') {
+                    return (
+                      <option key={idx} value={room}>
+                        {room}
+                      </option>
+                    );
+                  }
+                  return null;
+                })}
               </select>
               <span className="refresh_Word"></span>
             </div>
