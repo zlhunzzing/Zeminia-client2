@@ -27,7 +27,7 @@ class Menu extends React.Component {
         style={{
           position: 'absolute',
           right: '50%',
-          bottom: '40%'
+          bottom: '5%'
         }}
       >
         <div className="menuBar">

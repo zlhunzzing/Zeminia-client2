@@ -15,13 +15,13 @@ class MonsterStat extends React.Component {
         style={{
           position: 'absolute',
           left: '5%',
-          bottom: '30%'
+          bottom: '5%'
         }}
       >
         <p>Monster Status</p>
         {monster ? (
           <div>
-            <div>{monster.name}</div>
+            <div>{monster.monster_name}</div>
             <div>레 벨 : {monster.level}</div>
             <div>체 력 : {monster.hp}</div>
             <div>공격력 : {monster.att}</div>

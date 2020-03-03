@@ -159,12 +159,21 @@ class App extends React.Component {
   }
 
   generateMonster() {
-    const { dummyMob } = this.state;
-    this.setState({
-      monster: JSON.parse(
-        JSON.stringify(dummyMob[Math.floor(Math.random() * dummyMob.length)])
-      )
-    });
+    fetch('http://13.209.6.41:5001/monsters/info')
+      .then(user => {
+        return user.json();
+      })
+      .then(info => {
+        this.setState({
+          monster: info[Math.floor(Math.random() * info.length)]
+        });
+      });
+    // const { dummyMob } = this.state;
+    // this.setState({
+    //   monster: JSON.parse(
+    //     JSON.stringify(dummyMob[Math.floor(Math.random() * dummyMob.length)])
+    //   )
+    // });
   }
 
   toggleMenu(time) {
@@ -242,10 +251,12 @@ class App extends React.Component {
   // 몬스터 죽은 뒤 턴을 진행하기 위해 async
   async attackMonster() {
     const { character, monster } = this.state;
-    this.showLog(`${monster.name}에게 ${character.att}의 데미지를 입혔습니다.`);
+    this.showLog(
+      `${monster.monster_name}에게 ${character.att}의 데미지를 입혔습니다.`
+    );
     await this.setState(prevState => ({
       monster: {
-        name: prevState.monster.name,
+        monster_name: prevState.monster.monster_name,
         level: prevState.monster.level,
         hp: prevState.monster.hp - prevState.character.att,
         att: prevState.monster.att,
@@ -257,7 +268,7 @@ class App extends React.Component {
       this.setState(
         prevState => ({
           monster: {
-            name: prevState.monster.name,
+            name: prevState.monster.monster_name,
             level: prevState.monster.level,
             maxHp: prevState.character.maxHp,
             hp: 0,
@@ -269,12 +280,14 @@ class App extends React.Component {
         async () => {
           await this.setState(prevState => ({
             character: {
-              name: prevState.character.name,
+              id: prevState.character.id,
+              character_name: prevState.character.character_name,
               level: prevState.character.level,
               maxHp: prevState.character.maxHp,
               hp: prevState.character.hp,
               att: prevState.character.att,
               exp: prevState.character.exp + prevState.monster.exp,
+              gold: prevState.character.gold + prevState.monster.exp,
               rankScore: prevState.character.rankScore + prevState.monster.exp
             }
           }));
@@ -317,48 +330,36 @@ class App extends React.Component {
   // 유저의 죽음을 확인하고 진행하기 위해 async
   async attackCharacter() {
     const { monster } = this.state;
-    this.showLog(`${monster.name}에게 ${monster.att}의 데미지를 입었습니다.`);
+    this.showLog(
+      `${monster.monster_name}에게 ${monster.att}의 데미지를 입었습니다.`
+    );
     if (monster.hp > 0) {
-      await this.setState(
-        prevState => ({
-          character: {
-            name: prevState.character.name,
-            level: prevState.character.level,
-            maxHp: prevState.character.maxHp,
-            hp: prevState.character.hp - prevState.monster.att,
-            att: prevState.character.att,
-            exp: prevState.character.exp,
-            rankScore: prevState.character.rankScore
-          }
-        })
-        // () => {
-        //   const { character } = this.state;
-        //   if (character.hp <= 0) {
-        //     // this.setState(prevState => ({
-        //     //   character: {
-        //     //     name: prevState.character.name,
-        //     //     level: prevState.character.level,
-        //     //     maxHp: prevState.character.maxHp,
-        //     //     hp: prevState.character.hp,
-        //     //     att: prevState.character.att,
-        //     //     exp: prevState.character.exp
-        //     //   }
-        //     // }));
-        //     // this.lose.bind(this);
-        //     this.lose();
-        //   }
-        // }
-      );
+      await this.setState(prevState => ({
+        character: {
+          id: prevState.character.id,
+          character_name: prevState.character.character_name,
+          level: prevState.character.level,
+          maxHp: prevState.character.maxHp,
+          hp: prevState.character.hp - prevState.monster.att,
+          att: prevState.character.att,
+          exp: prevState.character.exp,
+          gold: prevState.character.gold,
+          rankScore: prevState.character.rankScore + prevState.monster.exp
+        }
+      }));
       const { character } = this.state;
       if (character.hp < 0) {
         this.setState(prevState => ({
           character: {
-            name: prevState.character.name,
+            id: prevState.character.id,
+            character_name: prevState.character.character_name,
             level: prevState.character.level,
             maxHp: prevState.character.maxHp,
             hp: 0,
             att: prevState.character.att,
-            exp: prevState.character.exp
+            exp: prevState.character.exp,
+            gold: prevState.character.gold,
+            rankScore: prevState.character.rankScore + prevState.monster.exp
           }
         }));
         window.setTimeout(this.lose.bind(this), 1000);
@@ -372,12 +373,15 @@ class App extends React.Component {
       this.showLog('레벨업!');
       this.setState(prevState => ({
         character: {
-          name: prevState.character.name,
+          id: prevState.character.id,
+          character_name: prevState.character.character_name,
           level: prevState.character.level + 1,
           maxHp: prevState.character.maxHp + 5,
           hp: prevState.character.maxHp + 5,
           att: prevState.character.att + 1,
-          exp: prevState.character.exp - prevState.character.level * 3
+          exp: prevState.character.exp - prevState.character.level * 3,
+          gold: prevState.character.gold,
+          rankScore: prevState.character.rankScore
         }
       }));
 
@@ -388,18 +392,18 @@ class App extends React.Component {
   }
 
   save() {
-    // const state = store.getState();
-    // state.toggleMenu
-    // 세이브요청
-    // fetch('http://localhost:5001/저장', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     credentials: 'include',
-    //     body: JSON.stringify(character)
-    //   }
-    // });
-    return this;
+    const { character } = this.state;
+    // console.log('캐릭터', JSON.stringify(character));
+    fetch('http://13.209.6.41:5001/chatacters/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(character)
+    }).then(resp => {
+      console.log(resp);
+    });
   }
 
   win() {
