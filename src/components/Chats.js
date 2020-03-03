@@ -29,13 +29,14 @@ class Chats extends React.Component {
     this.onChangeSelectOption = this.onChangeSelectOption.bind(this);
     this.onChangeRoomName = this.onChangeRoomName.bind(this);
     this.emitChatsDataFilterRoom = this.emitChatsDataFilterRoom.bind(this);
-
+    this.onChageSelectRoom = this.onChageSelectRoom.bind(this);
     // 테스트를 위해 만들어 놓은 메서드 (추후에 지워야 함)
     this.testSession = this.testSession.bind(this);
   }
 
   componentDidMount() {
     // socket = io.connect(hostDev, { path: '/socket.io' });
+    // 실제 서비스할 때는
     // (!this.props.isLogin) ===> this.props.isLogin 으로 바꾸어야 함
     if (!this.props.isLogin) {
       socket = io.connect(hostDev, { path: '/socket.io' });
@@ -48,6 +49,11 @@ class Chats extends React.Component {
 
       socket.on('filterRoom', data => {
         this.setState({ selectedRoomData: data });
+      });
+
+      socket.on('uniqRooms', data => {
+        console.log(data);
+        this.setState({ uinqRoomsData: data });
       });
 
       socket.on('messageSuccess', data => {
@@ -102,6 +108,12 @@ class Chats extends React.Component {
     }
   }
 
+  onChageSelectRoom(roomname) {
+    if (this.state.elSelectValue === 'info') {
+      this.setState({ elSelectValue: roomname });
+    }
+  }
+
   testSession() {
     fetch(hostDev + '/users/signin', {
       method: 'POST',
@@ -122,7 +134,9 @@ class Chats extends React.Component {
     return (
       <div>
         <h2>Chats~</h2>
-        <button onClick={this.testSession}>테스트를 위한 세션 연결</button>
+        <button onClick={this.testSession}>
+          테스트를 위한 세션 연결 (클릭 후 리로딩을 해야 해요)
+        </button>
         <hr />
         <form
           onSubmit={e => {
@@ -132,6 +146,8 @@ class Chats extends React.Component {
               this.state.elInputRoomName,
               this.state.elTextMessage
             );
+            this.onChageSelectRoom(this.state.elInputRoomName);
+            this.setState({ elTextMessage: '', elInputRoomName: '' });
           }}
         >
           <fieldset>
@@ -181,13 +197,15 @@ class Chats extends React.Component {
               <p>
                 <label htmlFor="chats_text">Message</label>
               </p>
-              <textarea
+              <input
                 id="chats_text"
+                type="text"
+                style={{ width: '400px' }}
                 value={this.state.elTextMessage}
                 onChange={e => {
                   this.onChangeMessage(e);
                 }}
-              ></textarea>
+              />
             </div>
             <input type="submit" value="전송" />
           </fieldset>
@@ -200,8 +218,9 @@ class Chats extends React.Component {
             .map(item => {
               return (
                 <div key={item.id}>
-                  <p>name: {item.name}</p>
-                  <p>text: {item.text}</p>
+                  <p>character: {item.character}</p>
+                  <p>message: {item.message}</p>
+                  <p style={{ fontSize: '5px' }}>{item.createdAt}</p>
                   <hr />
                 </div>
               );
