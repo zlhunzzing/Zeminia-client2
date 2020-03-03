@@ -26,50 +26,6 @@ class App extends React.Component {
       turn: true,
       use: false,
       redirect: false
-      // dummyMob: [
-      //   {
-      //     monster_name: '쥐',
-      //     level: 1,
-      //     hp: 1500,
-      //     att: 1000,
-      //     exp: 1
-      //   },
-      //   {
-      //     monster_name: '좀비',
-      //     level: 3,
-      //     hp: 5000,
-      //     att: 2000,
-      //     exp: 3
-      //   },
-      //   {
-      //     monster_name: '늑대인간[보스]',
-      //     level: 10,
-      //     hp: 1500,
-      //     att: 7000,
-      //     exp: 10
-      //   }
-      //   // {
-      //   //   monster_name: '쥐',
-      //   //   level: 1,
-      //   //   hp: 1,
-      //   //   att: 1,
-      //   //   exp: 1
-      //   // },
-      //   // {
-      //   //   monster_name: '좀비',
-      //   //   level: 3,
-      //   //   hp: 5,
-      //   //   att: 2,
-      //   //   exp: 3
-      //   // },
-      //   // {
-      //   //   monster_name: '늑대인간[보스]',
-      //   //   level: 10,
-      //   //   hp: 1,
-      //   //   att: 7,
-      //   //   exp: 10
-      //   // }
-      // ]
     };
     // 선택지 순서대로 정렬
     this.login = this.login.bind(this);
