@@ -25,51 +25,51 @@ class App extends React.Component {
       monster: false,
       turn: true,
       use: false,
-      redirect: false,
-      dummyMob: [
-        {
-          name: '쥐',
-          level: 1,
-          hp: 1,
-          att: 1,
-          exp: 1
-        },
-        {
-          name: '좀비',
-          level: 3,
-          hp: 1,
-          att: 2,
-          exp: 3
-        },
-        {
-          name: '늑대인간[보스]',
-          level: 10,
-          hp: 1,
-          att: 7,
-          exp: 10
-        }
-        // {
-        //   name: '쥐',
-        //   level: 1,
-        //   hp: 1,
-        //   att: 1,
-        //   exp: 1
-        // },
-        // {
-        //   name: '좀비',
-        //   level: 3,
-        //   hp: 5,
-        //   att: 2,
-        //   exp: 3
-        // },
-        // {
-        //   name: '늑대인간[보스]',
-        //   level: 10,
-        //   hp: 1,
-        //   att: 7,
-        //   exp: 10
-        // }
-      ]
+      redirect: false
+      // dummyMob: [
+      //   {
+      //     name: '쥐',
+      //     level: 1,
+      //     hp: 1,
+      //     att: 1,
+      //     exp: 1
+      //   },
+      //   {
+      //     name: '좀비',
+      //     level: 3,
+      //     hp: 1,
+      //     att: 2,
+      //     exp: 3
+      //   },
+      //   {
+      //     name: '늑대인간[보스]',
+      //     level: 10,
+      //     hp: 1,
+      //     att: 7,
+      //     exp: 10
+      //   }
+      //   // {
+      //   //   name: '쥐',
+      //   //   level: 1,
+      //   //   hp: 1,
+      //   //   att: 1,
+      //   //   exp: 1
+      //   // },
+      //   // {
+      //   //   name: '좀비',
+      //   //   level: 3,
+      //   //   hp: 5,
+      //   //   att: 2,
+      //   //   exp: 3
+      //   // },
+      //   // {
+      //   //   name: '늑대인간[보스]',
+      //   //   level: 10,
+      //   //   hp: 1,
+      //   //   att: 7,
+      //   //   exp: 10
+      //   // }
+      // ]
     };
     // 선택지 순서대로 정렬
     this.login = this.login.bind(this);
@@ -193,19 +193,34 @@ class App extends React.Component {
     });
   }
 
-  heal() {
-    this.setState(prevState => ({
+  async heal() {
+    await this.setState(prevState => ({
       character: {
         character_name: prevState.character.character_name,
         level: prevState.character.level,
         maxHp: prevState.character.maxHp,
-        hp: prevState.character.maxHp,
-        att: 99,
+        hp: prevState.character.hp + prevState.character.maxHp / 5,
+        att: prevState.character.att,
         exp: prevState.character.exp,
         gold: prevState.character.gold,
         rankScore: prevState.character.rankScore
       }
     }));
+    const { character } = this.state;
+    if (character.hp >= character.maxHp) {
+      this.setState(prevState => ({
+        character: {
+          character_name: prevState.character.character_name,
+          level: prevState.character.level,
+          maxHp: prevState.character.maxHp,
+          hp: prevState.character.maxHp,
+          att: prevState.character.att,
+          exp: prevState.character.exp,
+          gold: prevState.character.gold,
+          rankScore: prevState.character.rankScore
+        }
+      }));
+    }
     this.showLog('체력을 회복했습니다');
   }
 
