@@ -48,7 +48,7 @@ class Secession extends React.Component {
                 .then(data => {
                   console.log(data);
                   if (data.secessionCheck === 'success') {
-                    window.confirm('삭제가 완료되었습니다.');
+                    window.confirm('탈퇴가 완료되었습니다.');
                   }
                   gotoLogin();
                 });

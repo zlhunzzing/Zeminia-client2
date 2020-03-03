@@ -344,7 +344,7 @@ class App extends React.Component {
           att: prevState.character.att,
           exp: prevState.character.exp,
           gold: prevState.character.gold,
-          rankScore: prevState.character.rankScore + prevState.monster.exp
+          rankScore: prevState.character.rankScore
         }
       }));
       const { character } = this.state;
@@ -359,7 +359,7 @@ class App extends React.Component {
             att: prevState.character.att,
             exp: prevState.character.exp,
             gold: prevState.character.gold,
-            rankScore: prevState.character.rankScore + prevState.monster.exp
+            rankScore: prevState.character.rankScore
           }
         }));
         window.setTimeout(this.lose.bind(this), 1000);
@@ -394,7 +394,7 @@ class App extends React.Component {
   save() {
     const { character } = this.state;
     // console.log('캐릭터', JSON.stringify(character));
-    fetch('http://13.209.6.41:5001/chatacters/save', {
+    fetch('http://13.209.6.41:5001/characters/save', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
