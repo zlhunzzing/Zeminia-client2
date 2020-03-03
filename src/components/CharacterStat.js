@@ -14,7 +14,7 @@ class CharacterStat extends React.Component {
       <div
         style={{
           position: 'absolute',
-          right: '10%',
+          right: '30%',
           bottom: '5%'
         }}
       >
