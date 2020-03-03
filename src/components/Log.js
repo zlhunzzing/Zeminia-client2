@@ -15,7 +15,8 @@ class Log extends React.Component {
           display: 'flex',
           flexDirection: 'column-reverse',
           width: '100%',
-          height: '200px'
+          height: '200px',
+          overflow: 'hidden'
         }}
         className="Log"
       />
