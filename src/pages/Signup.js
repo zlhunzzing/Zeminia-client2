@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 class Signup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      password: ''
+    };
     this.handleInput = this.handleInput.bind(this);
   }
 

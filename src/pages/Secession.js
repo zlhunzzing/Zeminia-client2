@@ -17,7 +17,7 @@ class Secession extends React.Component {
   }
 
   render() {
-    const { logout } = this.props;
+    const { gotoLogin } = this.props;
     return (
       <div
         style={{
@@ -50,7 +50,7 @@ class Secession extends React.Component {
                   if (data.secessionCheck === 'success') {
                     window.confirm('삭제가 완료되었습니다.');
                   }
-                  logout();
+                  gotoLogin();
                 });
             }
           }}
@@ -104,7 +104,7 @@ class Secession extends React.Component {
 }
 
 Secession.propTypes = {
-  logout: PropTypes.func.isRequired
+  gotoLogin: PropTypes.func.isRequired
 };
 
 export default Secession;
