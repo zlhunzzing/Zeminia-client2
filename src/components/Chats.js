@@ -1,7 +1,8 @@
 // /* eslint-disable*/
 // import React from 'react';
 // import io from 'socket.io-client';
-// const hostDev = 'http://localhost:5001';
+// // const hostDev = 'http://localhost:5001';
+// const hostDev = 'http://13.209.6.41:5001';
 // const hostProd = 'http://13.209.6.41:5001';
 // let socket = null;
 
@@ -81,8 +82,8 @@
 //     fetch(hostDev + '/users/signin', {
 //       method: 'POST',
 //       body: JSON.stringify({
-//         email: 'sherlock@abc.com',
-//         password: '123!@#abc'
+//         email: 'Zeminia1@co.kr',
+//         password: '!1zeminia'
 //       }),
 //       headers: { 'Content-Type': 'application/json' },
 //       credentials: 'include'
