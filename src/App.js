@@ -196,12 +196,14 @@ class App extends React.Component {
   heal() {
     this.setState(prevState => ({
       character: {
-        name: prevState.character.name,
+        character_name: prevState.character.character_name,
         level: prevState.character.level,
         maxHp: prevState.character.maxHp,
         hp: prevState.character.maxHp,
-        att: prevState.character.att,
-        exp: prevState.character.exp
+        att: 99,
+        exp: prevState.character.exp,
+        gold: prevState.character.gold,
+        rankScore: prevState.character.rankScore
       }
     }));
     this.showLog('체력을 회복했습니다');
