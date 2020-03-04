@@ -34,6 +34,7 @@ class Chats extends React.Component {
     this.onChangeRoomName = this.onChangeRoomName.bind(this);
     this.emitChatsDataFilterRoom = this.emitChatsDataFilterRoom.bind(this);
     this.onChageSelectRoom = this.onChageSelectRoom.bind(this);
+    this.onChangeAllMessages = this.onChangeAllMessages.bind(this);
     // 테스트를 위해 만들어 놓은 메서드 (추후에 지워야 함)
     // this.testSession = this.testSession.bind(this);
   }
@@ -44,11 +45,11 @@ class Chats extends React.Component {
     // (!this.props.isLogin) ===> this.props.isLogin 으로 바꾸어야 함
     socket = io.connect(hostDev, { path: '/socket.io' });
 
-    socket.emit('uniqRoomInit');
-
-    socket.on('uniqRoomInit', data => {
+    socket.emit('uniqRoomInit').on('uniqRoomInit', data => {
       this.setState({ uinqRoomsData: data });
     });
+
+    this.onChangeAllMessages();
 
     socket.on('filterRoom', data => {
       this.setState({ selectedRoomData: data });
@@ -78,6 +79,12 @@ class Chats extends React.Component {
 
   onChangeSelectOption(e) {
     this.setState({ elSelectValue: e.target.value });
+  }
+
+  onChangeAllMessages() {
+    socket.emit('allMessages').on('allMessages', data => {
+      this.setState({ selectedRoomData: data });
+    });
   }
 
   onChangeMessage(e) {
@@ -138,10 +145,11 @@ class Chats extends React.Component {
     return (
       <div className="Chats">
         <div
-          style={{
-            fontSize: '20px',
-            textAlign: 'center'
-          }}
+          className="ChatsTitle"
+          // style={{
+          //   fontSize: '20px',
+          //   textAlign: 'center'
+          // }}
         >
           Chats~ 실시간 채팅
         </div>
@@ -165,12 +173,13 @@ class Chats extends React.Component {
           }}
         >
           <fieldset
-            style={{
-              position: 'absolute',
-              bottom: '0%',
-              border: '1px solid black',
-              width: '220px'
-            }}
+            className="ChatsForm"
+            // style={{
+            //   position: 'absolute',
+            //   bottom: '0%',
+            //   border: '1px solid black',
+            //   width: '220px'
+            // }}
           >
             <legend>Chats</legend>
             <div>
@@ -183,9 +192,9 @@ class Chats extends React.Component {
                 }}
               >
                 <option value="info">---채널을 선택하세요---</option>
-                <option value="default">default</option>
+                <option value="Zeminia">Zeminia</option>
                 {this.state.uinqRoomsData.map((room, idx) => {
-                  if (room !== 'default') {
+                  if (room !== 'Zeminia') {
                     return (
                       <option key={idx} value={room}>
                         {room}
@@ -195,6 +204,7 @@ class Chats extends React.Component {
                   return null;
                 })}
               </select>
+              <button onClick={this.onChangeAllMessages}>All Messages</button>
               <span className="refresh_Word"></span>
             </div>
             {/* <hr></hr> */}
@@ -220,9 +230,10 @@ class Chats extends React.Component {
                 <label htmlFor="chats_text">Message</label>
               </p>
               <input
+                className="ChatsInput"
                 id="chats_text"
                 type="text"
-                style={{ width: '200px' }}
+                // style={{ width: '200px' }}
                 value={this.state.elTextMessage}
                 onChange={e => {
                   this.onChangeMessage(e);
@@ -233,14 +244,15 @@ class Chats extends React.Component {
           </fieldset>
         </form>
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column-reverse',
-            borderTop: '1px solid black',
-            borderBottom: '1px solid black',
-            height: '375px',
-            overflow: 'hidden'
-          }}
+          className="ChatsView"
+          // style={{
+          //   display: 'flex',
+          //   flexDirection: 'column-reverse',
+          //   borderTop: '1px solid black',
+          //   borderBottom: '1px solid black',
+          //   height: '375px',
+          //   overflow: 'hidden'
+          // }}
         >
           {this.state.selectedRoomData
             .sort((a, b) => {

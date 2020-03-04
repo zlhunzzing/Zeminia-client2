@@ -32,6 +32,7 @@ class App extends React.Component {
       monsterAttack: false,
       email: false,
       password: false
+      // buying: false
       // dummyMob: [
       //   {
       //     name: '쥐',
@@ -85,7 +86,7 @@ class App extends React.Component {
     this.checkLoginRoute = this.checkLoginRoute.bind(this);
     this.generateMonster = this.generateMonster.bind(this);
     this.heal = this.heal.bind(this);
-    this.moveToShop = this.moveToShop.bind(this);
+    // this.moveToShop = this.moveToShop.bind(this);
     this.quit = this.quit.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
     this.nextTurn = this.nextTurn.bind(this);
@@ -237,11 +238,14 @@ class App extends React.Component {
     this.showLog('체력을 회복했습니다');
   }
 
-  moveToShop() {
-    console.log('?');
-    const { save } = this.save;
-    return <Shop save={save} />;
-  }
+  // moveToShop() {
+  //   console.log('?');
+  //   // const { save } = this.save;
+  //   // return <Shop save={save} />;
+  //   this.setState({
+  //     buying: true
+  //   });
+  // }
 
   quit(toBattle) {
     if (window.confirm('그만하시겠습니까?')) {
@@ -583,6 +587,7 @@ class App extends React.Component {
       monsterAttack,
       email,
       password
+      // buying
     } = this.state;
     return (
       <div className="App">
@@ -631,7 +636,7 @@ class App extends React.Component {
                   toggleMenu={this.toggleMenu}
                   generateMonster={this.generateMonster}
                   heal={this.heal}
-                  moveToShop={this.moveToShop}
+                  // moveToShop={this.moveToShop}
                   quit={this.quit}
                   attackMonster={this.attackMonster}
                   nextTurn={this.nextTurn}
@@ -646,6 +651,10 @@ class App extends React.Component {
                 <Redirect to="/login" />
               )
             }
+          />
+          <Route
+            path="/Shop"
+            render={() => (isLogin ? <Shop /> : <Redirect to="/battle" />)}
           />
           <Route
             path="/"
