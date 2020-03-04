@@ -23,7 +23,13 @@ class Menu extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div
+        style={{
+          position: 'absolute',
+          right: '60%',
+          bottom: '5%'
+        }}
+      >
         <div className="menuBar">
           <button
             type="button"
@@ -35,6 +41,7 @@ class Menu extends React.Component {
           >
             모험한다
           </button>
+          <br />
           <button
             type="button"
             onClick={() => {
@@ -44,9 +51,11 @@ class Menu extends React.Component {
           >
             휴식한다
           </button>
+          <br />
           <button type="button" onClick={() => quit()}>
             그만한다
           </button>
+          <br />
         </div>
 
         <div className="battleBar">
@@ -61,6 +70,7 @@ class Menu extends React.Component {
           >
             공격한다
           </button>
+          <br />
           <button
             type="button"
             disabled={use}
@@ -71,6 +81,7 @@ class Menu extends React.Component {
           >
             회복한다
           </button>
+          <br />
           <button
             type="button"
             disabled={use}

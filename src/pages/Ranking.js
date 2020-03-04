@@ -15,8 +15,6 @@ class Ranking extends React.Component {
         return user.json();
       })
       .then(info => {
-        // this.props.login(info);
-        console.log(info);
         this.setState({
           data: info
         });
@@ -37,6 +35,7 @@ class Ranking extends React.Component {
               <th>HP</th>
               <th>공격력</th>
               <th>점수</th>
+              <th>마지막 접속</th>
             </tr>
             {data.map((a, ind) => {
               return (
@@ -47,6 +46,7 @@ class Ranking extends React.Component {
                   <th>{a.hp}</th>
                   <th>{a.att}</th>
                   <th>{a.rankScore}</th>
+                  <th>{a.updatedAt}</th>
                 </tr>
               );
             })}

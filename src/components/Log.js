@@ -9,7 +9,19 @@ class Log extends React.Component {
   }
 
   render() {
-    return <div className="Log" />;
+    return (
+      <div
+        style={{
+          // display: 'flex',
+          position: 'absolute',
+          flexDirection: 'column-reverse',
+          width: '100%',
+          height: '200px',
+          overflow: 'hidden'
+        }}
+        className="Log"
+      />
+    );
   }
 }
 

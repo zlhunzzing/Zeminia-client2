@@ -17,7 +17,8 @@ class Character extends React.Component {
 
   render() {
     const { name } = this.state;
-    const { createCharacter } = this.props;
+    const { isCharacter, quit } = this.props;
+    // const { createCharacter } = this.props;
     return (
       <div
         style={{
@@ -32,21 +33,23 @@ class Character extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            // fetch('http://localhost:5001/create',{
-            //     method: 'POST',
-            //     headers: {
-            //     'Content-Type': 'application/json'
-            //     },
-            //     credentials: 'include',
-            //     body: JSON.stringify(this.state)
-            // })
-            // .then(user=>{
-            //     return user.json();
-            //   })
-            //   .then(info=>{
-            //     this.props.createCharacter(info);
-            //   })
-            createCharacter(name);
+            if (window.confirm(`${name}으로 하시겠습니까?`)) {
+              fetch('http://13.209.6.41:5001/characters/newcharacter', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ character_name: name })
+              })
+                .then(user => {
+                  return user.json();
+                })
+                .then(info => {
+                  isCharacter(info);
+                });
+            }
+            // createCharacter(name);
           }}
         >
           <p>캐릭터가 없습니다 캐릭터의 이름을 지어주세요</p>
@@ -71,6 +74,17 @@ class Character extends React.Component {
           <Link to="/signup">아이디가 없으신가요?</Link>
           <Link to="/ranking">랭킹보기</Link>
         </div>
+        <button
+          type="button"
+          style={{
+            border: '1px solid black'
+          }}
+          onClick={() => {
+            quit();
+          }}
+        >
+          로그아웃하기
+        </button>
         <h4>Team Zemix </h4>
       </div>
     );
@@ -78,7 +92,9 @@ class Character extends React.Component {
 }
 
 Character.propTypes = {
-  createCharacter: PropTypes.func.isRequired
+  // createCharacter: PropTypes.func.isRequired
+  isCharacter: PropTypes.func.isRequired,
+  quit: PropTypes.func.isRequired
 };
 
 export default Character;
