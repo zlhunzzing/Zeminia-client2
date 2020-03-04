@@ -95,6 +95,7 @@ class App extends React.Component {
     this.logout = this.logout.bind(this);
     this.gotoLogin = this.gotoLogin.bind(this);
     this.endBattle = this.endBattle.bind(this);
+    this.buyItem = this.buyItem.bind(this);
   }
 
   login(email, password) {
@@ -210,12 +211,14 @@ class App extends React.Component {
   async heal() {
     await this.setState(prevState => ({
       character: {
+        id: prevState.character.id,
         character_name: prevState.character.character_name,
         level: prevState.character.level,
         maxHp: prevState.character.maxHp,
-        hp: prevState.character.hp + prevState.character.maxHp / 5,
+        hp: prevState.character.maxHp + prevState.character.maxHp / 5,
         att: prevState.character.att,
         exp: prevState.character.exp,
+        weapon: prevState.character.weapon,
         gold: prevState.character.gold,
         rankScore: prevState.character.rankScore
       }
@@ -224,12 +227,14 @@ class App extends React.Component {
     if (character.hp >= character.maxHp) {
       this.setState(prevState => ({
         character: {
+          id: prevState.character.id,
           character_name: prevState.character.character_name,
           level: prevState.character.level,
           maxHp: prevState.character.maxHp,
           hp: prevState.character.maxHp,
           att: prevState.character.att,
           exp: prevState.character.exp,
+          weapon: prevState.character.weapon,
           gold: prevState.character.gold,
           rankScore: prevState.character.rankScore
         }
@@ -294,61 +299,125 @@ class App extends React.Component {
   // 몬스터 죽은 뒤 턴을 진행하기 위해 async
   async attackMonster() {
     const { character, monster } = this.state;
-    this.showLog(
-      `${monster.monster_name}에게 ${character.att}의 데미지를 입혔습니다.`
-    );
-    await this.setState(
-      prevState => ({
-        monster: {
-          monster_name: prevState.monster.monster_name,
-          level: prevState.monster.level,
-          hp: prevState.monster.hp - prevState.character.att,
-          att: prevState.monster.att,
-          exp: prevState.monster.exp
-        },
-        characterAttack: true
-      }),
-      () => {
-        setTimeout(
-          () =>
-            this.setState({
-              characterAttack: false
-            }),
-          500
-        );
-      }
-    );
-    const reMonster = this.state;
-    if (reMonster.monster.hp <= 0) {
-      this.setState(
+    if (character.weapon) {
+      this.showLog(
+        `${monster.monster_name}에게 ${character.att +
+          character.weapon.att}의 데미지를 입혔습니다.`
+      );
+      await this.setState(
         prevState => ({
           monster: {
-            name: prevState.monster.monster_name,
+            monster_name: prevState.monster.monster_name,
             level: prevState.monster.level,
-            maxHp: prevState.character.maxHp,
-            hp: 0,
+            hp:
+              prevState.monster.hp -
+              (prevState.character.att + prevState.character.weapon.att),
             att: prevState.monster.att,
             exp: prevState.monster.exp
           },
-          use: true
+          characterAttack: true
         }),
-        async () => {
-          await this.setState(prevState => ({
-            character: {
-              id: prevState.character.id,
-              character_name: prevState.character.character_name,
-              level: prevState.character.level,
-              maxHp: prevState.character.maxHp,
-              hp: prevState.character.hp,
-              att: prevState.character.att,
-              exp: prevState.character.exp + prevState.monster.exp,
-              gold: prevState.character.gold + prevState.monster.exp,
-              rankScore: prevState.character.rankScore + prevState.monster.exp
-            }
-          }));
-          window.setTimeout(this.win.bind(this), 1000);
+        () => {
+          setTimeout(
+            () =>
+              this.setState({
+                characterAttack: false
+              }),
+            500
+          );
         }
       );
+      const reMonster = this.state;
+      if (reMonster.monster.hp <= 0) {
+        this.setState(
+          prevState => ({
+            monster: {
+              name: prevState.monster.monster_name,
+              level: prevState.monster.level,
+              maxHp: prevState.character.maxHp,
+              hp: 0,
+              att: prevState.monster.att,
+              exp: prevState.monster.exp
+            },
+            use: true
+          }),
+          async () => {
+            await this.setState(prevState => ({
+              character: {
+                id: prevState.character.id,
+                character_name: prevState.character.character_name,
+                level: prevState.character.level,
+                maxHp: prevState.character.maxHp,
+                hp: prevState.character.hp,
+                att: prevState.character.att,
+                exp: prevState.character.exp + prevState.monster.exp,
+                weapon: prevState.character.weapon,
+                gold: prevState.character.gold + prevState.monster.exp,
+                rankScore: prevState.character.rankScore + prevState.monster.exp
+              }
+            }));
+            window.setTimeout(this.win.bind(this), 1000);
+          }
+        );
+      }
+    } else {
+      this.showLog(
+        `${monster.monster_name}에게 ${character.att}의 데미지를 입혔습니다.`
+      );
+      await this.setState(
+        prevState => ({
+          monster: {
+            monster_name: prevState.monster.monster_name,
+            level: prevState.monster.level,
+            hp: prevState.monster.hp - prevState.character.att,
+            att: prevState.monster.att,
+            exp: prevState.monster.exp
+          },
+          characterAttack: true
+        }),
+        () => {
+          setTimeout(
+            () =>
+              this.setState({
+                characterAttack: false
+              }),
+            500
+          );
+        }
+      );
+      const reMonster = this.state;
+      if (reMonster.monster.hp <= 0) {
+        this.setState(
+          prevState => ({
+            monster: {
+              name: prevState.monster.monster_name,
+              level: prevState.monster.level,
+              maxHp: prevState.character.maxHp,
+              hp: 0,
+              att: prevState.monster.att,
+              exp: prevState.monster.exp
+            },
+            use: true
+          }),
+          async () => {
+            await this.setState(prevState => ({
+              character: {
+                id: prevState.character.id,
+                character_name: prevState.character.character_name,
+                level: prevState.character.level,
+                maxHp: prevState.character.maxHp,
+                hp: prevState.character.hp,
+                att: prevState.character.att,
+                exp: prevState.character.exp + prevState.monster.exp,
+                weapon: prevState.character.weapon,
+                gold: prevState.character.gold + prevState.monster.exp,
+                rankScore: prevState.character.rankScore + prevState.monster.exp
+              }
+            }));
+            window.setTimeout(this.win.bind(this), 1000);
+          }
+        );
+      }
     }
   }
 
@@ -399,6 +468,7 @@ class App extends React.Component {
             hp: prevState.character.hp - prevState.monster.att,
             att: prevState.character.att,
             exp: prevState.character.exp,
+            weapon: prevState.character.weapon,
             gold: prevState.character.gold,
             rankScore: prevState.character.rankScore
           },
@@ -425,6 +495,7 @@ class App extends React.Component {
             hp: 0,
             att: prevState.character.att,
             exp: prevState.character.exp,
+            weapon: prevState.character.weapon,
             gold: prevState.character.gold,
             rankScore: prevState.character.rankScore
           }
@@ -436,6 +507,7 @@ class App extends React.Component {
 
   levelUp() {
     const { character } = this.state;
+    console.log('렙업', character);
     if (character.exp >= character.level * 3) {
       this.showLog('레벨업!');
       this.setState(prevState => ({
@@ -447,6 +519,7 @@ class App extends React.Component {
           hp: prevState.character.maxHp + 5,
           att: prevState.character.att + 1,
           exp: prevState.character.exp - prevState.character.level * 3,
+          weapon: prevState.character.weapon,
           gold: prevState.character.gold,
           rankScore: prevState.character.rankScore
         }
@@ -456,10 +529,12 @@ class App extends React.Component {
         this.levelUp();
       }
     }
+    // console.log('렙업', character);
   }
 
   save() {
     const { character } = this.state;
+    console.log(character);
     // console.log('캐릭터', JSON.stringify(character));
     fetch('http://13.209.6.41:5001/characters/save', {
       method: 'POST',
@@ -478,7 +553,11 @@ class App extends React.Component {
   }
 
   win() {
+    const { monster } = this.state;
     this.levelUp();
+    if (monster.name === '규동몬') {
+      alert('축하드립니다, 세상을 구하셨습니다!');
+    }
     this.showLog('전투에서 승리하였습니다.');
     this.clearMonster();
     this.toggleMenu();
@@ -492,12 +571,16 @@ class App extends React.Component {
   lose() {
     this.setState(prevState => ({
       character: {
-        name: prevState.character.name,
+        id: prevState.character.id,
+        character_name: prevState.character.character_name,
         level: prevState.character.level,
         maxHp: prevState.character.maxHp,
-        hp: prevState.character.hp,
+        hp: prevState.character.maxHp,
         att: prevState.character.att,
-        exp: prevState.character.exp
+        exp: prevState.character.exp,
+        weapon: prevState.character.weapon,
+        gold: prevState.character.gold,
+        rankScore: prevState.character.rankScore
       }
     }));
     if (window.confirm('게임을 계속하시겠습니까?')) {
@@ -519,12 +602,16 @@ class App extends React.Component {
       // })
       this.setState(prevState => ({
         character: {
-          name: prevState.character.name,
+          id: prevState.character.id,
+          character_name: prevState.character.character_name,
           level: prevState.character.level,
           maxHp: prevState.character.maxHp,
           hp: prevState.character.maxHp,
           att: prevState.character.att,
-          exp: prevState.character.exp
+          exp: prevState.character.exp,
+          weapon: prevState.character.weapon,
+          gold: prevState.character.gold,
+          rankScore: prevState.character.rankScore
         }
       }));
       this.showLog('게임을 재시작합니다.');
@@ -564,13 +651,67 @@ class App extends React.Component {
 
   changeBattleView(toBattle) {
     const AppCss = document.querySelector('.App').style;
-    console.log(toBattle);
+    // console.log(toBattle);
     if (toBattle) {
       AppCss.width = '1050px';
     } else {
       AppCss.width = '800px';
     }
     return this;
+  }
+
+  async buyItem(item) {
+    console.log(item);
+    // console.log('가격', item.cost);
+    const { character } = this.state;
+    if (!character.weapon) {
+      if (window.confirm('구매하시겠습니까?')) {
+        console.log(character.gold);
+        if (character.gold > item.cost) {
+          await this.setState(prevState => ({
+            character: {
+              id: prevState.character.id,
+              character_name: prevState.character.character_name,
+              level: prevState.character.level,
+              maxHp: prevState.character.maxHp,
+              hp: prevState.character.maxHp,
+              att: prevState.character.att,
+              exp: prevState.character.exp,
+              weapon: item,
+              gold: prevState.character.gold - item.cost,
+              rankScore: prevState.character.rankScore
+            }
+          }));
+          alert('구매에 성공했습니다.');
+        } else {
+          alert('골드가 부족합니다.');
+        }
+      }
+    } else if (
+      window.confirm(
+        '장착하고 있는 무기를 잃어버립니다. 계속 구매하시겠습니까?'
+      )
+    ) {
+      if (character.gold > item.cost) {
+        this.setState(prevState => ({
+          character: {
+            id: prevState.character.id,
+            character_name: prevState.character.character_name,
+            level: prevState.character.level,
+            maxHp: prevState.character.maxHp,
+            hp: prevState.character.maxHp,
+            att: prevState.character.att,
+            exp: prevState.character.exp,
+            weapon: item,
+            gold: prevState.character.gold - item.cost,
+            rankScore: prevState.character.rankScore
+          }
+        }));
+        alert('구매에 성공했습니다.');
+      } else {
+        alert('골드가 부족합니다.');
+      }
+    }
   }
 
   render() {
@@ -654,7 +795,13 @@ class App extends React.Component {
           />
           <Route
             path="/Shop"
-            render={() => (isLogin ? <Shop /> : <Redirect to="/battle" />)}
+            render={() =>
+              isLogin ? (
+                <Shop buyItem={this.buyItem} />
+              ) : (
+                <Redirect to="/battle" />
+              )
+            }
           />
           <Route
             path="/"
