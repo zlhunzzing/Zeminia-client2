@@ -116,6 +116,7 @@ Menu.propTypes = {
   toggleMenu: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
   heal: PropTypes.func.isRequired,
+  moveToShop: PropTypes.func.isRequired,
   quit: PropTypes.func.isRequired,
   attackMonster: PropTypes.func.isRequired,
   nextTurn: PropTypes.func.isRequired,
