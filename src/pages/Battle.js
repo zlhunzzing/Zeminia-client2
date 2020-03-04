@@ -28,7 +28,9 @@ class Battle extends React.Component {
       nextTurn,
       attackCharacter,
       clearMonster,
-      showLog
+      showLog,
+      email,
+      password
     } = this.props;
     return (
       <div className="Battle">
@@ -49,7 +51,7 @@ class Battle extends React.Component {
         <MonsterStat monster={monster} />
         <CharacterStat character={character} />
         <Log />
-        <Chats />
+        <Chats email={email} password={password} />
       </div>
     );
   }
