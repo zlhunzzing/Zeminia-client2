@@ -1,21 +1,118 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Chats from '../components/Chats';
+
 class Shop extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      items: [
+        {
+          id: 1,
+          item: 'NormalBlade',
+          att: 3,
+          cost: 20
+        },
+        {
+          id: 2,
+          item: 'UniqAxe',
+          att: 15,
+          cost: 50
+        },
+        {
+          id: 3,
+          item: 'HeroLongSword',
+          att: 30,
+          cost: 100
+        },
+        {
+          id: 4,
+          item: 'AncientSpear',
+          att: 50,
+          cost: 200
+        },
+        {
+          id: 5,
+          item: 'LegendZemixSword',
+          att: 1000,
+          cost: 5000
+        }
+      ]
+    };
   }
 
   render() {
+    const { items } = this.state;
+    // items;
     return (
-      <div className="Shop">
-        <div>단검</div>
-        <div>도끼</div>
-        <div>롱소드</div>
-        <div>창</div>
-        <div>제미소드</div>
-        <Link to="/battle">나가기</Link>
+      <div>
+        <h2
+          style={{
+            position: 'absolute',
+            left: '9%'
+          }}
+        >
+          무기상점
+        </h2>
+        <table
+          style={{
+            position: 'absolute',
+            top: '10%'
+          }}
+        >
+          <tbody>
+            <tr>
+              <th>무기</th>
+              <th>이름</th>
+              <th>공격력</th>
+              <th>가격</th>
+            </tr>
+            {items.map((a, ind) => {
+              return (
+                <tr key={a.id}>
+                  <th>{ind + 1}</th>
+                  <th>{a.item}</th>
+                  <th>{a.att}</th>
+                  <th>{a.cost}</th>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <div
+          style={{
+            position: 'absolute',
+            top: '16%',
+            left: '30%'
+          }}
+        >
+          {items.map(a => {
+            return (
+              <div key={a.id}>
+                <button
+                  type="button"
+                  onClick={e => console.log(e.target.innerHTML[0])}
+                >
+                  {a.id}번 구매하기
+                </button>
+                <br />
+              </div>
+            );
+          })}
+        </div>
+        <Link
+          style={{
+            position: 'absolute',
+            left: '11%',
+            top: '40%',
+            border: '1px solid black'
+          }}
+          to="/battle"
+        >
+          뒤로가기
+        </Link>
+        <Chats />
       </div>
     );
   }

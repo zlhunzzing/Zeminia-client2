@@ -399,6 +399,7 @@ class App extends React.Component {
             hp: prevState.character.hp - prevState.monster.att,
             att: prevState.character.att,
             exp: prevState.character.exp,
+            weapon: prevState.character.weapon,
             gold: prevState.character.gold,
             rankScore: prevState.character.rankScore
           },
@@ -425,6 +426,7 @@ class App extends React.Component {
             hp: 0,
             att: prevState.character.att,
             exp: prevState.character.exp,
+            weapon: prevState.character.weapon,
             gold: prevState.character.gold,
             rankScore: prevState.character.rankScore
           }
@@ -447,6 +449,7 @@ class App extends React.Component {
           hp: prevState.character.maxHp + 5,
           att: prevState.character.att + 1,
           exp: prevState.character.exp - prevState.character.level * 3,
+          weapon: prevState.character.weapon,
           gold: prevState.character.gold,
           rankScore: prevState.character.rankScore
         }
@@ -492,12 +495,16 @@ class App extends React.Component {
   lose() {
     this.setState(prevState => ({
       character: {
-        name: prevState.character.name,
+        id: prevState.character.id,
+        character_name: prevState.character.character_name,
         level: prevState.character.level,
         maxHp: prevState.character.maxHp,
-        hp: prevState.character.hp,
+        hp: prevState.character.maxHp,
         att: prevState.character.att,
-        exp: prevState.character.exp
+        exp: prevState.character.exp,
+        weapon: prevState.character.weapon,
+        gold: prevState.character.gold,
+        rankScore: prevState.character.rankScore
       }
     }));
     if (window.confirm('게임을 계속하시겠습니까?')) {
@@ -519,12 +526,16 @@ class App extends React.Component {
       // })
       this.setState(prevState => ({
         character: {
-          name: prevState.character.name,
+          id: prevState.character.id,
+          character_name: prevState.character.character_name,
           level: prevState.character.level,
           maxHp: prevState.character.maxHp,
           hp: prevState.character.maxHp,
           att: prevState.character.att,
-          exp: prevState.character.exp
+          exp: prevState.character.exp,
+          weapon: prevState.character.weapon,
+          gold: prevState.character.gold,
+          rankScore: prevState.character.rankScore
         }
       }));
       this.showLog('게임을 재시작합니다.');
@@ -564,7 +575,7 @@ class App extends React.Component {
 
   changeBattleView(toBattle) {
     const AppCss = document.querySelector('.App').style;
-    console.log(toBattle);
+    // console.log(toBattle);
     if (toBattle) {
       AppCss.width = '1050px';
     } else {
