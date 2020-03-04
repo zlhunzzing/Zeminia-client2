@@ -7,7 +7,9 @@ import './Chats.css';
 // const hostDev = 'http://localhost:5001';
 const hostDev = 'http://13.209.6.41:5001';
 const hostProd = 'http://13.209.6.41:5001';
-let socket = null;
+// let socket = null;
+let socket = true;
+
 class Chats extends React.Component {
   constructor(props) {
     super(props);
@@ -18,14 +20,12 @@ class Chats extends React.Component {
       elInputRoomNameDisplay: 'inline-block',
       elInputRoomNameRequired: true,
       elSpanRefreshText: '',
+
       // 중복 없는 options 에 방 이름들
       uinqRoomsData: [],
 
       // 선택한 option 방 이름에 해당하는 데이터들
-      selectedRoomData: [
-        { id: 1, name: 'zemix', text: 'hi~' },
-        { id: 2, name: 'lala', text: 'hello~' }
-      ]
+      selectedRoomData: []
     };
 
     this.onChangeMessage = this.onChangeMessage.bind(this);
@@ -33,46 +33,57 @@ class Chats extends React.Component {
     this.onChangeSelectOption = this.onChangeSelectOption.bind(this);
     this.onChangeRoomName = this.onChangeRoomName.bind(this);
     this.emitChatsDataFilterRoom = this.emitChatsDataFilterRoom.bind(this);
-
+    this.onChageSelectRoom = this.onChageSelectRoom.bind(this);
     // 테스트를 위해 만들어 놓은 메서드 (추후에 지워야 함)
     this.testSession = this.testSession.bind(this);
   }
 
   componentDidMount() {
-    // socket = io.connect(hostDev, { path: '/socket.io' });
+    socket = io.connect(hostDev, { path: '/socket.io' });
+    // 실제 서비스할 때는
     // (!this.props.isLogin) ===> this.props.isLogin 으로 바꾸어야 함
-    if (!this.props.isLogin) {
-      socket = io.connect(hostDev, { path: '/socket.io' });
+    socket = io.connect(hostDev, { path: '/socket.io' });
 
-      socket.emit('uniqRoomInit');
-      socket.on('uniqRoomInit', data => {
-        this.setState({ uinqRoomsData: data });
-      });
+    socket.emit('uniqRoomInit');
 
-      socket.on('filterRoom', data => {
-        this.setState({ selectedRoomData: data });
-      });
+    socket.on('uniqRoomInit', data => {
+      this.setState({ uinqRoomsData: data });
+    });
 
-      socket.on('messageSuccess', data => {
-        console.log(data);
-      });
-      socket.on('notSession', data => {
-        console.log(data);
-      });
-      socket.on('notCharacter', data => {
-        console.log(data);
-      });
-      socket.on('emptyData', data => {
-        console.log(data);
-      });
-    }
+    socket.on('filterRoom', data => {
+      this.setState({ selectedRoomData: data });
+    });
+
+    socket.on('uniqRooms', data => {
+      console.log(data);
+      this.setState({ uinqRoomsData: data });
+    });
+
+    socket.on('messageSuccess', data => {
+      console.log(data);
+    });
+
+    socket.on('notSession', data => {
+      console.log(data);
+    });
+
+    socket.on('notCharacter', data => {
+      console.log(data);
+    });
+
+    socket.on('emptyData', data => {
+      console.log(data);
+    });
   }
+
   onChangeSelectOption(e) {
     this.setState({ elSelectValue: e.target.value });
   }
+
   onChangeMessage(e) {
     this.setState({ elTextMessage: e.target.value });
   }
+
   onChangeRoomName(e) {
     this.setState({ elInputRoomName: e.target.value });
   }
@@ -98,13 +109,21 @@ class Chats extends React.Component {
       console.log('login이 되어 있지 않습니다');
     }
   }
+
+  onChageSelectRoom(roomname) {
+    if (this.state.elSelectValue === 'info') {
+      this.setState({ elSelectValue: roomname });
+    }
+  }
+
   testSession() {
     const { email, password } = this.props;
-    fetch(hostDev + '/users/signin', {
+    // fetch(hostDev + '/users/signin', {
+    fetch('http://13.209.6.41:5001/users/signin', {
       method: 'POST',
       body: JSON.stringify({
-        email: email,
-        password: password
+        email: 'Zeminia@co.kr',
+        password: '!1zeminia'
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'
@@ -114,11 +133,14 @@ class Chats extends React.Component {
         console.log(json);
       });
   }
+
   render() {
     return (
       <div className="Chats">
         <h2>Chats~</h2>
-        <button onClick={this.testSession}>테스트를 위한 세션 연결</button>
+        <button onClick={this.testSession}>
+          테스트를 위한 세션 연결 (클릭 후 리로딩을 해야 해요)
+        </button>
         <hr />
         <form
           onSubmit={e => {
@@ -128,6 +150,8 @@ class Chats extends React.Component {
               this.state.elInputRoomName,
               this.state.elTextMessage
             );
+            this.onChageSelectRoom(this.state.elInputRoomName);
+            this.setState({ elTextMessage: '', elInputRoomName: '' });
           }}
         >
           <fieldset>
@@ -177,13 +201,15 @@ class Chats extends React.Component {
               <p>
                 <label htmlFor="chats_text">Message</label>
               </p>
-              <textarea
+              <input
                 id="chats_text"
+                type="text"
+                style={{ width: '400px' }}
                 value={this.state.elTextMessage}
                 onChange={e => {
                   this.onChangeMessage(e);
                 }}
-              ></textarea>
+              />
             </div>
             <input type="submit" value="전송" />
           </fieldset>
@@ -196,8 +222,9 @@ class Chats extends React.Component {
             .map(item => {
               return (
                 <div key={item.id}>
-                  <p>name: {item.name}</p>
-                  <p>text: {item.text}</p>
+                  <p>character: {item.character}</p>
+                  <p>message: {item.message}</p>
+                  <p style={{ fontSize: '5px' }}>{item.createdAt}</p>
                   <hr />
                 </div>
               );
@@ -207,4 +234,5 @@ class Chats extends React.Component {
     );
   }
 }
+
 export default Chats;
