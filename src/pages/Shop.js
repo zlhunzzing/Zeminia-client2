@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Chats from '../components/Chats';
 
@@ -44,6 +45,7 @@ class Shop extends React.Component {
 
   render() {
     const { items } = this.state;
+    const { buyItem } = this.props;
     // items;
     return (
       <div>
@@ -92,7 +94,7 @@ class Shop extends React.Component {
               <div key={a.id}>
                 <button
                   type="button"
-                  onClick={e => console.log(e.target.innerHTML[0])}
+                  onClick={e => buyItem(items[e.target.innerHTML[0] - 1])}
                 >
                   {a.id}번 구매하기
                 </button>
@@ -117,5 +119,9 @@ class Shop extends React.Component {
     );
   }
 }
+
+Shop.propTypes = {
+  buyItem: PropTypes.func.isRequired
+};
 
 export default Shop;

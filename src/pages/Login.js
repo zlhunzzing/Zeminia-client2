@@ -29,6 +29,18 @@ class Login extends React.Component {
           height: '550px'
         }}
       >
+        <div
+          style={{
+            position: 'absolute',
+            right: '15%',
+            top: '40%'
+          }}
+        >
+          {/* <img className="intro" src="character.gif" alt="" /> */}
+          <img src={intro} alt="" />
+          <div>규동몬으로부터</div>
+          <div>세상을 구하자!</div>
+        </div>
         <h2>Zeminia</h2>
 
         <form
@@ -56,16 +68,6 @@ class Login extends React.Component {
             // login();
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              right: '15%',
-              top: '40%'
-            }}
-          >
-            {/* <img className="intro" src="character.gif" alt="" /> */}
-            <img src={intro} alt="" />
-          </div>
           <p>로그인을 해주세요</p>
           <div
             style={{

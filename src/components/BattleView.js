@@ -6,17 +6,17 @@ const player = require('../images/playeridle.gif');
 const playerAttack = require('../images/playerattack.gif');
 
 const monsters = {
-  mouse: require('../images/ratidle.gif'),
-  zombie: require('../images/zombieidle.gif'),
-  'wolfman[boss]': require('../images/wolfidle.gif'),
-  'GyuDongMon[Finalal Boss]': require('../images/wolfidle.gif')
+  쥐: require('../images/ratidle.gif'),
+  좀비: require('../images/zombieidle.gif'),
+  늑대인간: require('../images/wolfidle.gif'),
+  규동몬: require('../images/wolfidle.gif')
 };
 
 const monstersAttack = {
   mouse: require('../images/ratattack.png'),
   zombie: require('../images/zombieattack.png'),
-  'wolfman[boss]': require('../images/wolfattack.png'),
-  'GyuDongMon[Finalal Boss]': require('../images/wolfattack.png')
+  늑대인간: require('../images/wolfattack.png'),
+  규동몬: require('../images/wolfattack.png')
 };
 
 class BattleView extends React.Component {
