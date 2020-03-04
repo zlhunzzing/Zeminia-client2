@@ -2,9 +2,13 @@
 import React from 'react';
 import io from 'socket.io-client';
 
-const hostDev = 'http://localhost:5001';
+import './Chats.css';
+
+// const hostDev = 'http://localhost:5001';
+const hostDev = 'http://13.209.6.41:5001';
 const hostProd = 'http://13.209.6.41:5001';
-let socket = null;
+// let socket = null;
+let socket = true;
 
 class Chats extends React.Component {
   constructor(props) {
@@ -35,43 +39,41 @@ class Chats extends React.Component {
   }
 
   componentDidMount() {
-    // socket = io.connect(hostDev, { path: '/socket.io' });
+    socket = io.connect(hostDev, { path: '/socket.io' });
     // 실제 서비스할 때는
     // (!this.props.isLogin) ===> this.props.isLogin 으로 바꾸어야 함
-    if (!this.props.isLogin) {
-      socket = io.connect(hostDev, { path: '/socket.io' });
+    socket = io.connect(hostDev, { path: '/socket.io' });
 
-      socket.emit('uniqRoomInit');
+    socket.emit('uniqRoomInit');
 
-      socket.on('uniqRoomInit', data => {
-        this.setState({ uinqRoomsData: data });
-      });
+    socket.on('uniqRoomInit', data => {
+      this.setState({ uinqRoomsData: data });
+    });
 
-      socket.on('filterRoom', data => {
-        this.setState({ selectedRoomData: data });
-      });
+    socket.on('filterRoom', data => {
+      this.setState({ selectedRoomData: data });
+    });
 
-      socket.on('uniqRooms', data => {
-        console.log(data);
-        this.setState({ uinqRoomsData: data });
-      });
+    socket.on('uniqRooms', data => {
+      console.log(data);
+      this.setState({ uinqRoomsData: data });
+    });
 
-      socket.on('messageSuccess', data => {
-        console.log(data);
-      });
+    socket.on('messageSuccess', data => {
+      console.log(data);
+    });
 
-      socket.on('notSession', data => {
-        console.log(data);
-      });
+    socket.on('notSession', data => {
+      console.log(data);
+    });
 
-      socket.on('notCharacter', data => {
-        console.log(data);
-      });
+    socket.on('notCharacter', data => {
+      console.log(data);
+    });
 
-      socket.on('emptyData', data => {
-        console.log(data);
-      });
-    }
+    socket.on('emptyData', data => {
+      console.log(data);
+    });
   }
 
   onChangeSelectOption(e) {
@@ -115,11 +117,13 @@ class Chats extends React.Component {
   }
 
   testSession() {
-    fetch(hostDev + '/users/signin', {
+    const { email, password } = this.props;
+    // fetch(hostDev + '/users/signin', {
+    fetch('http://13.209.6.41:5001/users/signin', {
       method: 'POST',
       body: JSON.stringify({
-        email: 'sherlock@abc.com',
-        password: '123!@#abc'
+        email: 'Zeminia@co.kr',
+        password: '!1zeminia'
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'
@@ -132,7 +136,7 @@ class Chats extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="Chats">
         <h2>Chats~</h2>
         <button onClick={this.testSession}>
           테스트를 위한 세션 연결 (클릭 후 리로딩을 해야 해요)

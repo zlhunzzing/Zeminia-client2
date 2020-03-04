@@ -9,9 +9,7 @@ import Character from './pages/Character';
 import Signup from './pages/Signup';
 import Ranking from './pages/Ranking';
 import Battle from './pages/Battle';
-import Chatting from './pages/Chatting';
 import Secession from './pages/Secession';
-
 
 // CSS
 import './App.css';
@@ -27,7 +25,9 @@ class App extends React.Component {
       monster: false,
       turn: true,
       use: false,
-      redirect: false
+      redirect: false,
+      email: false,
+      password: false
       // dummyMob: [
       //   {
       //     name: '쥐',
@@ -90,7 +90,7 @@ class App extends React.Component {
     this.gotoLogin = this.gotoLogin.bind(this);
   }
 
-  login() {
+  login(email, password) {
     fetch('http://13.209.6.41:5001/characters/info', {
       credentials: 'include'
     })
@@ -100,12 +100,16 @@ class App extends React.Component {
       .then(data => {
         if (data.noneCharacter) {
           this.setState({
-            isLogin: true
+            isLogin: true,
+            email,
+            password
           });
         } else {
           this.setState({
             isLogin: true,
-            character: data
+            character: data,
+            email,
+            password
           });
         }
       });
@@ -237,6 +241,7 @@ class App extends React.Component {
       //     }
       // })
       this.logout();
+      this.changeBattleView();
     }
   }
 
@@ -244,7 +249,9 @@ class App extends React.Component {
     this.setState({
       isLogin: false,
       signup: false,
-      character: false
+      character: false,
+      email: false,
+      password: false
     });
   }
 
@@ -509,7 +516,11 @@ class App extends React.Component {
 
   changeBattleView() {
     const AppCss = document.querySelector('.App').style;
-    AppCss.width = '1050px';
+    if (AppCss.width !== '1050px') {
+      AppCss.width = '1050px';
+    } else {
+      AppCss.width = '800px';
+    }
     return this;
   }
 
@@ -521,7 +532,9 @@ class App extends React.Component {
       logout,
       character,
       monster,
-      use
+      use,
+      email,
+      password
     } = this.state;
     return (
       <div className="App">
@@ -573,15 +586,13 @@ class App extends React.Component {
                   clearMonster={this.clearMonster}
                   showLog={this.showLog}
                   changeBattleView={this.changeBattleView()}
+                  email={email}
+                  password={password}
                 />
               ) : (
                 <Redirect to="/login" />
               )
             }
-          />
-          <Route
-            path="/chatting"
-            render={() => <Chatting isLogin={isLogin} />}
           />
           <Route
             path="/"
