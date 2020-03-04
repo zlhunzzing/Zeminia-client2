@@ -6,6 +6,7 @@ import CharacterStat from '../components/CharacterStat';
 import MonsterStat from '../components/MonsterStat';
 import Log from '../components/Log';
 import Chats from '../components/Chats';
+import BattleView from '../components/BattleView';
 
 import './Battle.css';
 
@@ -30,11 +31,21 @@ class Battle extends React.Component {
       attackCharacter,
       clearMonster,
       showLog,
+      battle,
+      endBattle,
+      characterAttack,
+      monsterAttack,
       email,
       password
     } = this.props;
     return (
       <div className="Battle">
+        <BattleView
+          monsterAttack={monsterAttack}
+          characterAttack={characterAttack}
+          monster={monster}
+          battle={battle}
+        />
         <Menu
           character={character}
           monster={monster}
@@ -49,6 +60,7 @@ class Battle extends React.Component {
           attackCharacter={attackCharacter}
           clearMonster={clearMonster}
           showLog={showLog}
+          endBattle={endBattle}
         />
         <MonsterStat monster={monster} />
         <CharacterStat character={character} />
