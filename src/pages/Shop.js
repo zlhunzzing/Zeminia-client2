@@ -7,7 +7,15 @@ class Shop extends React.Component {
   }
 
   render() {
-    return <div className="Shop" />;
+    return (
+      <div className="Shop">
+        <div>단검</div>
+        <div>도끼</div>
+        <div>롱소드</div>
+        <div>창</div>
+        <div>제미소드</div>
+      </div>
+    );
   }
 }
 

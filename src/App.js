@@ -13,6 +13,7 @@ import Secession from './pages/Secession';
 
 // CSS
 import './App.css';
+import Shop from './pages/Shop';
 
 class App extends React.Component {
   constructor(props) {
@@ -81,6 +82,7 @@ class App extends React.Component {
     this.checkLoginRoute = this.checkLoginRoute.bind(this);
     this.generateMonster = this.generateMonster.bind(this);
     this.heal = this.heal.bind(this);
+    this.moveToShop = this.moveToShop.bind(this);
     this.quit = this.quit.bind(this);
     this.attackMonster = this.attackMonster.bind(this);
     this.nextTurn = this.nextTurn.bind(this);
@@ -230,7 +232,13 @@ class App extends React.Component {
     this.showLog('체력을 회복했습니다');
   }
 
-  quit() {
+  moveToShop() {
+    console.log('?');
+    const { save } = this.save;
+    return <Shop save={save} />;
+  }
+
+  quit(toBattle) {
     if (window.confirm('그만하시겠습니까?')) {
       // fetch("http://localhost:5001/logout", {
       //     method: 'POST',
@@ -241,7 +249,7 @@ class App extends React.Component {
       //     }
       // })
       this.logout();
-      this.changeBattleView();
+      this.changeBattleView(toBattle);
     }
   }
 
@@ -514,9 +522,10 @@ class App extends React.Component {
     return this;
   }
 
-  changeBattleView() {
+  changeBattleView(toBattle) {
     const AppCss = document.querySelector('.App').style;
-    if (AppCss.width !== '1050px') {
+    console.log(toBattle);
+    if (toBattle) {
       AppCss.width = '1050px';
     } else {
       AppCss.width = '800px';
@@ -579,13 +588,14 @@ class App extends React.Component {
                   toggleMenu={this.toggleMenu}
                   generateMonster={this.generateMonster}
                   heal={this.heal}
+                  moveToShop={this.moveToShop}
                   quit={this.quit}
                   attackMonster={this.attackMonster}
                   nextTurn={this.nextTurn}
                   attackCharacter={this.attackCharacter}
                   clearMonster={this.clearMonster}
                   showLog={this.showLog}
-                  changeBattleView={this.changeBattleView()}
+                  changeBattleView={this.changeBattleView(true)}
                   email={email}
                   password={password}
                 />

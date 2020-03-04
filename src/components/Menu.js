@@ -15,6 +15,7 @@ class Menu extends React.Component {
       toggleMenu,
       generateMonster,
       heal,
+      moveToShop,
       quit,
       clearMonster,
       attackMonster,
@@ -50,6 +51,15 @@ class Menu extends React.Component {
             }}
           >
             휴식한다
+          </button>
+          <br />
+          <button
+            type="button"
+            onClick={() => {
+              moveToShop();
+            }}
+          >
+            상점간다
           </button>
           <br />
           <button type="button" onClick={() => quit()}>
