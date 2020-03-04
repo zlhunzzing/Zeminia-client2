@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Shop extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Shop extends React.Component {
         <div>롱소드</div>
         <div>창</div>
         <div>제미소드</div>
+        <Link to="/battle">나가기</Link>
       </div>
     );
   }

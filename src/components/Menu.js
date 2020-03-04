@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Menu.css';
+import { Link } from 'react-router-dom';
 
 class Menu extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class Menu extends React.Component {
       toggleMenu,
       generateMonster,
       heal,
-      moveToShop,
+      // moveToShop,
       quit,
       clearMonster,
       attackMonster,
@@ -54,14 +55,15 @@ class Menu extends React.Component {
             휴식한다
           </button>
           <br />
-          <button
+          {/* <button
             type="button"
             onClick={() => {
               moveToShop();
             }}
           >
             상점간다
-          </button>
+          </button> */}
+          <Link to="/shop">상점가기</Link>
           <br />
           <button type="button" onClick={() => quit()}>
             그만한다
@@ -116,7 +118,7 @@ Menu.propTypes = {
   toggleMenu: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
   heal: PropTypes.func.isRequired,
-  moveToShop: PropTypes.func.isRequired,
+  // moveToShop: PropTypes.func.isRequired,
   quit: PropTypes.func.isRequired,
   attackMonster: PropTypes.func.isRequired,
   nextTurn: PropTypes.func.isRequired,
