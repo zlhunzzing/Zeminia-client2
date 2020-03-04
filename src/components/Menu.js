@@ -19,7 +19,8 @@ class Menu extends React.Component {
       clearMonster,
       attackMonster,
       nextTurn,
-      showLog
+      showLog,
+      endBattle
     } = this.props;
 
     return (
@@ -88,6 +89,7 @@ class Menu extends React.Component {
             onClick={() => {
               clearMonster();
               toggleMenu();
+              endBattle();
               showLog('도망쳤습니다');
             }}
           >
@@ -108,7 +110,8 @@ Menu.propTypes = {
   attackMonster: PropTypes.func.isRequired,
   nextTurn: PropTypes.func.isRequired,
   clearMonster: PropTypes.func.isRequired,
-  showLog: PropTypes.func.isRequired
+  showLog: PropTypes.func.isRequired,
+  endBattle: PropTypes.func.isRequired
 };
 
 export default Menu;

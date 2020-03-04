@@ -26,6 +26,9 @@ class App extends React.Component {
       turn: true,
       use: false,
       redirect: false,
+      battle: false,
+      characterAttack: false,
+      monsterAttack: false,
       email: false,
       password: false
       // dummyMob: [
@@ -88,6 +91,7 @@ class App extends React.Component {
     this.clearMonster = this.clearMonster.bind(this);
     this.logout = this.logout.bind(this);
     this.gotoLogin = this.gotoLogin.bind(this);
+    this.endBattle = this.endBattle.bind(this);
   }
 
   login(email, password) {
@@ -171,7 +175,8 @@ class App extends React.Component {
       })
       .then(info => {
         this.setState({
-          monster: info[Math.floor(Math.random() * info.length)]
+          monster: info[Math.floor(Math.random() * info.length)],
+          battle: true
         });
       });
     // const { dummyMob } = this.state;
@@ -280,15 +285,27 @@ class App extends React.Component {
     this.showLog(
       `${monster.monster_name}에게 ${character.att}의 데미지를 입혔습니다.`
     );
-    await this.setState(prevState => ({
-      monster: {
-        monster_name: prevState.monster.monster_name,
-        level: prevState.monster.level,
-        hp: prevState.monster.hp - prevState.character.att,
-        att: prevState.monster.att,
-        exp: prevState.monster.exp
+    await this.setState(
+      prevState => ({
+        monster: {
+          monster_name: prevState.monster.monster_name,
+          level: prevState.monster.level,
+          hp: prevState.monster.hp - prevState.character.att,
+          att: prevState.monster.att,
+          exp: prevState.monster.exp
+        },
+        characterAttack: true
+      }),
+      () => {
+        setTimeout(
+          () =>
+            this.setState({
+              characterAttack: false
+            }),
+          500
+        );
       }
-    }));
+    );
     const reMonster = this.state;
     if (reMonster.monster.hp <= 0) {
       this.setState(
@@ -360,19 +377,31 @@ class App extends React.Component {
       `${monster.monster_name}에게 ${monster.att}의 데미지를 입었습니다.`
     );
     if (monster.hp > 0) {
-      await this.setState(prevState => ({
-        character: {
-          id: prevState.character.id,
-          character_name: prevState.character.character_name,
-          level: prevState.character.level,
-          maxHp: prevState.character.maxHp,
-          hp: prevState.character.hp - prevState.monster.att,
-          att: prevState.character.att,
-          exp: prevState.character.exp,
-          gold: prevState.character.gold,
-          rankScore: prevState.character.rankScore
+      await this.setState(
+        prevState => ({
+          character: {
+            id: prevState.character.id,
+            character_name: prevState.character.character_name,
+            level: prevState.character.level,
+            maxHp: prevState.character.maxHp,
+            hp: prevState.character.hp - prevState.monster.att,
+            att: prevState.character.att,
+            exp: prevState.character.exp,
+            gold: prevState.character.gold,
+            rankScore: prevState.character.rankScore
+          },
+          monsterAttack: true
+        }),
+        () => {
+          setTimeout(
+            () =>
+              this.setState({
+                monsterAttack: false
+              }),
+            500
+          );
         }
-      }));
+      );
       const { character } = this.state;
       if (character.hp < 0) {
         this.setState(prevState => ({
@@ -430,12 +459,19 @@ class App extends React.Component {
     });
   }
 
+  endBattle() {
+    this.setState({
+      battle: false
+    });
+  }
+
   win() {
     this.levelUp();
     this.showLog('전투에서 승리하였습니다.');
     this.clearMonster();
     this.toggleMenu();
     this.save();
+    this.endBattle();
     this.setState({
       use: false
     });
@@ -533,6 +569,9 @@ class App extends React.Component {
       character,
       monster,
       use,
+      battle,
+      characterAttack,
+      monsterAttack,
       email,
       password
     } = this.state;
@@ -573,6 +612,10 @@ class App extends React.Component {
             render={() =>
               isLogin ? (
                 <Battle
+                  monsterAttack={monsterAttack}
+                  characterAttack={characterAttack}
+                  battle={battle}
+                  endBattle={this.endBattle}
                   character={character}
                   monster={monster}
                   use={use}
