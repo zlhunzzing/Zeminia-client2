@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 // import PropTypes from 'prop-types';
+const player = require('../images/player.png');
 
 class CharacterStat extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class CharacterStat extends React.Component {
           bottom: '5%'
         }}
       >
+        <img src={player} alt="" />
         <p>Character Status</p>
         {character ? (
           // <div>
