@@ -15,6 +15,7 @@ class Menu extends React.Component {
       toggleMenu,
       generateMonster,
       heal,
+      moveToShop,
       quit,
       clearMonster,
       attackMonster,
@@ -51,6 +52,15 @@ class Menu extends React.Component {
             }}
           >
             휴식한다
+          </button>
+          <br />
+          <button
+            type="button"
+            onClick={() => {
+              moveToShop();
+            }}
+          >
+            상점간다
           </button>
           <br />
           <button type="button" onClick={() => quit()}>
@@ -106,6 +116,7 @@ Menu.propTypes = {
   toggleMenu: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
   heal: PropTypes.func.isRequired,
+  moveToShop: PropTypes.func.isRequired,
   quit: PropTypes.func.isRequired,
   attackMonster: PropTypes.func.isRequired,
   nextTurn: PropTypes.func.isRequired,

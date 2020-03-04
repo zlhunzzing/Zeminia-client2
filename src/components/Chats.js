@@ -35,7 +35,7 @@ class Chats extends React.Component {
     this.emitChatsDataFilterRoom = this.emitChatsDataFilterRoom.bind(this);
     this.onChageSelectRoom = this.onChageSelectRoom.bind(this);
     // 테스트를 위해 만들어 놓은 메서드 (추후에 지워야 함)
-    this.testSession = this.testSession.bind(this);
+    // this.testSession = this.testSession.bind(this);
   }
 
   componentDidMount() {
@@ -116,33 +116,43 @@ class Chats extends React.Component {
     }
   }
 
-  testSession() {
-    const { email, password } = this.props;
-    // fetch(hostDev + '/users/signin', {
-    fetch('http://13.209.6.41:5001/users/signin', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: 'Zeminia@co.kr',
-        password: '!1zeminia'
-      }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log(json);
-      });
-  }
+  // testSession() {
+  //   const { email, password } = this.props;
+  //   // fetch(hostDev + '/users/signin', {
+  //   fetch('http://13.209.6.41:5001/users/signin', {
+  //     method: 'POST',
+  //     body: JSON.stringify({
+  //       email: 'Zeminia@co.kr',
+  //       password: '!1zeminia'
+  //     }),
+  //     headers: { 'Content-Type': 'application/json' },
+  //     credentials: 'include'
+  //   })
+  //     .then(res => res.json())
+  //     .then(json => {
+  //       console.log(json);
+  //     });
+  // }
 
   render() {
     return (
       <div className="Chats">
-        <h2>Chats~</h2>
-        <button onClick={this.testSession}>
+        <div
+          style={{
+            fontSize: '20px',
+            textAlign: 'center'
+          }}
+        >
+          Chats~ 실시간 채팅
+        </div>
+        {/* <button onClick={this.testSession}>
           테스트를 위한 세션 연결 (클릭 후 리로딩을 해야 해요)
-        </button>
-        <hr />
+        </button> */}
+        {/* <hr /> */}
         <form
+          // style={{
+          //   border: '1px solid black'
+          // }}
           onSubmit={e => {
             e.preventDefault();
             this.sendMessage(
@@ -154,10 +164,17 @@ class Chats extends React.Component {
             this.setState({ elTextMessage: '', elInputRoomName: '' });
           }}
         >
-          <fieldset>
+          <fieldset
+            style={{
+              position: 'absolute',
+              bottom: '0%',
+              border: '1px solid black',
+              width: '220px'
+            }}
+          >
             <legend>Chats</legend>
             <div>
-              <span>Room: </span>
+              <span>Channel: </span>
               <select
                 value={this.state.elSelectValue}
                 onChange={e => {
@@ -165,7 +182,7 @@ class Chats extends React.Component {
                   this.emitChatsDataFilterRoom(e);
                 }}
               >
-                <option value="info">---room을 선택하세요---</option>
+                <option value="info">---채널을 선택하세요---</option>
                 <option value="default">default</option>
                 {this.state.uinqRoomsData.map((room, idx) => {
                   if (room !== 'default') {
@@ -180,7 +197,7 @@ class Chats extends React.Component {
               </select>
               <span className="refresh_Word"></span>
             </div>
-            <hr></hr>
+            {/* <hr></hr> */}
             <div>
               <input
                 type="text"
@@ -190,21 +207,22 @@ class Chats extends React.Component {
                 }}
                 style={{
                   display:
-                    this.state.elSelectValue === 'info'
-                      ? 'inline-block'
-                      : 'none'
+                    // this.state.elSelectValue === 'info'
+                    //   ? 'inline-block'
+                    //   : 'none'
+                    'none'
                 }}
                 required={this.state.elSelectValue !== 'info' ? false : true}
                 placeholder="방 이름을 적어주세요"
               />
-              <br />
+              {/* <br /> */}
               <p>
                 <label htmlFor="chats_text">Message</label>
               </p>
               <input
                 id="chats_text"
                 type="text"
-                style={{ width: '400px' }}
+                style={{ width: '200px' }}
                 value={this.state.elTextMessage}
                 onChange={e => {
                   this.onChangeMessage(e);
@@ -214,17 +232,28 @@ class Chats extends React.Component {
             <input type="submit" value="전송" />
           </fieldset>
         </form>
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column-reverse',
+            borderTop: '1px solid black',
+            borderBottom: '1px solid black',
+            height: '375px',
+            overflow: 'hidden'
+          }}
+        >
           {this.state.selectedRoomData
             .sort((a, b) => {
               return b.id - a.id;
+              // return a.id - b.id;
             })
+            // .reverse()
             .map(item => {
               return (
                 <div key={item.id}>
-                  <p>character: {item.character}</p>
-                  <p>message: {item.message}</p>
-                  <p style={{ fontSize: '5px' }}>{item.createdAt}</p>
+                  <div>character: {item.character}</div>
+                  <div>message: {item.message}</div>
+                  <div style={{ fontSize: '5px' }}>{item.createdAt}</div>
                   <hr />
                 </div>
               );

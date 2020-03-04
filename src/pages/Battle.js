@@ -24,6 +24,7 @@ class Battle extends React.Component {
       toggleMenu,
       generateMonster,
       heal,
+      moveToShop,
       quit,
       attackMonster,
       nextTurn,
@@ -52,6 +53,7 @@ class Battle extends React.Component {
           toggleMenu={toggleMenu}
           generateMonster={generateMonster}
           heal={heal}
+          moveToShop={moveToShop}
           quit={quit}
           attackMonster={attackMonster}
           nextTurn={nextTurn}
