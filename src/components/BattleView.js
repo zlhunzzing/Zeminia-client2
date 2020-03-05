@@ -10,14 +10,14 @@ const monsters = {
   쥐: require('../images/ratidle.gif'),
   좀비: require('../images/zombieidle.gif'),
   늑대인간: require('../images/wolfidle.gif'),
-  규동몬: require('../images/wolfidle.gif')
+  규동몬: require('../images/gyudongmon.gif')
 };
 
 const monstersAttack = {
   쥐: require('../images/ratattack.png'),
   좀비: require('../images/zombieattack.png'),
   늑대인간: require('../images/wolfattack.png'),
-  규동몬: require('../images/wolfattack.png')
+  규동몬: require('../images/gyudongmonattack.png')
 };
 
 class BattleView extends React.Component {
