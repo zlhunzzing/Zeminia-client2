@@ -12,10 +12,10 @@ class Log extends React.Component {
     return (
       <div
         style={{
-          // display: 'flex',
+          display: 'flex',
           position: 'absolute',
           flexDirection: 'column-reverse',
-          width: '100%',
+          width: '50%',
           height: '200px',
           overflow: 'hidden'
         }}
