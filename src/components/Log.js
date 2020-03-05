@@ -13,8 +13,9 @@ class Log extends React.Component {
       <div
         style={{
           display: 'flex',
+          // position: 'absolute',
           flexDirection: 'column-reverse',
-          width: '100%',
+          width: '50%',
           height: '200px',
           overflow: 'hidden'
         }}

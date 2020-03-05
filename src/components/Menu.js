@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Menu.css';
+import { Link } from 'react-router-dom';
 
 class Menu extends React.Component {
   constructor(props) {
@@ -15,28 +16,33 @@ class Menu extends React.Component {
       toggleMenu,
       generateMonster,
       heal,
+      // moveToShop,
       quit,
       clearMonster,
       attackMonster,
       nextTurn,
       showLog
+      // changeBattlefield
+      // endBattle
     } = this.props;
 
     return (
       <div
         style={{
           position: 'absolute',
-          right: '50%',
+          right: '60%',
           bottom: '5%'
         }}
       >
         <div className="menuBar">
           <button
+            disabled={use}
             type="button"
             onClick={() => {
               toggleMenu('monster');
               generateMonster();
               showLog('몬스터가 출현했습니다');
+              // changeBattlefield();
             }}
           >
             모험한다
@@ -50,6 +56,18 @@ class Menu extends React.Component {
             }}
           >
             휴식한다
+          </button>
+          <br />
+          {/* <button
+            type="button"
+            onClick={() => {
+              moveToShop();
+            }}
+          >
+            상점간다
+          </button> */}
+          <button type="button">
+            <Link to="/shop">상점가기</Link>
           </button>
           <br />
           <button type="button" onClick={() => quit()}>
@@ -88,6 +106,7 @@ class Menu extends React.Component {
             onClick={() => {
               clearMonster();
               toggleMenu();
+              // endBattle();
               showLog('도망쳤습니다');
             }}
           >
@@ -104,11 +123,13 @@ Menu.propTypes = {
   toggleMenu: PropTypes.func.isRequired,
   generateMonster: PropTypes.func.isRequired,
   heal: PropTypes.func.isRequired,
+  // moveToShop: PropTypes.func.isRequired,
   quit: PropTypes.func.isRequired,
   attackMonster: PropTypes.func.isRequired,
   nextTurn: PropTypes.func.isRequired,
   clearMonster: PropTypes.func.isRequired,
   showLog: PropTypes.func.isRequired
+  // endBattle: PropTypes.func.isRequired
 };
 
 export default Menu;

@@ -38,6 +38,10 @@ class Ranking extends React.Component {
               <th>마지막 접속</th>
             </tr>
             {data.map((a, ind) => {
+              const split = a.updatedAt.split('T');
+              const date = split[0].split('-');
+              const time = split[1].split(':');
+              const format = `${date[0]}년 ${date[1]}월 ${date[2]}일 ${time[0]}시 ${time[1]}분`;
               return (
                 <tr key={a.id}>
                   <th>{ind + 1}</th>
@@ -46,13 +50,23 @@ class Ranking extends React.Component {
                   <th>{a.hp}</th>
                   <th>{a.att}</th>
                   <th>{a.rankScore}</th>
-                  <th>{a.updatedAt}</th>
+                  <th>{format}</th>
                 </tr>
               );
             })}
           </tbody>
         </table>
-        <Link to="/">뒤로가기</Link>
+        <Link
+          style={{
+            position: 'absolute',
+            top: '5%',
+            left: '20%',
+            overflow: 'hidden'
+          }}
+          to="/"
+        >
+          뒤로가기
+        </Link>
       </div>
     );
   }

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -19,6 +20,8 @@ class Signup extends React.Component {
 
   render() {
     const { signup } = this.props;
+    const intro = require('../images/character.gif');
+    const logo = require('../images/zemix_LOGO.png');
     return (
       <div
         style={{
@@ -29,6 +32,27 @@ class Signup extends React.Component {
           height: '550px'
         }}
       >
+        <div
+          style={{
+            position: 'absolute',
+            right: '15%',
+            top: '40%'
+          }}
+        >
+          {/* <img className="intro" src="character.gif" alt="" /> */}
+          <img src={intro} alt="" />
+          <div>규동몬으로부터</div>
+          <div>세상을 구하자!</div>
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '15%',
+            top: '40%'
+          }}
+        >
+          <img src={logo} alt="" />
+        </div>
         <h2>Zeminia</h2>
         <form
           onSubmit={e => {
@@ -94,7 +118,15 @@ class Signup extends React.Component {
         <Link to="/login">로그인 하기?</Link>
         <Link to="/secession">회원탈퇴</Link>
         <Link to="/ranking">랭킹보기</Link>
-        <h4>Team Zemix </h4>
+        {/* <h4>Team Zemix </h4> */}
+        <Link
+          style={{
+            color: 'black'
+          }}
+          to="/about"
+        >
+          Team Zemix{' '}
+        </Link>
       </div>
     );
   }
