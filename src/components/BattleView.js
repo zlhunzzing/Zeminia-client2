@@ -13,8 +13,8 @@ const monsters = {
 };
 
 const monstersAttack = {
-  mouse: require('../images/ratattack.png'),
-  zombie: require('../images/zombieattack.png'),
+  쥐: require('../images/ratattack.png'),
+  좀비: require('../images/zombieattack.png'),
   늑대인간: require('../images/wolfattack.png'),
   규동몬: require('../images/wolfattack.png')
 };
