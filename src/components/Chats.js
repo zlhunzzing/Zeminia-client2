@@ -261,11 +261,15 @@ class Chats extends React.Component {
             })
             // .reverse()
             .map(item => {
+              let split = item.createdAt.split('T');
+              let date = split[0].split('-');
+              let time = split[1].split(':');
+              let format = `${date[0]}년 ${date[1]}월 ${date[2]}일 ${time[0]}시 ${time[1]}분`;
               return (
                 <div key={item.id}>
                   <div>character: {item.character}</div>
                   <div>message: {item.message}</div>
-                  <div style={{ fontSize: '5px' }}>{item.createdAt}</div>
+                  <div style={{ fontSize: '5px' }}>{format}</div>
                   <hr />
                 </div>
               );
