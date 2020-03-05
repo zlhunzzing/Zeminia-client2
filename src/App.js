@@ -603,7 +603,7 @@ class App extends React.Component {
         rankScore: prevState.character.rankScore
       }
     }));
-    if (window.confirm('게임을 계속하시겠습니까?')) {
+    if (window.confirm('패배하였습니다. 게임을 계속하시겠습니까?')) {
       // fetch("http://localhost:5001/user", {
       //     method: 'GET',
       //     headers: {

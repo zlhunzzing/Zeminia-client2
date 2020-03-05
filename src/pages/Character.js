@@ -33,26 +33,26 @@ class Character extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            if (name.match(/^(?=.*[A-Za-z])[A-Za-z\d]{8,}$/)) {
-              if (window.confirm(`${name}으로 하시겠습니까?`)) {
-                fetch('http://13.209.6.41:5001/characters/newcharacter', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  credentials: 'include',
-                  body: JSON.stringify({ character_name: name })
+            // if (name.match(/^(?=.*[A-Za-z])[A-Za-z\d]{8,}$/)) {
+            if (window.confirm(`${name}으로 하시겠습니까?`)) {
+              fetch('http://13.209.6.41:5001/characters/newcharacter', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ character_name: name })
+              })
+                .then(user => {
+                  return user.json();
                 })
-                  .then(user => {
-                    return user.json();
-                  })
-                  .then(info => {
-                    isCharacter(info);
-                  });
-              }
-            } else {
-              alert('8자 이상에 영어 문자가 들어가야합니다.');
+                .then(info => {
+                  isCharacter(info);
+                });
             }
+            // } else {
+            // alert('8자 이상에 영어 문자가 들어가야합니다.');
+            // }
             // createCharacter(name);
           }}
         >
