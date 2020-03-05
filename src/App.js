@@ -269,15 +269,6 @@ class App extends React.Component {
     this.showLog('체력을 회복했습니다');
   }
 
-  // moveToShop() {
-  //   console.log('?');
-  //   // const { save } = this.save;
-  //   // return <Shop save={save} />;
-  //   this.setState({
-  //     buying: true
-  //   });
-  // }
-
   quit(toBattle) {
     if (window.confirm('그만하시겠습니까?')) {
       // fetch("http://localhost:5001/logout", {
