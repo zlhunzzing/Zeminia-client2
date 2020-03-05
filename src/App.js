@@ -27,7 +27,7 @@ class App extends React.Component {
       turn: true,
       use: false,
       redirect: false,
-      battle: false,
+      // battle: false,
       characterAttack: false,
       monsterAttack: false,
       email: false,
@@ -94,7 +94,7 @@ class App extends React.Component {
     this.clearMonster = this.clearMonster.bind(this);
     this.logout = this.logout.bind(this);
     this.gotoLogin = this.gotoLogin.bind(this);
-    this.endBattle = this.endBattle.bind(this);
+    // this.endBattle = this.endBattle.bind(this);
     this.buyItem = this.buyItem.bind(this);
   }
 
@@ -179,8 +179,8 @@ class App extends React.Component {
       })
       .then(info => {
         this.setState({
-          monster: info[Math.floor(Math.random() * info.length)],
-          battle: true
+          monster: info[Math.floor(Math.random() * info.length)]
+          // battle: true
         });
       });
     // const { dummyMob } = this.state;
@@ -290,10 +290,23 @@ class App extends React.Component {
     );
   }
 
-  clearMonster() {
+  async clearMonster() {
+    const monster = document.getElementById('monster');
+    monster.className = 'fadeOut';
     this.setState({
-      monster: false
+      use: true
     });
+    await setTimeout(() => {
+      this.setState({
+        monster: false
+      });
+    }, 1000);
+    await setTimeout(() => {
+      monster.classList.remove('fadeOut');
+      this.setState({
+        use: false
+      });
+    }, 1000);
   }
 
   // 몬스터 죽은 뒤 턴을 진행하기 위해 async
@@ -329,15 +342,17 @@ class App extends React.Component {
       );
       const reMonster = this.state;
       if (reMonster.monster.hp <= 0) {
+        this.clearMonster();
         this.setState(
           prevState => ({
             monster: {
-              name: prevState.monster.monster_name,
-              level: prevState.monster.level,
-              maxHp: prevState.character.maxHp,
-              hp: 0,
-              att: prevState.monster.att,
-              exp: prevState.monster.exp
+              ...prevState.monster,
+              // name: prevState.monster.monster_name,
+              // level: prevState.monster.level,
+              // maxHp: prevState.character.maxHp,
+              hp: 0
+              // att: prevState.monster.att,
+              // exp: prevState.monster.exp
             },
             use: true
           }),
@@ -387,15 +402,17 @@ class App extends React.Component {
       );
       const reMonster = this.state;
       if (reMonster.monster.hp <= 0) {
+        this.clearMonster();
         this.setState(
           prevState => ({
             monster: {
-              name: prevState.monster.monster_name,
-              level: prevState.monster.level,
-              maxHp: prevState.character.maxHp,
-              hp: 0,
-              att: prevState.monster.att,
-              exp: prevState.monster.exp
+              ...prevState.monster,
+              // name: prevState.monster.monster_name,
+              // level: prevState.monster.level,
+              // maxHp: prevState.character.maxHp,
+              hp: 0
+              // att: prevState.monster.att,
+              // exp: prevState.monster.exp
             },
             use: true
           }),
@@ -546,11 +563,13 @@ class App extends React.Component {
     });
   }
 
-  endBattle() {
-    this.setState({
-      battle: false
-    });
-  }
+  // endBattle() {
+  //   setTimeout(() => {
+  //     this.setState({
+  //       battle: false
+  //     });
+  //   }, 2000);
+  // }
 
   win() {
     const { monster } = this.state;
@@ -559,10 +578,10 @@ class App extends React.Component {
       alert('축하드립니다, 세상을 구하셨습니다!');
     }
     this.showLog('전투에서 승리하였습니다.');
-    this.clearMonster();
+    // this.clearMonster();
     this.toggleMenu();
     this.save();
-    this.endBattle();
+    // this.endBattle();
     this.setState({
       use: false
     });
@@ -723,7 +742,7 @@ class App extends React.Component {
       character,
       monster,
       use,
-      battle,
+      // battle,
       characterAttack,
       monsterAttack,
       email,
@@ -769,8 +788,8 @@ class App extends React.Component {
                 <Battle
                   monsterAttack={monsterAttack}
                   characterAttack={characterAttack}
-                  battle={battle}
-                  endBattle={this.endBattle}
+                  // battle={battle}
+                  // endBattle={this.endBattle}
                   character={character}
                   monster={monster}
                   use={use}

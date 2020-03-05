@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import './BattleView.css';
 // import PropTypes from 'prop-types';
 const player = require('../images/playeridle.gif');
 const playerAttack = require('../images/playerattack.gif');
@@ -26,7 +27,7 @@ class BattleView extends React.Component {
   }
 
   render() {
-    const { battle, monster, characterAttack, monsterAttack } = this.props;
+    const { monster, characterAttack, monsterAttack } = this.props;
     const imgStyle = {
       padding: '20px'
     };
@@ -39,16 +40,22 @@ class BattleView extends React.Component {
           width: 'auto'
         }}
       >
-        {battle && monsterAttack ? (
+        {monster && monsterAttack ? (
           <img
+            id="monster"
             style={imgStyle}
             src={monstersAttack[monster.monster_name]}
             alt=""
           />
         ) : (
-          <img style={imgStyle} src={monsters[monster.monster_name]} alt="" />
+          <img
+            id="monster"
+            style={imgStyle}
+            src={monsters[monster.monster_name]}
+            alt=""
+          />
         )}
-        {battle && characterAttack ? (
+        {monster && characterAttack ? (
           <img style={imgStyle} src={playerAttack} alt="" />
         ) : (
           <img style={imgStyle} src={player} alt="" />
