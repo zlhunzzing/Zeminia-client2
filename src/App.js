@@ -99,8 +99,8 @@ class App extends React.Component {
     this.buyItem = this.buyItem.bind(this);
   }
 
-  login(email, password) {
-    fetch('http://13.209.6.41:5001/characters/info', {
+  async login(email, password) {
+    await fetch('http://13.209.6.41:5001/characters/info', {
       credentials: 'include'
     })
       .then(user => {
@@ -121,6 +121,27 @@ class App extends React.Component {
             password
           });
         }
+      });
+    // 아이템 불러오기
+    fetch('http://13.209.6.41:5001/items/info')
+      .then(user => {
+        return user.json();
+      })
+      .then(info => {
+        this.setState(prevState => ({
+          character: {
+            id: prevState.character.id,
+            character_name: prevState.character.character_name,
+            level: prevState.character.level,
+            maxHp: prevState.character.maxHp,
+            hp: prevState.character.maxHp,
+            att: prevState.character.att,
+            exp: prevState.character.exp,
+            weapon: info[prevState.character.weapon - 1],
+            gold: prevState.character.gold,
+            rankScore: prevState.character.rankScore
+          }
+        }));
       });
   }
 
@@ -560,18 +581,50 @@ class App extends React.Component {
     // console.log('렙업', character);
   }
 
-  save() {
+  // 세이브하고 무기되찾기
+  async save() {
     const { character } = this.state;
-    console.log(character);
-    // console.log('캐릭터', JSON.stringify(character));
-    fetch('http://13.209.6.41:5001/characters/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify(character)
-    });
+    if (!character.weapon) {
+      fetch('http://13.209.6.41:5001/characters/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(character)
+      });
+    } else {
+      character.weapon = character.weapon.id;
+      console.log(character.weapon);
+      await fetch('http://13.209.6.41:5001/characters/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(character)
+      });
+      fetch('http://13.209.6.41:5001/items/info')
+        .then(user => {
+          return user.json();
+        })
+        .then(info => {
+          this.setState(prevState => ({
+            character: {
+              id: prevState.character.id,
+              character_name: prevState.character.character_name,
+              level: prevState.character.level,
+              maxHp: prevState.character.maxHp,
+              hp: prevState.character.maxHp,
+              att: prevState.character.att,
+              exp: prevState.character.exp,
+              weapon: info[prevState.character.weapon - 1],
+              gold: prevState.character.gold,
+              rankScore: prevState.character.rankScore
+            }
+          }));
+        });
+    }
   }
 
   // endBattle() {
@@ -691,12 +744,12 @@ class App extends React.Component {
   }
 
   async buyItem(item) {
-    console.log(item);
+    // console.log(item);
     // console.log('가격', item.cost);
     const { character } = this.state;
     if (!character.weapon) {
       if (window.confirm('구매하시겠습니까?')) {
-        console.log(character.gold);
+        // console.log(character.gold);
         if (character.gold > item.cost) {
           await this.setState(prevState => ({
             character: {
