@@ -21,6 +21,7 @@ class Signup extends React.Component {
   render() {
     const { signup } = this.props;
     const intro = require('../images/character.gif');
+    const logo = require('../images/zemix_LOGO.png');
     return (
       <div
         style={{
@@ -42,6 +43,15 @@ class Signup extends React.Component {
           <img src={intro} alt="" />
           <div>규동몬으로부터</div>
           <div>세상을 구하자!</div>
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '15%',
+            top: '40%'
+          }}
+        >
+          <img src={logo} alt="" />
         </div>
         <h2>Zeminia</h2>
         <form

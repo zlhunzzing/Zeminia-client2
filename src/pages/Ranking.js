@@ -38,7 +38,7 @@ class Ranking extends React.Component {
               <th>마지막 접속</th>
             </tr>
             {data.map((a, ind) => {
-              const split = a.createdAt.split('T');
+              const split = a.updatedAt.split('T');
               const date = split[0].split('-');
               const time = split[1].split(':');
               const format = `${date[0]}년 ${date[1]}월 ${date[2]}일 ${time[0]}시 ${time[1]}분`;
@@ -56,7 +56,17 @@ class Ranking extends React.Component {
             })}
           </tbody>
         </table>
-        <Link to="/">뒤로가기</Link>
+        <Link
+          style={{
+            position: 'absolute',
+            top: '5%',
+            left: '20%',
+            overflow: 'hidden'
+          }}
+          to="/"
+        >
+          뒤로가기
+        </Link>
       </div>
     );
   }

@@ -22,6 +22,7 @@ class Menu extends React.Component {
       attackMonster,
       nextTurn,
       showLog
+      // changeBattlefield
       // endBattle
     } = this.props;
 
@@ -41,6 +42,7 @@ class Menu extends React.Component {
               toggleMenu('monster');
               generateMonster();
               showLog('몬스터가 출현했습니다');
+              // changeBattlefield();
             }}
           >
             모험한다
