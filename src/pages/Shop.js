@@ -43,6 +43,18 @@ class Shop extends React.Component {
     };
   }
 
+  componentDidMount() {
+    fetch('http://13.209.6.41:5001/items/info')
+      .then(user => {
+        return user.json();
+      })
+      .then(info => {
+        this.setState({
+          items: info
+        });
+      });
+  }
+
   render() {
     const { items } = this.state;
     const { buyItem } = this.props;
