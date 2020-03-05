@@ -108,7 +108,15 @@ class Signup extends React.Component {
         <Link to="/login">로그인 하기?</Link>
         <Link to="/secession">회원탈퇴</Link>
         <Link to="/ranking">랭킹보기</Link>
-        <h4>Team Zemix </h4>
+        {/* <h4>Team Zemix </h4> */}
+        <Link
+          style={{
+            color: 'black'
+          }}
+          to="/about"
+        >
+          Team Zemix{' '}
+        </Link>
       </div>
     );
   }
