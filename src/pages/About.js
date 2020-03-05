@@ -10,7 +10,17 @@ class About extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/">뒤로가기</Link>
+        <Link
+          style={{
+            position: 'absolute',
+            top: '90%',
+            left: '85%',
+            border: '1px solid black'
+          }}
+          to="/"
+        >
+          뒤로가기
+        </Link>
       </div>
     );
   }
