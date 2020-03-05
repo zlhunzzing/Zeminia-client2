@@ -312,6 +312,8 @@ class App extends React.Component {
 
   // 몬스터 죽은 뒤 턴을 진행하기 위해 async
   async attackMonster() {
+    const mons = document.getElementById('monster');
+    mons.className = 'blink';
     const { character, monster } = this.state;
     if (character.weapon) {
       this.showLog(
@@ -437,6 +439,9 @@ class App extends React.Component {
         );
       }
     }
+    setTimeout(() => {
+      mons.classList.remove('blink');
+    }, 1000);
   }
 
   async nextTurn() {
@@ -471,6 +476,8 @@ class App extends React.Component {
 
   // 유저의 죽음을 확인하고 진행하기 위해 async
   async attackCharacter() {
+    const player = document.getElementById('player');
+    player.className = 'blink';
     const { monster } = this.state;
     this.showLog(
       `${monster.monster_name}에게 ${monster.att}의 데미지를 입었습니다.`
@@ -521,6 +528,9 @@ class App extends React.Component {
         window.setTimeout(this.lose.bind(this), 1000);
       }
     }
+    setTimeout(() => {
+      player.classList.remove('blink');
+    }, 1000);
   }
 
   levelUp() {
@@ -603,6 +613,8 @@ class App extends React.Component {
         rankScore: prevState.character.rankScore
       }
     }));
+    this.clearMonster();
+    this.toggleMenu();
     if (window.confirm('패배하였습니다. 게임을 계속하시겠습니까?')) {
       // fetch("http://localhost:5001/user", {
       //     method: 'GET',
@@ -635,11 +647,9 @@ class App extends React.Component {
         }
       }));
       this.showLog('게임을 재시작합니다.');
-      this.toggleMenu();
     } else {
       this.logout();
     }
-    this.clearMonster();
     this.resetButton();
     this.save();
   }

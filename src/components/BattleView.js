@@ -56,9 +56,9 @@ class BattleView extends React.Component {
           />
         )}
         {monster && characterAttack ? (
-          <img style={imgStyle} src={playerAttack} alt="" />
+          <img id="player" style={imgStyle} src={playerAttack} alt="" />
         ) : (
-          <img style={imgStyle} src={player} alt="" />
+          <img id="player" style={imgStyle} src={player} alt="" />
         )}
       </div>
     );
