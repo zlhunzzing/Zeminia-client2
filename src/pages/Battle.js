@@ -31,8 +31,8 @@ class Battle extends React.Component {
       attackCharacter,
       clearMonster,
       showLog,
-      battle,
-      endBattle,
+      // battle,
+      // endBattle,
       characterAttack,
       monsterAttack,
       email,
@@ -44,7 +44,7 @@ class Battle extends React.Component {
           monsterAttack={monsterAttack}
           characterAttack={characterAttack}
           monster={monster}
-          battle={battle}
+          // battle={battle}
         />
         <Menu
           character={character}
@@ -60,7 +60,7 @@ class Battle extends React.Component {
           attackCharacter={attackCharacter}
           clearMonster={clearMonster}
           showLog={showLog}
-          endBattle={endBattle}
+          // endBattle={endBattle}
         />
         <MonsterStat monster={monster} />
         <CharacterStat character={character} />
