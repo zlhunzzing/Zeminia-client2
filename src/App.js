@@ -123,26 +123,26 @@ class App extends React.Component {
         }
       });
     // 아이템 불러오기
-    fetch('http://13.209.6.41:5001/items/info')
-      .then(user => {
-        return user.json();
-      })
-      .then(info => {
-        this.setState(prevState => ({
-          character: {
-            id: prevState.character.id,
-            character_name: prevState.character.character_name,
-            level: prevState.character.level,
-            maxHp: prevState.character.maxHp,
-            hp: prevState.character.maxHp,
-            att: prevState.character.att,
-            exp: prevState.character.exp,
-            weapon: info[prevState.character.weapon - 1],
-            gold: prevState.character.gold,
-            rankScore: prevState.character.rankScore
-          }
-        }));
-      });
+    // fetch('http://13.209.6.41:5001/items/info')
+    //   .then(user => {
+    //     return user.json();
+    //   })
+    //   .then(info => {
+    //     this.setState(prevState => ({
+    //       character: {
+    //         id: prevState.character.id,
+    //         character_name: prevState.character.character_name,
+    //         level: prevState.character.level,
+    //         maxHp: prevState.character.maxHp,
+    //         hp: prevState.character.maxHp,
+    //         att: prevState.character.att,
+    //         exp: prevState.character.exp,
+    //         weapon: info[prevState.character.weapon - 1],
+    //         gold: prevState.character.gold,
+    //         rankScore: prevState.character.rankScore
+    //       }
+    //     }));
+    //   });
   }
 
   isCharacter(info) {
@@ -242,7 +242,8 @@ class App extends React.Component {
         exp: prevState.character.exp,
         weapon: prevState.character.weapon,
         gold: prevState.character.gold,
-        rankScore: prevState.character.rankScore
+        rankScore: prevState.character.rankScore,
+        item: prevState.character.item
       }
     }));
     const { character } = this.state;
@@ -258,7 +259,8 @@ class App extends React.Component {
           exp: prevState.character.exp,
           weapon: prevState.character.weapon,
           gold: prevState.character.gold,
-          rankScore: prevState.character.rankScore
+          rankScore: prevState.character.rankScore,
+          item: prevState.character.item
         }
       }));
     }
@@ -339,7 +341,7 @@ class App extends React.Component {
     if (character.weapon) {
       this.showLog(
         `${monster.monster_name}에게 ${character.att +
-          character.weapon.att}의 데미지를 입혔습니다.`
+          character.item.att}의 데미지를 입혔습니다.`
       );
       await this.setState(
         prevState => ({
@@ -348,7 +350,7 @@ class App extends React.Component {
             level: prevState.monster.level,
             hp:
               prevState.monster.hp -
-              (prevState.character.att + prevState.character.weapon.att),
+              (prevState.character.att + prevState.character.item.att),
             att: prevState.monster.att,
             exp: prevState.monster.exp
           },
@@ -392,7 +394,9 @@ class App extends React.Component {
                 exp: prevState.character.exp + prevState.monster.exp,
                 weapon: prevState.character.weapon,
                 gold: prevState.character.gold + prevState.monster.exp,
-                rankScore: prevState.character.rankScore + prevState.monster.exp
+                rankScore:
+                  prevState.character.rankScore + prevState.monster.exp,
+                item: prevState.character.item
               }
             }));
             window.setTimeout(this.win.bind(this), 1000);
@@ -452,7 +456,9 @@ class App extends React.Component {
                 exp: prevState.character.exp + prevState.monster.exp,
                 weapon: prevState.character.weapon,
                 gold: prevState.character.gold + prevState.monster.exp,
-                rankScore: prevState.character.rankScore + prevState.monster.exp
+                rankScore:
+                  prevState.character.rankScore + prevState.monster.exp,
+                item: prevState.character.item
               }
             }));
             window.setTimeout(this.win.bind(this), 1000);
@@ -516,7 +522,8 @@ class App extends React.Component {
             exp: prevState.character.exp,
             weapon: prevState.character.weapon,
             gold: prevState.character.gold,
-            rankScore: prevState.character.rankScore
+            rankScore: prevState.character.rankScore,
+            item: prevState.character.item
           },
           monsterAttack: true
         }),
@@ -543,7 +550,8 @@ class App extends React.Component {
             exp: prevState.character.exp,
             weapon: prevState.character.weapon,
             gold: prevState.character.gold,
-            rankScore: prevState.character.rankScore
+            rankScore: prevState.character.rankScore,
+            item: prevState.character.item
           }
         }));
         window.setTimeout(this.lose.bind(this), 1000);
@@ -570,10 +578,10 @@ class App extends React.Component {
           exp: prevState.character.exp - prevState.character.level * 3,
           weapon: prevState.character.weapon,
           gold: prevState.character.gold,
-          rankScore: prevState.character.rankScore
+          rankScore: prevState.character.rankScore,
+          item: prevState.character.item
         }
       }));
-
       if (character.exp >= character.level * 3) {
         this.levelUp();
       }
@@ -585,17 +593,6 @@ class App extends React.Component {
   async save() {
     const { character } = this.state;
     if (!character.weapon) {
-      fetch('http://13.209.6.41:5001/characters/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(character)
-      });
-    } else {
-      character.weapon = character.weapon.id;
-      console.log(character.weapon);
       await fetch('http://13.209.6.41:5001/characters/save', {
         method: 'POST',
         headers: {
@@ -604,25 +601,28 @@ class App extends React.Component {
         credentials: 'include',
         body: JSON.stringify(character)
       });
-      fetch('http://13.209.6.41:5001/items/info')
+    } else {
+      character.item = 0;
+      // console.log(character.weapon);
+      await fetch('http://13.209.6.41:5001/characters/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(character)
+      });
+      fetch('http://13.209.6.41:5001/characters/info', {
+        credentials: 'include'
+      })
         .then(user => {
           return user.json();
         })
         .then(info => {
-          this.setState(prevState => ({
-            character: {
-              id: prevState.character.id,
-              character_name: prevState.character.character_name,
-              level: prevState.character.level,
-              maxHp: prevState.character.maxHp,
-              hp: prevState.character.maxHp,
-              att: prevState.character.att,
-              exp: prevState.character.exp,
-              weapon: info[prevState.character.weapon - 1],
-              gold: prevState.character.gold,
-              rankScore: prevState.character.rankScore
-            }
-          }));
+          this.setState({
+            character: info
+          });
+          // console.log(info);
         });
     }
   }
@@ -663,7 +663,8 @@ class App extends React.Component {
         exp: prevState.character.exp,
         weapon: prevState.character.weapon,
         gold: prevState.character.gold,
-        rankScore: prevState.character.rankScore
+        rankScore: prevState.character.rankScore,
+        item: prevState.character.item
       }
     }));
     this.clearMonster();
@@ -696,7 +697,8 @@ class App extends React.Component {
           exp: prevState.character.exp,
           weapon: prevState.character.weapon,
           gold: prevState.character.gold,
-          rankScore: prevState.character.rankScore
+          rankScore: prevState.character.rankScore,
+          item: prevState.character.item
         }
       }));
       this.showLog('게임을 재시작합니다.');
@@ -760,9 +762,10 @@ class App extends React.Component {
               hp: prevState.character.maxHp,
               att: prevState.character.att,
               exp: prevState.character.exp,
-              weapon: item,
+              weapon: item.id,
               gold: prevState.character.gold - item.cost,
-              rankScore: prevState.character.rankScore
+              rankScore: prevState.character.rankScore,
+              item
             }
           }));
           alert('구매에 성공했습니다.');
@@ -785,9 +788,10 @@ class App extends React.Component {
             hp: prevState.character.maxHp,
             att: prevState.character.att,
             exp: prevState.character.exp,
-            weapon: item,
+            weapon: item.id,
             gold: prevState.character.gold - item.cost,
-            rankScore: prevState.character.rankScore
+            rankScore: prevState.character.rankScore,
+            item
           }
         }));
         alert('구매에 성공했습니다.');
