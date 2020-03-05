@@ -10,6 +10,8 @@ class About extends React.Component {
   render() {
     return (
       <div>
+        <div>만든이 : Team Zemix</div>
+        <div>패치중</div>
         <Link
           style={{
             position: 'absolute',
