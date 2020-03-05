@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable*/
 import React from 'react';
 // import PropTypes from 'prop-types';
 import Menu from '../components/Menu';
@@ -35,11 +36,26 @@ class Battle extends React.Component {
       // endBattle,
       characterAttack,
       monsterAttack,
-      email,
-      password
+      changeBattlefield
     } = this.props;
+    const fieldRequires = {
+      초원: require('../images/fieldtree.jpg'),
+      사막: require('../images/fielddesert.jpg'),
+      사막2: require('../images/fielddesert2.jpg'),
+      픽션: require('../images/fieldfiction.jpg'),
+      밤: require('../images/fieldblue.jpg'),
+      동굴: require('../images/fieldcave.jpg')
+    };
+    const fields = ['초원', '사막', '사막2', '픽션', '밤', '동굴'];
+
+    let field = fields[Math.floor(Math.random() * fields.length)];
     return (
-      <div className="Battle">
+      <div
+        style={{
+          backgroundImage: `url(${fieldRequires[field]})`
+        }}
+        className="Battle"
+      >
         <BattleView
           monsterAttack={monsterAttack}
           characterAttack={characterAttack}
@@ -60,12 +76,21 @@ class Battle extends React.Component {
           attackCharacter={attackCharacter}
           clearMonster={clearMonster}
           showLog={showLog}
+          // changeBattlefield={changeBattlefield}
           // endBattle={endBattle}
         />
         <MonsterStat monster={monster} />
         <CharacterStat character={character} />
         <Log />
-        <Chats email={email} password={password} />
+        <Chats />
+        {/* <img
+          style={{
+            position: 'absolute',
+            border: '1px solid black'
+          }}
+          src={fieldRequires[field]}
+          alt=""
+        ></img> */}
       </div>
     );
   }

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import { Switch, Route, /* useHistory, */ Redirect } from 'react-router-dom';
 // import axios from 'axios';
@@ -97,6 +98,7 @@ class App extends React.Component {
     this.gotoLogin = this.gotoLogin.bind(this);
     // this.endBattle = this.endBattle.bind(this);
     this.buyItem = this.buyItem.bind(this);
+    this.changeBattlefield = this.changeBattlefield.bind(this);
   }
 
   async login() {
@@ -801,6 +803,21 @@ class App extends React.Component {
     }
   }
 
+  changeBattlefield() {
+    // const fields = [
+    //   '../images/fieldtree.jpg',
+    //   '../images/fielddesert.jpg',
+    //   '../images/fieldblue.jpg',
+    //   '../images/fieldcave.jpg'
+    // ];
+    // const field = fields[Math.floor(Math.random() * fields.length)];
+    // console.log(fields);
+    // const BattleCss = document.querySelector('.Battle').style;
+    // BattleCss.backgroundimage = `url('${field}')`;
+    // console.log(BattleCss.backgroundimage);
+    return this;
+  }
+
   render() {
     const {
       redirect,
@@ -874,6 +891,7 @@ class App extends React.Component {
                   changeBattleView={this.changeBattleView(true)}
                   email={email}
                   password={password}
+                  changeBattlefield={this.changeBattlefield}
                 />
               ) : (
                 <Redirect to="/login" />

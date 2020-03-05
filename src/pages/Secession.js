@@ -97,7 +97,15 @@ class Secession extends React.Component {
           <Link to="/signup">아이디가 없으신가요?</Link>
           <Link to="/ranking">랭킹보기</Link>
         </div>
-        <h4>Team Zemix </h4>
+        {/* <h4>Team Zemix </h4> */}
+        <Link
+          style={{
+            color: 'black'
+          }}
+          to="/about"
+        >
+          Team Zemix{' '}
+        </Link>
       </div>
     );
   }
