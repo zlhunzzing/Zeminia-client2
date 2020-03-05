@@ -99,7 +99,7 @@ class App extends React.Component {
     this.buyItem = this.buyItem.bind(this);
   }
 
-  async login(email, password) {
+  async login() {
     await fetch('http://13.209.6.41:5001/characters/info', {
       credentials: 'include'
     })
@@ -109,16 +109,16 @@ class App extends React.Component {
       .then(data => {
         if (data.noneCharacter) {
           this.setState({
-            isLogin: true,
-            email,
-            password
+            isLogin: true
+            // email,
+            // password
           });
         } else {
           this.setState({
             isLogin: true,
-            character: data,
-            email,
-            password
+            character: data
+            // email,
+            // password
           });
         }
       });
