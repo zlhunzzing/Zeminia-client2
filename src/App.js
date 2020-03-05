@@ -14,6 +14,7 @@ import Secession from './pages/Secession';
 // CSS
 import './App.css';
 import Shop from './pages/Shop';
+import About from './pages/About';
 
 class App extends React.Component {
   constructor(props) {
@@ -803,6 +804,7 @@ class App extends React.Component {
               )
             }
           />
+          <Route path="/About" render={() => <About />} />
           <Route
             path="/"
             render={() => {
