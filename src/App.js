@@ -269,15 +269,6 @@ class App extends React.Component {
     this.showLog('체력을 회복했습니다');
   }
 
-  // moveToShop() {
-  //   console.log('?');
-  //   // const { save } = this.save;
-  //   // return <Shop save={save} />;
-  //   this.setState({
-  //     buying: true
-  //   });
-  // }
-
   quit(toBattle) {
     if (window.confirm('그만하시겠습니까?')) {
       // fetch("http://localhost:5001/logout", {
@@ -754,7 +745,7 @@ class App extends React.Component {
     if (!character.weapon) {
       if (window.confirm('구매하시겠습니까?')) {
         // console.log(character.gold);
-        if (character.gold > item.cost) {
+        if (character.gold >= item.cost) {
           await this.setState(prevState => ({
             character: {
               id: prevState.character.id,
@@ -780,7 +771,7 @@ class App extends React.Component {
         '장착하고 있는 무기를 잃어버립니다. 계속 구매하시겠습니까?'
       )
     ) {
-      if (character.gold > item.cost) {
+      if (character.gold >= item.cost) {
         this.setState(prevState => ({
           character: {
             id: prevState.character.id,
