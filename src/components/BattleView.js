@@ -9,6 +9,7 @@ const playerAttack = require('../images/playerattack.gif');
 const monsters = {
   쥐: require('../images/ratidle.gif'),
   좀비: require('../images/zombieidle.gif'),
+  슬라임: require('../images/slime_move.gif'),
   늑대인간: require('../images/wolfidle.gif'),
   규동몬: require('../images/gyudongmon.gif')
 };
@@ -16,6 +17,7 @@ const monsters = {
 const monstersAttack = {
   쥐: require('../images/ratattack.png'),
   좀비: require('../images/zombieattack.png'),
+  슬라임: require('../images/slime160.png'),
   늑대인간: require('../images/wolfattack.png'),
   규동몬: require('../images/gyudongmonattack.png')
 };
