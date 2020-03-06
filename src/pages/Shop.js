@@ -57,7 +57,7 @@ class Shop extends React.Component {
 
   render() {
     const { items } = this.state;
-    const { buyItem } = this.props;
+    const { buyItem, loseWeapon } = this.props;
     // items;
     return (
       <div>
@@ -115,6 +115,14 @@ class Shop extends React.Component {
             );
           })}
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            loseWeapon();
+          }}
+        >
+          무기판매
+        </button>
         <Link
           style={{
             position: 'absolute',
@@ -133,7 +141,8 @@ class Shop extends React.Component {
 }
 
 Shop.propTypes = {
-  buyItem: PropTypes.func.isRequired
+  buyItem: PropTypes.func.isRequired,
+  loseWeapon: PropTypes.func.isRequired
 };
 
 export default Shop;
