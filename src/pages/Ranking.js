@@ -61,7 +61,7 @@ class Ranking extends React.Component {
               <th>점수</th>
               <th>마지막 접속</th>
             </tr>
-            {data.map((a, ind) => {
+            {data.slice(0, 10).map((a, ind) => {
               const split = a.updatedAt.split('T');
               const date = split[0].split('-');
               const time = split[1].split(':');
