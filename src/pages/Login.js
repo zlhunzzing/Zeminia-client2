@@ -110,8 +110,9 @@ class Login extends React.Component {
             <label htmlFor="password">
               비밀번호
               <input
+                type="password"
                 onChange={this.handleInput('password')}
-                type="text"
+                // type="text"
                 name="password"
                 id="password"
               />
