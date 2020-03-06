@@ -933,7 +933,11 @@ class App extends React.Component {
             path="/Shop"
             render={() =>
               isLogin ? (
-                <Shop buyItem={this.buyItem} loseWeapon={this.loseWeapon} />
+                <Shop
+                  buyItem={this.buyItem}
+                  loseWeapon={this.loseWeapon}
+                  character={character}
+                />
               ) : (
                 <Redirect to="/battle" />
               )
