@@ -66,9 +66,11 @@ class Menu extends React.Component {
           >
             상점간다
           </button> */}
-          <button type="button">
-            <Link to="/shop">상점가기</Link>
-          </button>
+
+          <Link to="/shop">
+            <button type="button">상점가기 </button>
+          </Link>
+
           <br />
           <button type="button" onClick={() => quit()}>
             그만한다
