@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Ranking.css';
 
 class Ranking extends React.Component {
   constructor(props) {
@@ -23,12 +24,35 @@ class Ranking extends React.Component {
 
   render() {
     const { data } = this.state;
+    const tstyle = {
+      width: '100%',
+      height: '100%',
+      textAlign: 'left'
+    };
     return (
-      <div>
-        <h2>캐릭터 랭킹</h2>
-        <table>
+      <div
+        style={{
+          padding: '30px',
+          height: '300px'
+        }}
+      >
+        <h2
+          style={{
+            background: 'navy',
+            fontSize: '2em',
+            textAlign: 'center',
+            color: 'gold',
+            fontWeight: 'bold',
+            padding: '5px',
+            marginBottom: '5px',
+            marginTop: '5px'
+          }}
+        >
+          캐릭터 랭킹
+        </h2>
+        <table style={tstyle}>
           <tbody>
-            <tr>
+            <tr className="label">
               <th>순위</th>
               <th>캐릭터</th>
               <th>레벨</th>
@@ -37,13 +61,13 @@ class Ranking extends React.Component {
               <th>점수</th>
               <th>마지막 접속</th>
             </tr>
-            {data.map((a, ind) => {
+            {data.slice(0, 10).map((a, ind) => {
               const split = a.updatedAt.split('T');
               const date = split[0].split('-');
               const time = split[1].split(':');
               const format = `${date[0]}년 ${date[1]}월 ${date[2]}일 ${time[0]}시 ${time[1]}분`;
               return (
-                <tr key={a.id}>
+                <tr className="values" key={a.id}>
                   <th>{ind + 1}</th>
                   <th>{a.character_name}</th>
                   <th>{a.level}</th>
@@ -56,16 +80,11 @@ class Ranking extends React.Component {
             })}
           </tbody>
         </table>
-        <Link
-          style={{
-            position: 'absolute',
-            top: '5%',
-            left: '20%',
-            overflow: 'hidden'
-          }}
-          to="/"
-        >
-          뒤로가기
+
+        <Link style={{ all: 'unset', padding: '10px' }} to="/">
+          <button style={{ width: 'auto' }} type="button">
+            뒤로가기
+          </button>
         </Link>
       </div>
     );
