@@ -749,7 +749,8 @@ class App extends React.Component {
     const AppCss = document.querySelector('.App').style;
     // console.log(toBattle);
     if (toBattle) {
-      AppCss.width = '1050px';
+      // AppCss.width = '1050px';
+      AppCss.width = '800px';
     } else {
       AppCss.width = '800px';
     }

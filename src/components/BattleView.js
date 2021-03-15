@@ -37,7 +37,7 @@ class BattleView extends React.Component {
       <div
         style={{
           position: 'absolute',
-          right: '50%',
+          right: '30%',
           bottom: '30%',
           width: 'auto'
         }}

@@ -82,7 +82,7 @@ class Battle extends React.Component {
         <MonsterStat monster={monster} />
         <CharacterStat character={character} />
         <Log />
-        <Chats />
+        {/* <Chats /> */}
         {/* <img
           style={{
             position: 'absolute',
