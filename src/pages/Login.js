@@ -112,7 +112,6 @@ class Login extends React.Component {
               <input
                 type="password"
                 onChange={this.handleInput('password')}
-                type="password"
                 name="password"
                 id="password"
               />
