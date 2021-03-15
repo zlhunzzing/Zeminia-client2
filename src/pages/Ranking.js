@@ -12,7 +12,7 @@ class Ranking extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http:/${serverIp}/characters/rank`, {})
+    fetch(`http://${serverIp}/characters/rank`, {})
       .then(user => {
         return user.json();
       })
