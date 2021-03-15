@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import Chats from '../components/Chats';
+import serverIp from '../env';
 
 class Shop extends React.Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class Shop extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://13.209.6.41:5001/items/info')
+    fetch(`http://${serverIp}/items/info`)
       .then(user => {
         return user.json();
       })

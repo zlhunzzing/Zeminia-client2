@@ -1,8 +1,8 @@
 /* eslint-disable global-require */
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
+import serverIp from '../env';
 
 class Secession extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class Secession extends React.Component {
           onSubmit={e => {
             if (window.confirm('계정을 정말로 지우시겠습니까?')) {
               e.preventDefault();
-              fetch('http://13.209.6.41:5001/users/secession', {
+              fetch(`http://${serverIp}/users/secession`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json'

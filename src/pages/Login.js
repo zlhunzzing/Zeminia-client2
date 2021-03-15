@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import serverIp from '../env';
 
 class Login extends React.Component {
   constructor(props) {
@@ -68,7 +69,7 @@ class Login extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            fetch('http://13.209.6.41:5001/users/signin', {
+            fetch(`http://${serverIp}/users/signin`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'

@@ -3,6 +3,7 @@ import React from 'react';
 import { Switch, Route, /* useHistory, */ Redirect } from 'react-router-dom';
 // import axios from 'axios';
 // import store from './store';
+import serverIp from './env';
 
 // Pages
 import Login from './pages/Login';
@@ -103,7 +104,7 @@ class App extends React.Component {
   }
 
   async login() {
-    await fetch('http://13.209.6.41:5001/characters/info', {
+    await fetch(`http://${serverIp}/characters/info`, {
       credentials: 'include'
     })
       .then(user => {
@@ -126,7 +127,7 @@ class App extends React.Component {
         }
       });
     // 아이템 불러오기
-    // fetch('http://13.209.6.41:5001/items/info')
+    // fetch(`http://${serverIp}/items/info')
     //   .then(user => {
     //     return user.json();
     //   })
@@ -198,7 +199,7 @@ class App extends React.Component {
   }
 
   generateMonster() {
-    fetch('http://13.209.6.41:5001/monsters/info')
+    fetch(`http://${serverIp}/monsters/info`)
       .then(user => {
         return user.json();
       })
@@ -601,7 +602,7 @@ class App extends React.Component {
   async save() {
     const { character } = this.state;
     if (!character.weapon) {
-      await fetch('http://13.209.6.41:5001/characters/save', {
+      await fetch(`http://${serverIp}/characters/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -612,7 +613,7 @@ class App extends React.Component {
     } else {
       character.item = 1;
       // console.log(character.weapon);
-      await fetch('http://13.209.6.41:5001/characters/save', {
+      await fetch(`http://${serverIp}/characters/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -620,7 +621,7 @@ class App extends React.Component {
         credentials: 'include',
         body: JSON.stringify(character)
       });
-      fetch('http://13.209.6.41:5001/characters/info', {
+      fetch(`http://${serverIp}/characters/info`, {
         credentials: 'include'
       })
         .then(user => {

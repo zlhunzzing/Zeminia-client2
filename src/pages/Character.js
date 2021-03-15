@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import serverIp from '../env';
 
 class Character extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class Character extends React.Component {
             e.preventDefault();
             // if (name.match(/^(?=.*[A-Za-z])[A-Za-z\d]{8,}$/)) {
             if (window.confirm(`${name}으로 하시겠습니까?`)) {
-              fetch('http://13.209.6.41:5001/characters/newcharacter', {
+              fetch(`http://${serverIp}/characters/newcharacter`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

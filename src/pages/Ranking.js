@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Ranking.css';
+import serverIp from '../env';
 
 class Ranking extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Ranking extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://13.209.6.41:5001/characters/rank', {})
+    fetch(`http:/${serverIp}/characters/rank`, {})
       .then(user => {
         return user.json();
       })

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import serverIp from '../env';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -63,7 +64,7 @@ class Signup extends React.Component {
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
               )
             ) {
-              fetch('http://13.209.6.41:5001/users/signup', {
+              fetch(`http://${serverIp}/users/signup`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
