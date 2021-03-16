@@ -83,7 +83,7 @@ class Login extends React.Component {
               .then(data => {
                 if (data.signinCheck === 'success') {
                   window.confirm('로그인에 성공하였습니다.');
-                  login();
+                  login(data.userId);
                 } else {
                   window.confirm(`${data.signinInfo}`);
                 }

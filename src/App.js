@@ -103,8 +103,8 @@ class App extends React.Component {
     this.loseWeapon = this.loseWeapon.bind(this);
   }
 
-  async login() {
-    await fetch(`http://${serverIp}/characters/info`, {
+  async login(userId) {
+    await fetch(`http://${serverIp}/characters/info${userId}`, {
       credentials: 'include'
     })
       .then(user => {
@@ -621,7 +621,7 @@ class App extends React.Component {
         credentials: 'include',
         body: JSON.stringify(character)
       });
-      fetch(`http://${serverIp}/characters/info`, {
+      fetch(`http://${serverIp}/characters/info${character.id}`, {
         credentials: 'include'
       })
         .then(user => {
